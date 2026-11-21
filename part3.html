@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>인공지능을 위한 수학 3부 — 조금씩 고치며 배우기</title>
+<meta name="description" content="미적분·편미분과 그래디언트·최적화, 그리고 생선 가게 종합 시뮬레이터. 손실을 줄이는 방향을 찾아 조금씩 고치는 3부입니다.">
+<meta property="og:type" content="article"><meta property="og:title" content="인공지능을 위한 수학 3부 — 조금씩 고치며 배우기"><meta property="og:description" content="미적분·편미분과 그래디언트·최적화, 그리고 생선 가게 종합 시뮬레이터. 손실을 줄이는 방향을 찾아 조금씩 고치는 3부입니다.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_for_ai_lab/assets/og/og_part3.jpg"><meta property="og:url" content="https://adminmrobo.github.io/math_for_ai_lab/part3.html"><meta name="twitter:card" content="summary_large_image">
+<meta name="author" content="안상선">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/lab.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="top"><div class="row"><a class="logo" href="index.html">인공지능을 위한 <i>수학</i></a><div class="links"><a href="part2.html">← 2부</a><a href="#c13">13 미적분</a><a href="#c14">14 그래디언트</a><a href="#c15">15 최적화</a><a href="#c16">16 실전 연습장</a><a href="#sum3">정리</a></div></div></nav>
+<div class="cover"><div class="frame"><svg class="grid" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><line x1="0" y1="0" x2="0" y2="900" stroke="#dbe5ee"/><line x1="80" y1="0" x2="80" y2="900" stroke="#dbe5ee"/><line x1="160" y1="0" x2="160" y2="900" stroke="#dbe5ee"/><line x1="240" y1="0" x2="240" y2="900" stroke="#dbe5ee"/><line x1="320" y1="0" x2="320" y2="900" stroke="#dbe5ee"/><line x1="400" y1="0" x2="400" y2="900" stroke="#dbe5ee"/><line x1="480" y1="0" x2="480" y2="900" stroke="#dbe5ee"/><line x1="560" y1="0" x2="560" y2="900" stroke="#dbe5ee"/><line x1="640" y1="0" x2="640" y2="900" stroke="#dbe5ee"/><line x1="720" y1="0" x2="720" y2="900" stroke="#dbe5ee"/><line x1="800" y1="0" x2="800" y2="900" stroke="#dbe5ee"/><line x1="880" y1="0" x2="880" y2="900" stroke="#dbe5ee"/><line x1="960" y1="0" x2="960" y2="900" stroke="#dbe5ee"/><line x1="1040" y1="0" x2="1040" y2="900" stroke="#dbe5ee"/><line x1="1120" y1="0" x2="1120" y2="900" stroke="#dbe5ee"/><line x1="1200" y1="0" x2="1200" y2="900" stroke="#dbe5ee"/><line x1="1280" y1="0" x2="1280" y2="900" stroke="#dbe5ee"/><line x1="1360" y1="0" x2="1360" y2="900" stroke="#dbe5ee"/><line x1="1440" y1="0" x2="1440" y2="900" stroke="#dbe5ee"/><line x1="1520" y1="0" x2="1520" y2="900" stroke="#dbe5ee"/><line x1="1600" y1="0" x2="1600" y2="900" stroke="#dbe5ee"/><line x1="0" y1="0" x2="1600" y2="0" stroke="#dbe5ee"/><line x1="0" y1="80" x2="1600" y2="80" stroke="#dbe5ee"/><line x1="0" y1="160" x2="1600" y2="160" stroke="#dbe5ee"/><line x1="0" y1="240" x2="1600" y2="240" stroke="#dbe5ee"/><line x1="0" y1="320" x2="1600" y2="320" stroke="#dbe5ee"/><line x1="0" y1="400" x2="1600" y2="400" stroke="#dbe5ee"/><line x1="0" y1="480" x2="1600" y2="480" stroke="#dbe5ee"/><line x1="0" y1="560" x2="1600" y2="560" stroke="#dbe5ee"/><line x1="0" y1="640" x2="1600" y2="640" stroke="#dbe5ee"/><line x1="0" y1="720" x2="1600" y2="720" stroke="#dbe5ee"/><line x1="0" y1="800" x2="1600" y2="800" stroke="#dbe5ee"/><line x1="0" y1="880" x2="1600" y2="880" stroke="#dbe5ee"/><path d="M120 700 C 400 300, 700 820, 1000 420 S 1400 180, 1500 260" fill="none" stroke="#0f8f84" stroke-width="6"/><g font-family="Cambria Math,serif" font-style="italic" fill="#1e2f6e" font-size="54" opacity=".55"><text x="140" y="190">f(x)</text><text x="420" y="140">Aᵀ</text><text x="700" y="210">∇f</text><text x="1000" y="140">P(A|B)</text><text x="1300" y="210">σ²</text></g><circle cx="1000" cy="420" r="18" fill="#e8731a"/></svg>
+<span class="cap">등고선 지도 위의 결승선 · 3부</span><span class="badge">표지 그림 준비 중 (픽셀풍)</span><div class="cast"><img src="assets/chars/haru_e19.webp" alt="조수 하루" width="96" height="96" loading="lazy" class=s><img src="assets/chars/doctor_e10.webp" alt="박사" width="96" height="96" loading="lazy"><img src="assets/chars/sia_e16.webp" alt="시아" width="96" height="96" loading="lazy"><img src="assets/chars/moa_e19.webp" alt="모아" width="96" height="96" loading="lazy" class=s></div></div></div>
+<header class="hero"><div class="wrap"><span class="kicker">인공지능을 위한 수학 · 3부 (13~16장)</span>
+<h1>조금씩 고치며<br>배우기<br><span style="font-size:.5em;color:var(--muted)">인공지능을 위한 수학 3부</span></h1><p class="lead">2부에서 "얼마나 틀렸나"를 손실 숫자 하나로 쟀습니다. 3부에서는 그 숫자를 <b>줄이는 방향</b>을 미분으로 찾고, 조금씩 내려가며 모델을 고칩니다. 마지막 장에서 1~15장을 한 화면에 모아 직접 운영해 봅니다.</p>
+<p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-22 · v1.0</p><div class="partbar"><a href="index.html"><b>1부 · 숫자로 담고, 한 번에 풀기</b>0~5장</a><a href="part2.html"><b>2부 · 데이터를 읽고, 불확실성을 말하기</b>6~12장</a><a href="part3.html" class=cur><b>3부 · 조금씩 고치며 배우기</b>13~16장</a></div></div></header>
+<section><div class="wrap"><div class="three"><h2>처음 오신 분께 — 이 페이지를 3줄로</h2><ul>
+<li><b>무엇을</b>: 미분·편미분·그래디언트·최적화 — 손실을 <b>줄이는 방향</b>을 찾아 가중치를 조금씩 고치는 법, 그리고 1~15장 종합 실습입니다.</li><li><b>왜 중요한가</b>: 딥러닝 학습은 전부 "기울기를 구해 반대로 한 걸음"의 반복입니다. 학습률·표준화·옵티마이저 선택이 학습 성패를 가릅니다.</li><li><b>업무에서는</b>: "학습이 안 돼요", "손실이 튀어요" 같은 현장 문제를 그릇 모양과 걸음 크기로 읽을 수 있게 됩니다.</li></ul>
+<p>코드를 몰라도 됩니다. 수식은 남기되, 기호마다 말로 먼저 풀어 드립니다. 막히는 곳이 있으면 그 장의 실습 대시보드부터 만져 보셔도 괜찮습니다.</p>
+<details class="abbr"><summary>기호·약어 풀이 (펼치기)</summary><dl><dt>f(x)</dt><dd>에프 엑스 — x를 넣으면 나오는 값</dd><dt>Aᵀ</dt><dd>에이 전치 — 가로와 세로를 바꾼 행렬</dd><dt>A⁻¹</dt><dd>에이 역행렬 — 곱하면 단위행렬이 되는 행렬</dd><dt>det</dt><dd>행렬식 — 0이면 역행렬이 없다</dd><dt>Σ</dt><dd>시그마 — 모두 더하기</dd><dt>P(A|B)</dt><dd>B가 일어났을 때 A의 확률</dd><dt>∂, ∇</dt><dd>편미분, 그래디언트(나블라) — 한 가중치씩 본 기울기, 그것을 모은 화살표</dd><dt>λ</dt><dd>람다 — 고유값 또는 규제 세기(문맥에 따라)</dd><dt>MSE</dt><dd>평균 제곱 오차 — 빗나간 양을 제곱해 평균</dd><dt>PCA</dt><dd>주성분 분석 — 가장 넓게 퍼진 방향 찾기</dd><dt>RAG</dt><dd>검색 증강 생성 — 비슷한 문서를 찾아 붙여 답하기</dd><dt>LLM</dt><dd>거대 언어 모델</dd></dl></details></div>
+</div></section>
+<section><div class="wrap">
+<div class="talk"><div class="line"><img src="assets/chars/doctor_e08.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>2부 끝에서 손실 숫자를 얻었죠. 이제 이 숫자를 줄이려면 가중치를 어느 쪽으로, 얼마나 고쳐야 할까요?</div></div><div class="line"><img src="assets/chars/sia_e19.webp" alt="시아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-sia)">시아</b>손실이 줄어드는 쪽으로 가면 되죠!</div></div><div class="line r"><img src="assets/chars/moa_e09.webp" alt="모아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-moa)">모아</b>그 &#x27;쪽&#x27;을 어떻게 알아요? 눈을 감고 산을 내려가는 것 같은데요.</div></div><div class="line"><img src="assets/chars/haru_e20.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>바, 발밑의 기울기를 재면 돼요. 그게 미분이에요. 3부는 그 이야기예요.</div></div></div>
+<div class="crowd"><img src="assets/chars/x1_e04.webp" alt="X1" width="40" height="40" loading="lazy"><img src="assets/chars/x2_e15.webp" alt="X2" width="40" height="40" loading="lazy"><img src="assets/chars/x3_e01.webp" alt="X3" width="40" height="40" loading="lazy"><span>X1: 마지막 부다! / X2: 끝에 시아·모아 대결이래 / X3: 👏👏👏</span></div>
+<div class="solve"><h4>30초 복습 — 2부에서 가져올 것</h4><p>① 모델이 얼마나 틀렸는지는 손실 하나로 잽니다 — 회귀는 제곱 오차(L9), 분류는 교차 엔트로피(12장). ② 표준화는 특성의 크기를 맞춥니다(6장). ③ 고유값은 퍼진 정도를 말합니다(8장). 3부는 이 셋으로 "내려가는 길"을 설명합니다.</p></div>
+<div class="solve"><h4>먼저 보면 좋은 해설</h4><p>미분을 처음부터 천천히 보고 싶다면 <a href="https://adminmrobo.github.io/optimization_3d_map/">좌표축 위의 그릇 — 최적화 첫걸음</a>을 먼저 보세요. 이 3부는 겹치는 부분을 짧게 하고, AI 모델과 이어지는 부분에 집중합니다.</p></div>
+</div></section>
+<section class="room" id="c13"><div class="wrap">
+<div class="roomno">13장 · 3부</div>
+<h2>미적분 기초 — 얼마나 빨리 변하나</h2><p class="muted">극한, 미분과 미분 규칙(곱·몫·연쇄), 적분과 정적분.</p>
+<div class="tags"><span class="tag src">원자료 카드 MATH-11 · Calculus Basics</span><span class="tag how">방법: 아주 작게 움직여 보기</span><span class="tag day">일상: 속도계</span></div>
+<div class="talk"><div class="line"><img src="assets/chars/doctor_e08.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>손실 그래프의 한 점에 서 있습니다. 눈을 감고 있어도 어느 쪽이 내리막인지 알 수 있을까요?</div></div><div class="line"><img src="assets/chars/sia_e01.webp" alt="시아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-sia)">시아</b>발로 살짝 더듬어 보면요!</div></div><div class="line"><img src="assets/chars/haru_e07.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>그게 미분이에요. 아주 조금 움직였을 때 손실이 얼마나 변하는지 재는 거예요.</div></div></div>
+<div class="duo">
+<div class="box why"><h4>왜 이 개념이 필요한가</h4><ol><li><b>문제</b> — 손실을 줄이려면 가중치를 어느 쪽으로 고칠지 알아야 한다.</li><li><b>앞 장의 한계</b> — 2부는 손실의 크기만 쟀지, 줄어드는 방향은 몰랐다.</li><li><b>해법</b> — 가중치를 아주 조금(h) 움직였을 때 손실의 변화율 — 미분 — 을 보면 내리막 방향이 보인다.</li></ol><div class="easy"><b>쉽게 말하면</b> — 자동차 속도계는 &quot;지금 이 순간 1시간에 몇 km를 가는 빠르기인가&quot;를 보여 줍니다. 그 순간의 변화율이 미분입니다.</div></div>
+<div class="box mathbox"><h4>수학 수식을 어려워하는 조수가 대신 물어봅니다</h4>
+<div class="q"><img src="assets/chars/haru_e04.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div><b>조수</b> f′(x) = lim(h→0) [f(x + h) − f(x)] / h… lim은 뭐고, h는 왜 0으로 가요?</div></div>
+<div class="easy"><b>말로 하면</b> — lim(리밋, 극한)은 &quot;h를 0에 한없이 가깝게 할 때 다가가는 값&quot;입니다. h만큼 옮긴 두 점의 기울기를 보다가, h를 점점 줄이면 그 점의 접선 기울기가 됩니다.</div>
+<div class="fx">f′(x) = lim(h→0) [f(x + h) − f(x)] / h ,   d/dx f(g(x)) = f′(g(x)) · g′(x) ,   ∫ₐᵇ f(x) dx = F(b) − F(a)</div>
+<table><thead><tr><th>식 조각</th><th>읽는 법과 뜻</th></tr></thead><tbody><tr><td class='m'>lim</td><td>리밋 — 한없이 가까이 갈 때의 값</td></tr><tr><td class='m'>f′(x), dy/dx</td><td>에프 프라임, 디와이 디엑스 — 미분, 접선의 기울기</td></tr><tr><td class='m'>연쇄 법칙</td><td>겉 함수의 미분 × 속 함수의 미분 — 단계별로 곱한다</td></tr><tr><td class='m'>∫</td><td>인테그럴 — 적분, 곡선 아래 넓이</td></tr><tr><td class='m'>+ C</td><td>적분 상수 — 미분하면 사라지는 상수</td></tr></tbody></table>
+<div class="try"><b>숫자로 한 번 해 보기</b><div>원자료 예제: f(x) = x²이면 f′(x) = 2x. x = 3에서 기울기 6.</div><div>연쇄 법칙(원자료 6번): f(x) = (3x + 1)⁵ → 5(3x + 1)⁴ × 3 = 15(3x + 1)⁴. 겉(5제곱)과 속(3x + 1)의 미분을 곱했습니다.</div><div>정적분(원자료 8번): ∫₀¹ x dx = [x²/2]₀¹ = 1/2 − 0 = 1/2. 밑변 1, 높이 1인 삼각형 넓이와 같습니다.</div></div>
+<p><b>학교 수학으로 보면</b> — 고등학교 미적분(극한, 미분계수, 도함수, 정적분).</p>
+<div class="q"><img src="assets/chars/haru_e16.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div><b>조수</b> 결국 미분은 &#x27;발밑의 기울기&#x27;, 연쇄 법칙은 &#x27;단계별 곱하기&#x27;, 적분은 &#x27;넓이&#x27;! 학습에 필요한 건 셋 다였어요.</div></div></div>
+</div>
+<div class="pair"><div class="box"><h4>생선 가게에서</h4><p>손실 (w − 3)² + 1에서 w = 1이면 기울기는 2(1 − 3) = −4. 음수니까 w를 늘리는 쪽이 내리막입니다. w = 3에서 기울기 0, 바닥입니다.</p></div><div class="box ml"><h4>일상으로 치면</h4><p>자전거로 언덕을 내려갈 때 경사가 급할수록 빨라집니다. 경사가 0인 평지에서 멈춥니다. 미분 0 = 바닥 또는 꼭대기입니다.</p></div></div>
+<div class="aibox"><h4>AI 현장 — 이 공식은 어디에 쓰이나</h4><ul><li><b>미분 = 손실의 기울기</b> — "이 가중치를 조금 올리면 손실이 늘까 줄까?"에 답합니다.</li><li><b>연쇄 법칙 = 역전파의 전부</b> — 신경망은 함수를 여러 겹 합성한 것이라, 출력에서 입력 쪽으로 미분을 단계별로 곱해 갑니다.</li><li><b>e^x와 ln x의 미분</b> — 둘 다 간단해서, 소프트맥스 + 교차 엔트로피의 기울기가 "예측 확률 − 정답"으로 깔끔하게 나옵니다(12장).</li><li><b>적분</b> — 확률밀도 아래 넓이 = 확률(11장), 분류 모델 성능 AUC = ROC 곡선 아래 넓이.</li></ul></div>
+<div class="links-box"><h4>연결 고리 — 앞에서 온 것, 뒤로 가는 것</h4><ul><li><span class="lk">← 1장</span><a href="index.html#c01">1장</a>의 함수가 얼마나 빨리 변하는지를 잽니다.</li><li><span class="lk">L8 ↔ 9장</span>확률의 곱셈 규칙과 미분의 연쇄 법칙은 모두 "단계별로 곱한다" — 이름이 같은 이유입니다(<a href="part2.html#c09">9장</a>).</li><li><span class="lk">L12 → 11장</span>적분 = <a href="part2.html#c11">확률 넓이</a>.</li><li><span class="lk">→ 14장</span>가중치가 둘 이상이면 하나씩 미분한 것(편미분)을 모아 <a href="#c14">그래디언트</a>를 만듭니다.</li><li><span class="lk">더 보기</span>미분을 처음부터 — <a href="https://adminmrobo.github.io/optimization_3d_map/">최적화 첫걸음(미분 좋아하세요)</a>, 역전파는 <a href="https://github.com/adminmrobo/backprop_lab">역전파 해설</a></li></ul></div>
+<div class="talk"><div class="line"><img src="assets/chars/jupanbot_e16.webp" alt="주판봇" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-robo)">주판봇</b>h는 1이면 충분해요! 작게 할 필요 없어요!</div></div><div class="line"><img src="assets/chars/fruitfly_e09.webp" alt="초파리 연구원" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-fly)">초파리 연구원</b>정말? h를 1에서 0.001까지 줄여 봐. 주황 선이 어디로 가?</div></div><div class="line"><img src="assets/chars/haru_e10.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>할선과 접선을 나란히 볼게요.</div></div></div>
+<div class="solve"><h4>풀이 — 이 숫자는 무슨 뜻인가</h4><p>h = 1이면 주황 할선이 초록 접선과 꽤 다릅니다. h를 0.01로 줄이면 거의 겹칩니다. 극한이 하는 일이 이것입니다.</p><p>w를 움직여 기울기가 0인 곳을 찾으면 w = 3, 손실 1인 바닥입니다.</p><p>넓이 칠하기로 바꾸면 0부터 1까지 y = x 아래 넓이가 1/2입니다. 원자료 8번 예제 그대로입니다.</p><p><b>해석 문장</b> — &quot;w = 1에서 기울기 −4&quot;는 &quot;w를 0.1 올리면 손실이 약 0.4 줄어든다&quot;는 뜻입니다.</p></div>
+<div class="solve"><h4>AI 판단 코너 — 그대로 믿어도 될까?</h4><p>AI가 &quot;기울기가 0인 곳을 찾았으니 손실이 가장 작은 최적점&quot;이라고 했다. 항상 맞을까?</p><details class="code"><summary>확인해 보기</summary><p>기울기 0은 바닥만이 아니라 꼭대기나 안장점(한쪽은 오르막, 한쪽은 내리막)일 수도 있습니다. 2차 미분(곡률)이나 주변 손실을 확인해야 합니다. 15장 안장점 경주에서 봅니다.</p></details></div>
+
+<div class="limit"><b>이 장의 한계</b> — 가중치가 하나일 때만 봤습니다. 실제 모델은 가중치가 수백만 개입니다.</div>
+
+<div class="quiz" data-ans="1"><div class="qq">확인 퀴즈 — f(x) = (2x + 1)³을 미분하면?</div><div class="opts"><button type="button">3(2x + 1)²</button><button type="button">6(2x + 1)²</button><button type="button">(2x + 1)²</button></div><div class="fb" aria-live="polite"></div><span class="qok" hidden>연쇄 법칙: 겉 3(2x + 1)² × 속 2 = 6(2x + 1)².</span><span class="qno" hidden>겉 함수(세제곱)와 속 함수(2x + 1)를 따로 미분해 곱하세요.</span></div>
+<div class="talk"><div class="line"><img src="assets/chars/doctor_e10.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>미분은 발밑의 기울기, 연쇄 법칙은 단계별 곱, 적분은 넓이입니다. 셋 다 학습에 들어갑니다.</div></div></div>
+<div class="crowd"><img src="assets/chars/x1_e04.webp" alt="X1" width="40" height="40" loading="lazy"><img src="assets/chars/x2_e15.webp" alt="X2" width="40" height="40" loading="lazy"><img src="assets/chars/x3_e01.webp" alt="X3" width="40" height="40" loading="lazy"><span>X1~X3: 이제 실습 차례! 하루, 힘내!</span></div>
+<div class="panel dash" data-dash="deriv"><div class="ph"><b>실습 대시보드 13 · 기울기 돋보기</b><small>손실 f(w) = (w − 3)² + 1 · 설명용 함수</small></div><p style="margin:0 0 4px"><b>하루의 미션</b> — 할선을 접선으로 만들고, 기울기 0인 바닥을 찾아 주세요.</p><ol class="missions"><li data-m="0"><span class="lv">미션 1 · 따라 하기</span>h를 0.01 이하로 줄여 할선 기울기가 접선 기울기에 붙는 것을 보세요.</li><li data-m="1"><span class="lv">미션 2 · 맞혀 보기</span>w를 움직여 기울기가 0인 바닥을 찾아보세요.</li><li data-m="2" class=hard><span class="lv">미션 3 · 도전</span>&quot;넓이 칠하기&quot;로 바꿔 y = x 아래 넓이를 정확히 0.5로 만들어 보세요.</li></ol><div id="pp-deriv" data-panel="deriv"></div><div class="ctrl"><label>w <input type="range" name="w" min="0" max="6" step="0.1" value="1"></label><label>h 줄이기 <input type="range" name="h" min="0" max="4" step="1" value="0"></label><span class="hint hnow"></span><button type="button" data-act="area">넓이 칠하기</button><label>넓이 끝 <input type="range" name="b" min="0" max="2" step="0.1" value="0.5"></label></div><div class="readout" aria-live="polite"></div><div class="judge" data-m0="주판봇: 채점 대기 중!" data-m1="주판봇: h가 작아지니 딱 붙네요. 1이면 충분하다던 말 취소. 별 하나." data-m2="주판봇: 바닥 발견! 별 둘." data-m3="주판봇: 넓이 0.5 정확! 별 셋!"><img src="assets/chars/jupanbot_e09.webp" alt="주판봇" width="40" height="40" loading="lazy"><span class="st">☆☆☆</span><span class="msg">주판봇: 채점 대기 중!</span></div><p class="hint" style="margin:8px 0 0">미션 3(도전)은 앞의 두 미션을 마치면 열립니다. 별은 이 브라우저에만 저장되고, 16장 실전 연습장에서 모아 봅니다.</p></div>
+<div class="next"><span></span><a class="go" href="#c14">14장 그래디언트 →</a></div>
+</div></section>
+<section class="room" id="c14"><div class="wrap">
+<div class="roomno">14장 · 3부</div>
+<h2>편미분·그래디언트 — 조금씩 내려가기</h2><p class="muted">편미분, 고계 편미분, 그래디언트, 접평면, 경사하강법.</p>
+<div class="tags"><span class="tag src">원자료 카드 MATH-12 · Partial Derivatives &amp; Gradient</span><span class="tag how">방법: θ − α∇f</span><span class="tag day">일상: 안개 낀 산 내려오기</span></div>
+<div class="talk"><div class="line"><img src="assets/chars/doctor_e08.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>무게 = w₁ × 길이 + w₂처럼 가중치가 둘이면, 둘을 동시에 어떻게 고칠까요?</div></div><div class="line r"><img src="assets/chars/moa_e09.webp" alt="모아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-moa)">모아</b>하나씩 따로 기울기를 재면 되나요?</div></div><div class="line"><img src="assets/chars/haru_e07.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>네, 그게 편미분이에요. 하나씩 잰 기울기를 화살표 하나로 모은 게 그래디언트예요.</div></div></div>
+<div class="duo">
+<div class="box why"><h4>왜 이 개념이 필요한가</h4><ol><li><b>문제</b> — 가중치 여러 개를 동시에 고쳐야 한다.</li><li><b>앞 장의 한계</b> — 13장 미분은 가중치 하나만 다뤘다.</li><li><b>해법</b> — 다른 가중치는 그대로 두고 하나씩 미분(편미분)해 모은 화살표(그래디언트)의 반대쪽으로 한 걸음씩 내려가면 된다.</li></ol><div class="easy"><b>쉽게 말하면</b> — 안개 낀 산에서는 멀리 못 봅니다. 발밑에서 가장 가파른 내리막 쪽으로 한 걸음, 또 한 걸음. 이것이 경사하강법입니다.</div></div>
+<div class="box mathbox"><h4>수학 수식을 어려워하는 조수가 대신 물어봅니다</h4>
+<div class="q"><img src="assets/chars/haru_e04.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div><b>조수</b> ∇f, ∂f/∂x, θ_new = θ_old − α∇f… 삼각형이 거꾸로 섰어요!</div></div>
+<div class="easy"><b>말로 하면</b> — ∂(라운드 디)는 &quot;다른 것은 고정하고 이것만 움직였을 때&quot;의 미분, ∇(나블라)는 그 편미분들을 모은 화살표입니다. 그 화살표는 가장 가파른 오르막을 가리키니, 반대쪽(−)으로 α만큼 걸어 내려갑니다.</div>
+<div class="fx">∇f(x, y) = ( ∂f/∂x , ∂f/∂y ) ,   θ_new = θ_old − α ∇f(θ)</div>
+<table><thead><tr><th>식 조각</th><th>읽는 법과 뜻</th></tr></thead><tbody><tr><td class='m'>∂f/∂x</td><td>라운드 디 에프 라운드 디 엑스 — x만 움직인 기울기(y는 고정)</td></tr><tr><td class='m'>∇f</td><td>나블라 에프 — 그래디언트, 편미분들을 모은 화살표. 가장 가파른 오르막 방향</td></tr><tr><td class='m'>α</td><td>알파 — 학습률, 한 걸음의 크기</td></tr><tr><td class='m'>θ</td><td>세타 — 가중치들을 묶은 벡터</td></tr><tr><td class='m'>f_xy = f_yx</td><td>2계 편도함수가 연속이면 미분 순서를 바꿔도 같다</td></tr></tbody></table>
+<div class="try"><b>숫자로 한 번 해 보기</b><div>원자료 예제: f(x, y) = x²y + 3xy + y² → ∂f/∂x = 2xy + 3y, ∂f/∂y = x² + 3x + 2y.</div><div>점 (1, 2)에서 그래디언트 = (2×1×2 + 3×2, 1 + 3 + 4) = (10, 8). 반대 방향 (−10, −8)이 가장 가파른 내리막입니다.</div><div>접평면(원자료 6번): f = x² + y², 점 (1, 2)에서 z = 5 + 2(x − 1) + 4(y − 2) = 2x + 4y − 5. 한 걸음이 작으면 이 평면처럼 생각해도 됩니다.</div></div>
+<p><b>학교 수학으로 보면</b> — 고등학교 미분의 확장. 편미분은 대학 1학년 내용이지만, &quot;하나만 움직이고 나머지는 고정&quot;이라는 뜻만 알면 됩니다.</p>
+<div class="q"><img src="assets/chars/haru_e16.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div><b>조수</b> 결국 그래디언트는 &#x27;가중치마다의 책임 몫&#x27;을 모은 화살표, 경사하강은 그 반대로 α만큼 걷기였어요!</div></div></div>
+</div>
+<div class="pair"><div class="box"><h4>생선 가게에서</h4><p>무게 예측 손실에서 기울기 w₁의 편미분이 크면 &quot;지금 오차의 책임이 길이 가중치에 많다&quot;는 뜻입니다. 그 가중치를 더 많이 고칩니다.</p></div><div class="box ml"><h4>일상으로 치면</h4><p>회사 예산을 줄일 때 항목마다 &quot;이걸 조금 줄이면 손실이 얼마나 줄까&quot;를 따로 재고, 효과가 큰 항목부터 더 많이 줄이는 것과 같습니다.</p></div></div>
+<div class="aibox"><h4>AI 현장 — 이 공식은 어디에 쓰이나</h4><ul><li><b>편미분 = 가중치 하나하나의 책임 몫</b> — 역전파가 가중치마다 이 값을 계산해 줍니다.</li><li><b>경사하강법</b> — 거의 모든 딥러닝 학습이 이 식 하나의 반복입니다.</li><li><b>학습률 α</b> — 너무 크면 튀어 나가고(발산), 너무 작으면 하세월입니다. 가장 먼저 조정하는 값입니다.</li><li><b>접평면 = 1차 근사</b> — 한 걸음을 작게 해야 하는 이유입니다. 멀리 가면 평면 근사가 틀립니다.</li><li>가중치가 수억 개면 그래디언트의 원소도 수억 개입니다. 원리는 두 개일 때와 같습니다.</li></ul></div>
+<div class="links-box"><h4>연결 고리 — 앞에서 온 것, 뒤로 가는 것</h4><ul><li><span class="lk">← 13장</span><a href="#c13">미분</a>을 가중치마다 따로 한 것이 편미분.</li><li><span class="lk">L7 ↔ 5장</span>정규방정식(<a href="index.html#c05">5장</a>)과 같은 답(★)에 조금씩 걸어서 도착합니다.</li><li><span class="lk">L9 ← 11장</span>오차가 정규분포라는 가정에서 나온 제곱 오차 손실을 내려갑니다(<a href="part2.html#c11">11장</a>).</li><li><span class="lk">→ 15장</span>그릇이 길쭉하면 지그재그 — <a href="#c15">최적화</a>에서 더 잘 걷는 법을 봅니다.</li><li><span class="lk">더 보기</span>그래디언트를 3D로 — <a href="https://adminmrobo.github.io/optimization_3d_map/">좌표축 위의 그릇(∇ 편)</a></li></ul></div>
+<div class="talk"><div class="line"><img src="assets/chars/jupanbot_e16.webp" alt="주판봇" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-robo)">주판봇</b>학습률은 크게 할수록 빨리 도착하죠!</div></div><div class="line"><img src="assets/chars/fruitfly_e09.webp" alt="초파리 연구원" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-fly)">초파리 연구원</b>정말? α를 크게 해서 30걸음 가 봐. 표준화도 켰다 꺼 봐.</div></div><div class="line"><img src="assets/chars/haru_e10.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>같은 α로 둥근 그릇과 길쭉한 그릇을 비교해 볼게요.</div></div></div>
+<div class="solve"><h4>풀이 — 이 숫자는 무슨 뜻인가</h4><p>표준화를 켜면 그릇이 둥글어서 α = 0.6쯤이면 30걸음 안에 ★에 도착합니다.</p><p>같은 α = 0.6으로 표준화를 끄면 그릇이 길쭉해 가파른 쪽에서 튕겨 나갑니다. 안정 조건 α &lt; 2 / (큰 곡률)을 넘었기 때문입니다.</p><p>표준화를 끈 채 α를 0.07쯤으로 낮추면 터지지는 않지만 완만한 쪽으로 아주 천천히 갑니다. 그래서 학습 전에 표준화부터 합니다.</p><p><b>해석 문장</b> — &quot;α &lt; 0.08&quot;은 &quot;이 길쭉한 그릇에서는 걸음을 0.08보다 작게 해야 튀지 않는다&quot;는 뜻입니다.</p></div>
+<div class="solve"><h4>AI 판단 코너 — 그대로 믿어도 될까?</h4><p>AI 학습 기록에서 손실이 첫 몇 걸음 뒤 갑자기 NaN(숫자 아님)이 됐다. AI는 &quot;데이터가 이상하다&quot;고 했다. 무엇부터 의심할까?</p><details class="code"><summary>확인해 보기</summary><p>가장 흔한 원인은 학습률이 너무 크거나 특성 크기가 들쭉날쭉(표준화 안 함)해서 튕겨 나간 것입니다. 학습률을 1/10로 줄이고, 표준화를 했는지 먼저 확인합니다.</p></details></div>
+<p class="hint">📝 원자료와 다르게 쓴 곳 — 원자료 3번은 f_xy = f_yx의 조건을 &quot;if function is continuous&quot;라고 씁니다. 정확히는 &quot;2계 편도함수가 연속이면&quot;입니다. 이 페이지에서는 그렇게 씁니다.</p>
+<div class="limit"><b>이 장의 한계</b> — 한 가지 걷는 법(고정 걸음)만 봤습니다. 그릇이 길쭉하거나 울퉁불퉁하면 더 잘 걷는 법이 필요합니다.</div>
+
+<div class="quiz" data-ans="1"><div class="qq">확인 퀴즈 — 경사하강법에서 가중치를 움직이는 방향은?</div><div class="opts"><button type="button">그래디언트 방향</button><button type="button">그래디언트 반대 방향</button><button type="button">아무 방향</button></div><div class="fb" aria-live="polite"></div><span class="qok" hidden>그래디언트는 가장 가파른 오르막. 손실을 줄이려면 반대(−)로 갑니다.</span><span class="qno" hidden>식 θ − α∇f의 빼기 부호를 보세요.</span></div>
+<div class="talk"><div class="line"><img src="assets/chars/doctor_e10.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>그래디언트는 가중치마다의 책임 몫입니다. 반대로 α만큼, 표준화부터 하고 걸으세요.</div></div></div>
+<div class="crowd"><img src="assets/chars/x1_e04.webp" alt="X1" width="40" height="40" loading="lazy"><img src="assets/chars/x2_e15.webp" alt="X2" width="40" height="40" loading="lazy"><img src="assets/chars/x3_e01.webp" alt="X3" width="40" height="40" loading="lazy"><span>X1~X3: 이제 실습 차례! 하루, 힘내!</span></div>
+<div class="panel dash" data-dash="gd"><div class="ph"><b>실습 대시보드 14 · 등고선 내려가기</b><small>두 가중치의 손실 그릇(설명용으로 단순하게 만든 모양) · ★ = 같은 그릇을 공식으로 한 번에 푼 답</small></div><p style="margin:0 0 4px"><b>하루의 미션</b> — 출발점을 찍고 학습률을 정해, 30걸음 안에 ★(정규방정식의 답)에 도착해 주세요.</p><ol class="missions"><li data-m="0"><span class="lv">미션 1 · 따라 하기</span>30걸음 안에 ★에 도착(거리 0.05 이하)해 보세요.</li><li data-m="1"><span class="lv">미션 2 · 맞혀 보기</span>학습률을 너무 크게 해서 튕겨 나가는(손실이 커지는) 모습을 보세요.</li><li data-m="2" class=hard><span class="lv">미션 3 · 도전</span>같은 α로, 표준화를 켜면 도착하고 끄면 도착 못 하는 것을 차례로 확인해 보세요.</li></ol><div id="pp-gd" data-panel="gd"></div><div class="ctrl"><button type="button" data-act="std">표준화</button><label>학습률 α <input type="range" name="alpha" min="0.01" max="1" step="0.01" value="0.05"></label><button type="button" data-act="run">30걸음</button><span class="hint">그림을 누르면 출발점이 바뀝니다</span></div><div class="readout" aria-live="polite"></div><div class="judge" data-m0="주판봇: 채점 대기 중!" data-m1="주판봇: ★ 도착! 별 하나." data-m2="주판봇: 크게 걸으면 빨리 간다더니 튕겨 나갔네요… 별 둘." data-m3="주판봇: 표준화가 그릇을 둥글게! 별 셋!"><img src="assets/chars/jupanbot_e09.webp" alt="주판봇" width="40" height="40" loading="lazy"><span class="st">☆☆☆</span><span class="msg">주판봇: 채점 대기 중!</span></div><p class="hint" style="margin:8px 0 0">미션 3(도전)은 앞의 두 미션을 마치면 열립니다. 별은 이 브라우저에만 저장되고, 16장 실전 연습장에서 모아 봅니다.</p></div>
+<div class="next"><span></span><a class="go" href="#c15">15장 최적화 →</a></div>
+</div></section>
+<section class="room" id="c15"><div class="wrap">
+<div class="roomno">15장 · 3부</div>
+<h2>최적화 — 더 잘, 더 빨리 내려가기</h2><p class="muted">보강 C · 원자료 표지가 약속한 &quot;Optimization&quot;을 채운 장입니다.</p>
+<div class="tags"><span class="tag src">원자료에 없던 장 — 이 해설에서 새로 만든 보강 카드</span><span class="tag how">방법: 모멘텀·Adam·규제</span><span class="tag day">일상: 썰매와 내비게이션</span></div>
+<div class="talk"><div class="line"><img src="assets/chars/doctor_e08.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>14장에서 표준화를 못 하는 상황이라면요? 그릇이 길쭉하거나 울퉁불퉁한 채로 내려가야 한다면?</div></div><div class="line r"><img src="assets/chars/moa_e09.webp" alt="모아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-moa)">모아</b>걷는 방법을 바꿔야 할 것 같아요.</div></div><div class="line"><img src="assets/chars/haru_e07.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>네, 그래서 모멘텀과 Adam 같은 옵티마이저가 있어요. 원자료에 없어서 새로 만든 카드예요.</div></div></div>
+<div class="duo">
+<div class="box why"><h4>왜 이 개념이 필요한가</h4><ol><li><b>문제</b> — 실제 신경망의 손실 그릇은 길쭉하고, 울퉁불퉁하고, 안장점이 많다.</li><li><b>앞 장의 한계</b> — 14장의 고정 걸음 경사하강은 길쭉한 그릇에서 지그재그하고, 안장점에서 오래 멈춘다.</li><li><b>해법</b> — 관성을 붙이거나(모멘텀), 방향마다 걸음 크기를 따로 맞추면(Adam) 같은 그릇에서도 더 빨리, 더 안정적으로 내려간다.</li></ol><div class="easy"><b>쉽게 말하면</b> — 썰매는 한번 미끄러지면 작은 턱도 넘어갑니다(모멘텀). 내비게이션은 길마다 속도를 다르게 안내합니다(Adam).</div></div>
+<div class="box mathbox"><h4>수학 수식을 어려워하는 조수가 대신 물어봅니다</h4>
+<div class="q"><img src="assets/chars/haru_e04.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div><b>조수</b> v ← βv + ∇f, 헤시안, 볼록… 새 단어가 너무 많아요.</div></div>
+<div class="easy"><b>말로 하면</b> — v는 &#x27;지금까지 내려온 속도&#x27;입니다. 새 기울기에 예전 속도를 β만큼 섞습니다. 헤시안은 2차 편미분을 모은 표로, 그릇이 얼마나 휘었는지(곡률)를 말합니다. 볼록은 그릇 바닥이 하나뿐인 모양입니다.</div>
+<div class="fx">모멘텀: v ← βv + ∇f, θ ← θ − αv ,  Adam: θ ← θ − α · m̂ / (√v̂ + ε) ,  규제: 손실 + λ‖w‖²</div>
+<table><thead><tr><th>식 조각</th><th>읽는 법과 뜻</th></tr></thead><tbody><tr><td class='m'>볼록 함수</td><td>바닥이 하나뿐인 그릇 — 어디서 출발해도 같은 바닥</td></tr><tr><td class='m'>헤시안 H</td><td>2차 편미분 표 — 그 고유값이 방향별 곡률(8장 고유값과 같은 생각)</td></tr><tr><td class='m'>β</td><td>베타 — 관성의 세기(보통 0.9)</td></tr><tr><td class='m'>m̂, v̂</td><td>Adam이 기억하는 기울기 평균과 기울기 제곱 평균</td></tr><tr><td class='m'>λ‖w‖²</td><td>규제 — 가중치가 너무 커지지 않게 거는 벌점(릿지)</td></tr><tr><td class='m'>미니배치</td><td>데이터 일부로 기울기를 어림해 자주 걷기</td></tr></tbody></table>
+<div class="try"><b>숫자로 한 번 해 보기</b><div>길쭉한 그릇 ½(u² + 20v²)의 헤시안 고유값은 1과 20. 고정 걸음 경사하강이 안정하려면 α &lt; 2/20 = 0.1이어야 합니다.</div><div>α = 0.09면 완만한 방향은 한 걸음마다 (1 − 0.09) = 0.91배로 줄어듭니다. 60걸음 뒤 0.91⁶⁰ ≈ 0.0035배 — 거의 도착.</div><div>같은 그릇을 표준화로 둥글게(고유값 1과 1) 만들면 α = 1에 한 걸음에 도착합니다. 고유값 차이가 학습 속도를 정합니다(L13).</div></div>
+<p><b>학교 수학으로 보면</b> — 고등학교 미분의 2계도함수(오목·볼록), 8장 고유값. 나머지는 대학 이후 내용이라 숫자 예시로만 봅니다.</p>
+<div class="q"><img src="assets/chars/haru_e16.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div><b>조수</b> 결국 옵티마이저는 &#x27;그릇 모양에 맞게 걷는 법&#x27;이었어요. 길쭉하면 관성과 방향별 걸음, 안장점이면 흔들어서 탈출!</div></div></div>
+</div>
+<div class="pair"><div class="box"><h4>생선 가게에서</h4><p>길이(cm)와 무게(g)를 표준화 없이 넣으면 그릇이 아주 길쭉해집니다. 16장 시뮬레이터에서 표준화를 끄고 경사하강을 돌리면 숫자가 폭발하는 것이 이 때문입니다.</p></div><div class="box ml"><h4>일상으로 치면</h4><p>스키 슬로프에서 똑바로 내려오면 너무 빠르고, 지그재그로만 가면 너무 느립니다. 경사에 맞게 회전 폭을 바꾸는 것이 좋은 옵티마이저입니다.</p></div></div>
+<div class="aibox"><h4>AI 현장 — 이 공식은 어디에 쓰이나</h4><ul><li><b>Adam</b> — 딥러닝의 사실상 기본 옵티마이저. 방향마다 걸음 크기를 자동으로 맞춥니다.</li><li><b>학습률 스케줄</b> — 처음엔 크게, 나중엔 작게. LLM 학습도 이렇게 합니다.</li><li><b>미니배치 확률적 경사하강</b> — 데이터 전부가 아니라 일부(배치)로 기울기를 어림해 자주 걷습니다. 그 흔들림이 안장점 탈출을 돕기도 합니다.</li><li><b>볼록이 아닌 신경망</b> — 바닥이 여러 개이고 안장점이 많습니다. "가장 깊은 바닥"보다 "충분히 좋은 바닥"을 찾습니다.</li><li><b>규제·조기 종료</b> — λ‖w‖²와 "검증 손실이 오르면 멈추기"로 과적합을 막습니다.</li></ul></div>
+<div class="links-box"><h4>연결 고리 — 앞에서 온 것, 뒤로 가는 것</h4><ul><li><span class="lk">L13 ↔ 8장</span>헤시안 고유값 = 그릇의 방향별 곡률. 차이가 크면 길쭉 → 느림(<a href="part2.html#c08">8장 고유값</a>).</li><li><span class="lk">L14 ↔ 10장</span>규제 λ‖w‖² = "가중치는 0 근처"라는 사전 믿음(<a href="part2.html#c10">10장</a>).</li><li><span class="lk">← 6장</span><a href="part2.html#c06">표준화</a>는 그릇을 둥글게 만드는 가장 싼 방법.</li><li><span class="lk">더 보기</span>그릇 모양을 3D 지도로 — <a href="https://adminmrobo.github.io/optimization_3d_map/">좌표축 위의 그릇 1~3편</a>. 모멘텀의 물리 비유는 같은 시리즈의 「라그랑지안 vs 해밀토니안」 특집으로 이어집니다.</li></ul></div>
+<div class="talk"><div class="line"><img src="assets/chars/jupanbot_e16.webp" alt="주판봇" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-robo)">주판봇</b>가장 단순한 경사하강이 언제나 가장 믿음직하죠!</div></div><div class="line"><img src="assets/chars/fruitfly_e09.webp" alt="초파리 연구원" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-fly)">초파리 연구원</b>정말? 네 가지 그릇에서 세 방법을 동시에 출발시켜 봐. 안장점도.</div></div><div class="line"><img src="assets/chars/haru_e10.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>같은 학습률로 경주시켜 볼게요.</div></div></div>
+<div class="solve"><h4>풀이 — 이 숫자는 무슨 뜻인가</h4><p>둥근 그릇에서는 셋 다 잘 도착합니다. 그릇이 좋으면 방법 차이가 작습니다.</p><p>길쭉한 그릇에서 경사하강은 가파른 쪽으로 지그재그합니다. 모멘텀과 Adam은 완만한 쪽으로 더 빨리 미끄러집니다. 단, α가 크면 경사하강이 먼저 튕겨 나갑니다.</p><p>안장점에서 경사하강은 가운데 줄 위에 오래 머뭅니다(기울기가 거의 0). Adam은 작은 기울기도 키워 걸어서 먼저 빠져나갑니다.</p><p><b>해석 문장</b> — &quot;길쭉한 그릇의 고유값 1과 20&quot;은 &quot;한 방향은 20배 가팔라서, 그쪽에 맞춰 걸음을 줄이면 다른 쪽은 20배 느려진다&quot;는 뜻입니다.</p></div>
+<div class="solve"><h4>AI 판단 코너 — 그대로 믿어도 될까?</h4><p>AI가 &quot;Adam이 항상 가장 좋으니 다른 옵티마이저는 쓸 필요 없다&quot;고 했다. 믿어도 될까?</p><details class="code"><summary>확인해 보기</summary><p>Adam은 대체로 빠르지만 언제나 최선은 아닙니다. 둥근 그릇에서는 차이가 작고, 어떤 문제에서는 모멘텀 경사하강이 더 잘 일반화된다는 보고도 있습니다. 같은 데이터에서 검증 손실로 비교해 봐야 합니다.</p></details></div>
+
+<div class="limit"><b>이 장의 한계</b> — 2차원 그릇으로 단순하게 봤습니다. 실제 신경망은 수백만 차원이고, 그릇 모양을 다 볼 수 없습니다. 그래서 학습률·옵티마이저는 실험으로 정합니다.</div>
+
+<div class="quiz" data-ans="1"><div class="qq">확인 퀴즈 — 손실 그릇이 한 방향으로만 매우 길쭉할 때 가장 먼저 해 볼 일은?</div><div class="opts"><button type="button">학습률을 크게 올린다</button><button type="button">특성을 표준화한다</button><button type="button">가중치를 0으로 둔다</button></div><div class="fb" aria-live="polite"></div><span class="qok" hidden>표준화는 그릇을 둥글게 만들어 고유값 차이를 줄입니다.</span><span class="qno" hidden>14장 대시보드에서 표준화를 켰을 때 그릇 모양을 떠올려 보세요.</span></div>
+<div class="talk"><div class="line"><img src="assets/chars/doctor_e10.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>옵티마이저는 그릇 모양에 맞게 걷는 법입니다. 먼저 표준화로 그릇을 고르고, 그다음 걷는 법을 고르세요.</div></div></div>
+<div class="crowd"><img src="assets/chars/x1_e04.webp" alt="X1" width="40" height="40" loading="lazy"><img src="assets/chars/x2_e15.webp" alt="X2" width="40" height="40" loading="lazy"><img src="assets/chars/x3_e01.webp" alt="X3" width="40" height="40" loading="lazy"><span>X1~X3: 이제 실습 차례! 하루, 힘내!</span></div>
+<div class="panel dash" data-dash="race"><div class="ph"><b>실습 대시보드 15 · 옵티마이저 경주</b><small>경사하강·모멘텀(β = 0.9)·Adam이 같은 점에서 60걸음 · 설명용 그릇</small></div><p style="margin:0 0 4px"><b>하루의 미션</b> — 그릇 모양을 바꿔 가며 세 방법을 경주시켜 주세요.</p><ol class="missions"><li data-m="0"><span class="lv">미션 1 · 따라 하기</span>아무 그릇에서나 &quot;출발!&quot;을 눌러 세 경로를 비교해 보세요.</li><li data-m="1"><span class="lv">미션 2 · 맞혀 보기</span>안장점 그릇에서 경주시켜, 누가 가운데 줄을 먼저 빠져나가는지 보세요.</li><li data-m="2" class=hard><span class="lv">미션 3 · 도전</span>길쭉한 그릇에서 학습률을 맞춰 경사하강도 60걸음 안에 바닥(손실 0.01 미만)에 닿게 해 보세요.</li></ol><div id="pp-race" data-panel="race"></div><div class="ctrl"><div class="chips"><button type="button" data-shape="round">둥근</button><button type="button" data-shape="long" class="on">길쭉한</button><button type="button" data-shape="bumpy">울퉁불퉁</button><button type="button" data-shape="saddle">안장점</button></div><label>학습률 α <input type="range" name="alpha" min="0.01" max="0.3" step="0.01" value="0.05"></label><button type="button" data-act="go">출발!</button></div><div class="readout" aria-live="polite"></div><div class="judge" data-m0="주판봇: 채점 대기 중!" data-m1="주판봇: 세 경로가 이렇게 다르다니. 별 하나." data-m2="주판봇: 안장점에서 경사하강이 멈칫… 언제나 믿음직하다던 말 취소. 별 둘." data-m3="주판봇: 길쭉한 그릇도 α만 맞추면! 별 셋!"><img src="assets/chars/jupanbot_e09.webp" alt="주판봇" width="40" height="40" loading="lazy"><span class="st">☆☆☆</span><span class="msg">주판봇: 채점 대기 중!</span></div><p class="hint" style="margin:8px 0 0">미션 3(도전)은 앞의 두 미션을 마치면 열립니다. 별은 이 브라우저에만 저장되고, 16장 실전 연습장에서 모아 봅니다.</p></div>
+<div class="next"><span></span><a class="go" href="#c16">16장 실전 연습장 →</a></div>
+</div></section>
+<section class="room" id="c16"><div class="wrap">
+<div class="roomno">16장 · 3부 · 마지막 장</div><h2>실전 연습장 — 생선 가게 시뮬레이터</h2>
+<p class="muted">1~15장에서 써 본 조작을 한 화면에 모았습니다. 같은 생선 데이터로 "한 모델 안에 다 들어 있다"를 손으로 확인합니다.</p>
+<div class="tags"><span class="tag src">원자료 전체 + 보강 A~C</span><span class="tag how">방법: 특성 → 표준화 → 학습 → 임계값</span><span class="tag day">현장: 생선 가게</span></div>
+<p class="hint">분류 쪽의 확률식 σ(1.2 × (길이 − 19))는 설명을 위해 미리 정해 둔 식입니다. 실제로는 이 두 숫자(1.2와 19)도 12장의 손실을 14·15장 방법으로 줄여 학습합니다.</p>
+<div class="talk"><div class="line"><img src="assets/chars/doctor_e08.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>사장님이 내일부터 모델을 쓰겠답니다. 무게 예측과 도미·빙어 분류, 둘 다요. 어떻게 설정하겠어요?</div></div><div class="line"><img src="assets/chars/sia_e19.webp" alt="시아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-sia)">시아</b>저는 빠르게! 길이만 넣고, 그대로 경사하강으로 돌릴게요.</div></div><div class="line r"><img src="assets/chars/moa_e09.webp" alt="모아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-moa)">모아</b>저는 무게가 부피를 닮았으니 길이³을 넣고, 표준화하고, 정규방정식으로 풀게요.</div></div><div class="line"><img src="assets/chars/jupanbot_e16.webp" alt="주판봇" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-robo)">주판봇</b>어차피 같은 데이터니 결과도 비슷하겠죠!</div></div><div class="line"><img src="assets/chars/fruitfly_e09.webp" alt="초파리 연구원" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-fly)">초파리 연구원</b>정말? 둘 다 직접 해 보고, 대결 결과를 열어 봐.</div></div><div class="line"><img src="assets/chars/haru_e07.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>제가 심판을 볼게요.</div></div></div>
+<div class="tbl"><table><thead><tr><th>조작</th><th>배운 곳</th><th>무엇을 보나</th></tr></thead><tbody>
+<tr><td>특성 고르기(길이·높이·길이³)</td><td><a href="index.html#c01">1장 함수 모양</a> · <a href="part2.html#c07">7장 상관</a></td><td>겹치는 특성, 함수 모양에 맞는 특성</td></tr>
+<tr><td>표준화</td><td><a href="part2.html#c06">6장</a> · <a href="#c15">15장</a></td><td>경사하강이 터지는지, 수렴하는지</td></tr>
+<tr><td>정규방정식 / 경사하강</td><td><a href="index.html#c05">5장</a> · <a href="#c14">14장</a></td><td>같은 답에 도착하는지(L7)</td></tr>
+<tr><td>λ (릿지)</td><td><a href="index.html#c05">5장</a> · <a href="#c15">15장</a></td><td>겹치는 특성에서 안정</td></tr>
+<tr><td>분류 임계값</td><td><a href="part2.html#c10">10장 베이즈</a> · <a href="part2.html#c12">12장 교차 엔트로피</a></td><td>위양성과 놓침의 맞바꾸기</td></tr></tbody></table></div>
+<div class="panel dash" data-dash="shop"><div class="ph"><b>실습 대시보드 16 · 생선 가게 종합 시뮬레이터</b><small>1~15장의 부품을 한 화면에 · 예시값</small></div><p style="margin:0 0 4px"><b>하루의 미션</b> — 특성·표준화·학습 방법·임계값을 골라 생선 가게 모델을 직접 운영해 주세요.</p><ol class="missions"><li data-m="0"><span class="lv">미션 1 · 따라 하기</span>무게 예측의 평균 빗나감을 20g 이하로 만들어 보세요. (힌트: 1장 함수 모양 — 무게는 부피를 닮았다)</li><li data-m="1"><span class="lv">미션 2 · 맞혀 보기</span>경사하강으로, 같은 특성의 정규방정식과 1g 안쪽으로 같은 답을 내 보세요.</li><li data-m="2" class=hard><span class="lv">미션 3 · 도전</span>경사하강으로 모아의 기록 16.7g을 따라잡아 보세요(17g 이하).</li></ol><div id="pp-shop" data-panel="shop"></div><div class="ctrl"><div class="chips"><b style="font-size:14px">특성</b><button type="button" data-f="L">길이</button><button type="button" data-f="H">높이</button><button type="button" data-f="L3">길이³</button></div><button type="button" data-act="std">표준화</button><div class="chips"><button type="button" data-meth="ne" class="on">정규방정식</button><button type="button" data-meth="gd">경사하강</button></div><label>λ (릿지) <input type="range" name="lam" min="0" max="5" step="0.5" value="0"></label><label>분류 임계값 <input type="range" name="thr" min="0.05" max="0.95" step="0.05" value="0.5"></label><button type="button" data-act="duel">시아 vs 모아 대결 결과 공개</button></div><div class="readout" aria-live="polite"></div><div class="judge" data-m0="주판봇: 채점 대기 중!" data-m1="주판봇: 20g 안쪽! 길이³이 효과 만점. 별 하나." data-m2="주판봇: 두 길이 같은 답에 도착! 별 둘." data-m3="주판봇: 모아 기록 따라잡기 성공! 연구실 수학 졸업. 별 셋!"><img src="assets/chars/jupanbot_e09.webp" alt="주판봇" width="40" height="40" loading="lazy"><span class="st">☆☆☆</span><span class="msg">주판봇: 채점 대기 중!</span></div><p class="hint" style="margin:8px 0 0">미션 3(도전)은 앞의 두 미션을 마치면 열립니다. 별은 이 브라우저에만 저장되고, 16장 실전 연습장에서 모아 봅니다.</p></div>
+<div class="solve"><h4>여러 장이 함께 묻는 질문</h4><p>길이만으로는 평균 44g쯤 빗나가지만, 길이³ 하나로 바꾸면 17g 아래로 줄어듭니다. 모델의 실력은 학습 방법보다 <b>어떤 함수 모양을 고르느냐</b>(1장)에서 먼저 갈립니다. 표준화를 끄고 경사하강을 돌리면 숫자가 폭발합니다. 그릇이 너무 길쭉해서입니다(15장). 표준화를 켜면 경사하강이 정규방정식과 같은 답에 도착합니다(L7). 분류 임계값을 내리면 놓치는 도미는 줄지만 빙어를 도미로 잘못 고르는 일이 늘어납니다. 어느 쪽 실수가 더 비싼지는 가게가 정합니다(10장).</p>
+<p class="hint">모형의 한계: 생선 숫자는 설명용 예시값이고, 데이터가 24마리뿐이라 시험 데이터로 따로 검증하지 않았습니다. 실제로는 학습·검증 데이터를 나눠 확인해야 합니다. 경영·투자 권고가 아닙니다.</p></div>
+<div class="talk"><div class="line"><img src="assets/chars/haru_e10.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>판정! 이번 대결은 모아의 승리입니다.</div></div><div class="line r"><img src="assets/chars/moa_e16.webp" alt="모아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-moa)">모아</b>함수 모양을 먼저 고르고, 표준화했을 뿐인데요.</div></div><div class="line"><img src="assets/chars/sia_e14.webp" alt="시아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-sia)">시아</b>빠른 것보다 순서가 중요했네요… 다음엔 표준화부터 켤게요.</div></div><div class="line"><img src="assets/chars/jupanbot_e14.webp" alt="주판봇" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-robo)">주판봇</b>결과가 비슷할 거라던 제 말은… 못 들은 걸로 해 주세요.</div></div></div>
+<div class="crowd"><img src="assets/chars/x1_e16.webp" alt="X1" width="40" height="40" loading="lazy"><img src="assets/chars/x2_e01.webp" alt="X2" width="40" height="40" loading="lazy"><img src="assets/chars/x3_e16.webp" alt="X3" width="40" height="40" loading="lazy"><span>X1~X3: 👏👏👏 모아! 시아도 잘했어! 하루 심판 멋졌어!</span></div>
+<h3>별 모음판 — 17개 대시보드에서 모은 별</h3>
+<div class="panel"><div class="ph"><b>별 모음판</b><small>이 브라우저에 저장된 별</small></div><div id="pp-board" data-panel="board"></div><div class="ctrl"><button type="button" data-act="refresh">새로 고침</button></div><div class="readout" aria-live="polite"></div></div>
+<h3>관계 지도 다시 보기 — 이제 선이 모두 보입니다</h3>
+<div class="tbl"><table><thead><tr><th>연결</th><th>무엇이 무엇으로</th><th>이 해설에서 본 곳</th></tr></thead><tbody>
+<tr><td>L1</td><td>내적 → 행렬곱</td><td>4장 행렬곱 공장의 한 줄 풀이</td></tr>
+<tr><td>L2</td><td>코사인 ↔ 상관계수</td><td>7장 "평균 빼고 코사인"</td></tr>
+<tr><td>L3</td><td>노름 ↔ 표준편차</td><td>6장</td></tr>
+<tr><td>L4</td><td>분산 → 공분산 → PCA</td><td>6·7·8장</td></tr>
+<tr><td>L5</td><td>전치·역행렬 → 정규방정식</td><td>5장</td></tr>
+<tr><td>L6</td><td>겹치는 특성 → 행렬식 ≈ 0 → λI = 릿지</td><td>5장 한 번에 풀기</td></tr>
+<tr><td>L7</td><td>정규방정식 ↔ 경사하강</td><td>14장 ★, 16장</td></tr>
+<tr><td>L8</td><td>확률 곱셈 규칙 ↔ 연쇄 법칙</td><td>9·13장</td></tr>
+<tr><td>L9</td><td>정규분포 오차 → 제곱 오차 손실</td><td>11·14장</td></tr>
+<tr><td>L10</td><td>베르누이 → 교차 엔트로피</td><td>11·12장, 16장 분류</td></tr>
+<tr><td>L11</td><td>시그모이드 치역 → 확률 범위</td><td>1·9장</td></tr>
+<tr><td>L12</td><td>적분 → 확률 넓이</td><td>11·13장</td></tr>
+<tr><td>L13</td><td>고유값 ↔ 헤시안 곡률</td><td>8·14·15장</td></tr>
+<tr><td>L14</td><td>사전확률 ↔ 규제</td><td>10·15장</td></tr></tbody></table></div>
+<p><a href="index.html#c00">0장 수학 지도</a>로 돌아가 카드를 다시 눌러 보세요. 처음과 다르게 보일 겁니다.</p>
+</div></section>
+<section id="sum3"><div class="wrap"><h2>3부 정리, 그리고 다음에 볼 것</h2>
+<div class="tbl"><table><thead><tr><th>장</th><th>원자료</th><th>한 줄</th><th>AI에서는</th></tr></thead><tbody>
+<tr><td>13</td><td>MATH-11</td><td>미분 = 기울기, 연쇄 법칙 = 단계별 곱, 적분 = 넓이</td><td>역전파, AUC</td></tr>
+<tr><td>14</td><td>MATH-12</td><td>그래디언트 반대로 α만큼 한 걸음</td><td>경사하강법, 학습률</td></tr>
+<tr><td>15</td><td>보강 C</td><td>그릇 모양에 맞게 걷는 법을 고른다</td><td>모멘텀, Adam, 규제, 미니배치</td></tr>
+<tr><td>16</td><td>전체</td><td>함수 모양 → 표준화 → 학습 → 임계값</td><td>모델 운영</td></tr></tbody></table></div>
+<div class="talk"><div class="line"><img src="assets/chars/doctor_e10.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>공식 12장에 보강 3장, 모두 15장이 생선 가게 모델 하나가 됐습니다. 외운 게 아니라 끼워 맞춘 거예요.</div></div><div class="line"><img src="assets/chars/haru_e16.webp" alt="조수 하루" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-asst)">조수 하루</b>처음엔 떨렸는데, 이제 어느 공식이 어디 들어가는지 말할 수 있어요!</div></div><div class="line r"><img src="assets/chars/moa_e09.webp" alt="모아" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-moa)">모아</b>더 깊게 보고 싶으면 어디로 가요?</div></div><div class="line"><img src="assets/chars/doctor_e08.webp" alt="박사" width="96" height="96" loading="lazy"><div class="bub"><b style="color:var(--c-doc)">박사</b>아래 해설들이 각 장의 다음 이야기입니다.</div></div></div>
+<div class="cards">
+<a class="card" href="https://adminmrobo.github.io/optimization_3d_map/"><img src="assets/chars/doctor_e08.webp" alt="박사" width="96" height="96" loading="lazy"><span class="n">13~15장 더 깊게</span><h3>좌표축 위의 그릇</h3><p>최적화 첫걸음부터 3D 손실 지도, ∇까지.</p></a>
+<a class="card" href="https://adminmrobo.github.io/euclidean_space_lab/"><img src="assets/chars/sia_e01.webp" alt="시아" width="96" height="96" loading="lazy"><span class="n">3장 더 깊게</span><h3>유클리드 공간 해설</h3><p>거리·각도·그림자를 방 탐험으로.</p></a>
+<a class="card" href="https://github.com/adminmrobo/probability_distribution_dictionary"><img src="assets/chars/moa_e16.webp" alt="모아" width="96" height="96" loading="lazy"><span class="n">11장 더 깊게</span><h3>확률분포 딕셔너리</h3><p>분포끼리의 관계를 3D 지도로.</p></a>
+<a class="card" href="https://github.com/adminmrobo/backprop_lab"><img src="assets/chars/fruitfly_e09.webp" alt="초파리 연구원" width="96" height="96" loading="lazy"><span class="n">13장 더 깊게</span><h3>역전파 해설</h3><p>연쇄 법칙이 신경망을 학습시키는 방법.</p></a>
+<a class="card" href="https://github.com/adminmrobo/bayesian-statistics-for-data-scientists"><img src="assets/chars/jupanbot_e16.webp" alt="주판봇" width="96" height="96" loading="lazy"><span class="n">10장 더 깊게</span><h3>베이지안 통계 연구실</h3><p>사전·가능도·사후를 데이터 과학으로.</p></a>
+<a class="card" href="https://github.com/adminmrobo/machine_learning_model_atlas"><img src="assets/chars/haru_e19.webp" alt="조수 하루" width="96" height="96" loading="lazy"><span class="n">모델로 이어서</span><h3>머신러닝 모델 도감</h3><p>오늘의 수학이 들어간 모델들을 도감으로.</p></a>
+</div>
+<div class="next"><a href="part2.html">← 2부</a><a href="index.html">1부 처음으로</a></div></div></section>
+<section id="kg"><div class="wrap"><h2>지식 색인 — 이 페이지에서 찾아보기</h2>
+<p class="muted">이 페이지에 나온 개념·방법·비유·쓰임을 모았습니다. 검색하고, "설명 보러 가기"로 본문에 돌아갑니다.</p><div id="kg-mount"></div></div></section>
+<section id="export"><div class="wrap"><h2>온톨로지·서지 꾸러미 — 이 페이지의 지식을 가져가기</h2>
+<p class="muted">지식 색인을 출처와 함께 파일로 내려받습니다. 서지 관리는 BibTeX·RIS, 온톨로지 편집은 Turtle을 씁니다. 그래프 도구는 CSV, 여러 페이지 합치기는 kg.json입니다.</p><div id="export-mount"></div></div></section>
+<script type="application/json" id="kg-raw">{"version": "1.3", "page": "part3", "series": "인공지능을 위한 수학", "nodes": [{"id": "lab:concept/limit-derivative", "type": "Concept", "label": {"ko": "극한과 미분", "en": "Limit, derivative"}, "anchor": "#c13", "definition": {"ko": "h를 0으로 보낸 기울기 = 접선 기울기"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:concept/chain-rule", "type": "Concept", "label": {"ko": "연쇄 법칙", "en": "Chain rule"}, "anchor": "#c13", "definition": {"ko": "겉 미분 × 속 미분. 역전파의 전부"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:concept/integral", "type": "Concept", "label": {"ko": "적분 — 넓이", "en": "Integral"}, "anchor": "#c13", "definition": {"ko": "곡선 아래 넓이. 확률, AUC"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:concept/partial-gradient", "type": "Concept", "label": {"ko": "편미분·그래디언트", "en": "Partial derivative, gradient"}, "anchor": "#c14", "definition": {"ko": "하나씩 잰 기울기를 모은 화살표"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:method/gradient-descent", "type": "Method", "label": {"ko": "경사하강법", "en": "Gradient descent"}, "anchor": "#c14", "definition": {"ko": "θ − α∇f를 반복"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:concept/learning-rate", "type": "Concept", "label": {"ko": "학습률과 안정 조건", "en": "Learning rate"}, "anchor": "#c14", "definition": {"ko": "α < 2 / (가장 큰 곡률)"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:concept/hessian-convex", "type": "Concept", "label": {"ko": "헤시안·볼록·안장점", "en": "Hessian, convexity, saddle point"}, "anchor": "#c15", "definition": {"ko": "그릇의 곡률과 바닥의 수"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:method/momentum-adam", "type": "Method", "label": {"ko": "모멘텀·Adam", "en": "Momentum, Adam"}, "anchor": "#c15", "definition": {"ko": "관성과 방향별 걸음 크기"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:method/regularization", "type": "Method", "label": {"ko": "규제·미니배치", "en": "Regularization, mini-batch"}, "anchor": "#c15", "definition": {"ko": "λ‖w‖² 벌점, 데이터 일부로 기울기 어림"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:application/backprop", "type": "Application", "label": {"ko": "역전파", "en": "Backpropagation"}, "anchor": "#c13", "definition": {"ko": "연쇄 법칙으로 가중치마다 기울기 계산"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:application/fish-shop", "type": "Application", "label": {"ko": "생선 가게 종합 시뮬레이터", "en": "Fish shop simulator"}, "anchor": "#c16", "definition": {"ko": "특성 → 표준화 → 학습 → 임계값"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:analogy/fog-mountain", "type": "Analogy", "label": {"ko": "안개 낀 산 내려오기", "en": "Descending in fog"}, "anchor": "#c14", "definition": {"ko": "발밑 기울기만 보고 한 걸음씩"}, "page": "part3", "source": "lab:work/mml_complete_notes"}, {"id": "lab:analogy/sled", "type": "Analogy", "label": {"ko": "썰매", "en": "Sled"}, "anchor": "#c15", "definition": {"ko": "관성으로 작은 턱을 넘는다 = 모멘텀"}, "page": "part3", "source": "lab:work/mml_complete_notes"}], "edges": [{"s": "lab:concept/limit-derivative", "p": "motivates", "o": "lab:concept/partial-gradient"}, {"s": "lab:concept/limit-derivative", "p": "hasPart", "o": "lab:concept/chain-rule"}, {"s": "lab:concept/chain-rule", "p": "usedIn", "o": "lab:application/backprop"}, {"s": "lab:concept/partial-gradient", "p": "usedIn", "o": "lab:method/gradient-descent"}, {"s": "lab:method/gradient-descent", "p": "hasPart", "o": "lab:concept/learning-rate"}, {"s": "lab:concept/learning-rate", "p": "motivates", "o": "lab:concept/hessian-convex"}, {"s": "lab:concept/hessian-convex", "p": "motivates", "o": "lab:method/momentum-adam"}, {"s": "lab:method/momentum-adam", "p": "usedIn", "o": "lab:application/fish-shop"}, {"s": "lab:method/regularization", "p": "usedIn", "o": "lab:application/fish-shop"}, {"s": "lab:analogy/fog-mountain", "p": "explains", "o": "lab:method/gradient-descent"}, {"s": "lab:analogy/sled", "p": "explains", "o": "lab:method/momentum-adam"}, {"s": "lab:concept/limit-derivative", "p": "hasPart", "o": "lab:concept/integral"}]}</script>
+<script type="application/ld+json" id="kg-ld">{"@context": {"@vocab": "urn:lab:", "skos": "http://www.w3.org/2004/02/skos/core#", "schema": "https://schema.org/"}, "@graph": [{"@id": "urn:lab:concept/limit-derivative", "@type": "Concept", "skos:prefLabel": [{"@value": "극한과 미분", "@language": "ko"}, {"@value": "Limit, derivative", "@language": "en"}], "skos:definition": "h를 0으로 보낸 기울기 = 접선 기울기", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c13"}, {"@id": "urn:lab:concept/chain-rule", "@type": "Concept", "skos:prefLabel": [{"@value": "연쇄 법칙", "@language": "ko"}, {"@value": "Chain rule", "@language": "en"}], "skos:definition": "겉 미분 × 속 미분. 역전파의 전부", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c13"}, {"@id": "urn:lab:concept/integral", "@type": "Concept", "skos:prefLabel": [{"@value": "적분 — 넓이", "@language": "ko"}, {"@value": "Integral", "@language": "en"}], "skos:definition": "곡선 아래 넓이. 확률, AUC", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c13"}, {"@id": "urn:lab:concept/partial-gradient", "@type": "Concept", "skos:prefLabel": [{"@value": "편미분·그래디언트", "@language": "ko"}, {"@value": "Partial derivative, gradient", "@language": "en"}], "skos:definition": "하나씩 잰 기울기를 모은 화살표", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c14"}, {"@id": "urn:lab:method/gradient-descent", "@type": "Method", "skos:prefLabel": [{"@value": "경사하강법", "@language": "ko"}, {"@value": "Gradient descent", "@language": "en"}], "skos:definition": "θ − α∇f를 반복", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c14"}, {"@id": "urn:lab:concept/learning-rate", "@type": "Concept", "skos:prefLabel": [{"@value": "학습률과 안정 조건", "@language": "ko"}, {"@value": "Learning rate", "@language": "en"}], "skos:definition": "α < 2 / (가장 큰 곡률)", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c14"}, {"@id": "urn:lab:concept/hessian-convex", "@type": "Concept", "skos:prefLabel": [{"@value": "헤시안·볼록·안장점", "@language": "ko"}, {"@value": "Hessian, convexity, saddle point", "@language": "en"}], "skos:definition": "그릇의 곡률과 바닥의 수", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c15"}, {"@id": "urn:lab:method/momentum-adam", "@type": "Method", "skos:prefLabel": [{"@value": "모멘텀·Adam", "@language": "ko"}, {"@value": "Momentum, Adam", "@language": "en"}], "skos:definition": "관성과 방향별 걸음 크기", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c15"}, {"@id": "urn:lab:method/regularization", "@type": "Method", "skos:prefLabel": [{"@value": "규제·미니배치", "@language": "ko"}, {"@value": "Regularization, mini-batch", "@language": "en"}], "skos:definition": "λ‖w‖² 벌점, 데이터 일부로 기울기 어림", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c15"}, {"@id": "urn:lab:application/backprop", "@type": "Application", "skos:prefLabel": [{"@value": "역전파", "@language": "ko"}, {"@value": "Backpropagation", "@language": "en"}], "skos:definition": "연쇄 법칙으로 가중치마다 기울기 계산", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c13"}, {"@id": "urn:lab:application/fish-shop", "@type": "Application", "skos:prefLabel": [{"@value": "생선 가게 종합 시뮬레이터", "@language": "ko"}, {"@value": "Fish shop simulator", "@language": "en"}], "skos:definition": "특성 → 표준화 → 학습 → 임계값", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c16"}, {"@id": "urn:lab:analogy/fog-mountain", "@type": "Analogy", "skos:prefLabel": [{"@value": "안개 낀 산 내려오기", "@language": "ko"}, {"@value": "Descending in fog", "@language": "en"}], "skos:definition": "발밑 기울기만 보고 한 걸음씩", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c14"}, {"@id": "urn:lab:analogy/sled", "@type": "Analogy", "skos:prefLabel": [{"@value": "썰매", "@language": "ko"}, {"@value": "Sled", "@language": "en"}], "skos:definition": "관성으로 작은 턱을 넘는다 = 모멘텀", "schema:url": "https://adminmrobo.github.io/math_for_ai_lab/part3.html#c15"}]}</script>
+<script type="application/json" id="refs-csl">[{"id": "mml_complete_notes", "type": "graphic", "title": "Mathematics for Machine Learning — Complete Notes (Beginner to Advanced), MATH-01~12", "author": [{"literal": "제작자 미상(사용자 제공 인포그래픽)"}], "accessed": {"date-parts": [[2026, 11, 22]]}, "note": "사용자 제공 이미지 13장. 공식과 예제를 다시 쓰고 실습 대시보드로 바꿈"}]</script>
+<script type="application/json" id="page-meta">{"title": "part3", "series": "인공지능을 위한 수학", "creator": [{"name": "안상선", "role": "author", "affiliation": "(주)M-Robo"}], "date": "2026-11-22", "version": "v1.0", "license": "캐릭터·그림 무단 사용 금지"}</script>
+<footer><div class="wrap">
+<h3>출처</h3>
+<div class="tbl"><table><thead><tr><th>#</th><th>자료</th><th>이 페이지에서 쓴 곳</th></tr></thead><tbody>
+<tr><td>[1]</td><td>인포그래픽 「Mathematics for Machine Learning — Complete Notes (Beginner to Advanced)」 표지와 MATH-01~12 (사용자 제공 이미지, 2026-11-22 확인. 제작자 표기 확인 중)</td><td>각 장의 "공식 한 장 요약"과 예제 숫자. 이미지는 붙여 넣지 않고 공식과 예제를 다시 썼음. 보강 A~C(고유값·PCA, 정보이론, 최적화)는 원자료에 없어 이 해설에서 새로 씀</td></tr>
+<tr><td>[2]</td><td>안상선, 「인공지능을 위한 수학」 기획안 v1.2</td><td>장 순서, 연결 고리 L1~L14, 실습 대시보드 설계</td></tr>
+</tbody></table></div>
+<h3>예시값·설명용 숫자</h3>
+<p>생선 가게의 농어·도미·빙어 숫자는 모두 설명용 예시값입니다. 실제 어종의 측정값이 아닙니다. 실습 대시보드의 손실 그릇(14·15장)도 설명용으로 단순하게 만든 모양입니다. 경영·투자·의료 판단의 근거로 쓰지 마세요.</p>
+<p>캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다. 캐릭터 그림: fruitfly-lab-expressions.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-22 · v1.0</p>
+<p><a href="index.html">1부 숫자로 담고, 한 번에 풀기</a> · <a href="part2.html">2부 데이터를 읽고, 불확실성을 말하기</a> · <a href="part3.html">3부 조금씩 고치며 배우기</a> · <a href="https://github.com/adminmrobo/math_for_ai_lab">저장소</a></p>
+</div></footer>
+<script>
+(function(){
+/* 인공지능을 위한 수학 — 공통 도구(그림·끌기·미션·별). 유클리드 공간 해설의 도구를 이어 씀 */
+'use strict';
+var NS='http://www.w3.org/2000/svg';
+var C={teal:'#0f8f84',orange:'#e8731a',navy:'#1e2f6e',blue:'#2458d6',green:'#13733a',red:'#c9302c',grid:'#e3e8ee',axis:'#1e2f6e',muted:'#5b6874'};
+function el(tag,a,parent){var e=document.createElementNS(NS,tag);for(var k in a){if(a[k]!=null)e.setAttribute(k,a[k]);}if(parent)parent.appendChild(e);return e;}
+function txt(parent,x,y,s,a){a=a||{};var t=el('text',Object.assign({x:x,y:y,'font-size':a.size||14,fill:a.fill||C.navy,'font-family':a.font||'"Cambria Math","Times New Roman",serif','font-style':a.italic===false?'normal':'italic','text-anchor':a.anchor||'start','font-weight':a.weight||'normal'},{}),parent);t.textContent=s;return t;}
+function ktxt(parent,x,y,s,a){a=a||{};a.font='"IBM Plex Sans KR","Malgun Gothic","Noto Sans KR",sans-serif';a.italic=false;return txt(parent,x,y,s,a);}
+function r2(v){return Math.round(v*100)/100;}
+function r1(v){return Math.round(v*10)/10;}
+function fmt(v,d){d=d==null?2:d;var s=(Math.round(v*Math.pow(10,d))/Math.pow(10,d)).toFixed(d);if(s.indexOf('.')>=0)s=s.replace(/\.?0+$/,'');if(s==='-0')s='0';return s;}
+function num(v){return v<0?'−'+fmt(-v):fmt(v);}
+function svgOf(host,W,H){host.innerHTML='';var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'실험 패널 그림: '+(function(){var n=host.parentNode&&host.parentNode.querySelector('.ph small');return n?n.textContent:'';})()},host);var d=el('defs',{},s);
+  ['teal','orange','navy','blue','green','red'].forEach(function(c){var m=el('marker',{id:'ah-'+c+'-'+host.id,viewBox:'0 0 10 10',refX:8.5,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'},d);el('path',{d:'M0,0 L10,5 L0,10 z',fill:C[c]},m);});
+  s._id=host.id;return s;}
+function arrow(s,x1,y1,x2,y2,c,w){return el('line',{x1:x1,y1:y1,x2:x2,y2:y2,stroke:C[c],'stroke-width':w||3,'marker-end':'url(#ah-'+c+'-'+s._id+')'},s);}
+function dash(s,x1,y1,x2,y2,c){return el('line',{x1:x1,y1:y1,x2:x2,y2:y2,stroke:C[c]||c,'stroke-width':1.6,'stroke-dasharray':'5 4'},s);}
+/* 좌표평면 */
+function plane(s,o){var W=o.W,H=o.H,p=o.pad||36;var sx=(W-2*p)/(o.x1-o.x0),sy=(H-2*p)/(o.y1-o.y0);
+  if(o.equal){var k=Math.min(sx,sy);sx=sy=k;}
+  var ox=p-o.x0*sx,oy=H-p+o.y0*sy;s._sx=sx;
+  var P={X:function(x){return ox+x*sx;},Y:function(y){return oy-y*sy;},inv:function(px,py){return[(px-ox)/sx,(oy-py)/sy];},sx:sx,sy:sy};
+  var g=el('g',{},s);var st=o.step||1;
+  if(o.grid!==false){for(var x=Math.ceil(o.x0/st)*st;x<=o.x1+1e-9;x+=st)el('line',{x1:P.X(x),y1:P.Y(o.y0),x2:P.X(x),y2:P.Y(o.y1),stroke:C.grid},g);
+  for(var y=Math.ceil(o.y0/st)*st;y<=o.y1+1e-9;y+=st)el('line',{x1:P.X(o.x0),y1:P.Y(y),x2:P.X(o.x1),y2:P.Y(y),stroke:C.grid},g);}
+  var ax0=Math.max(o.x0,Math.min(0,o.x1)),ay0=Math.max(o.y0,Math.min(0,o.y1));
+  if(o.ax!==undefined)ax0=o.ax;if(o.ay!==undefined)ay0=o.ay;
+  el('line',{x1:P.X(o.x0),y1:P.Y(ay0),x2:P.X(o.x1)+14,y2:P.Y(ay0),stroke:C.axis,'stroke-width':2,'marker-end':'url(#ah-navy-'+s._id+')'},g);
+  el('line',{x1:P.X(ax0),y1:P.Y(o.y0),x2:P.X(ax0),y2:P.Y(o.y1)-14,stroke:C.axis,'stroke-width':2,'marker-end':'url(#ah-navy-'+s._id+')'},g);
+  if(/[^\x00-\x7f]/.test((o.xl||'')+(o.yl||''))){ktxt(g,P.X(o.x1)+14,P.Y(ay0)-12,o.xl,{size:13,anchor:'end'});ktxt(g,P.X(ax0)+12,P.Y(o.y1)-2,o.yl,{size:13});}else{txt(g,P.X(o.x1)+10,P.Y(ay0)+20,o.xl||'x',{size:16});txt(g,P.X(ax0)-22,P.Y(o.y1)-8,o.yl||'y',{size:16});}
+  var ls=o.label||st;
+  if(o.ticks!==false){for(var a=Math.ceil(o.x0/ls)*ls;a<=o.x1+1e-9;a+=ls){if(Math.abs(a-ax0)<1e-9&&!o.zeroX)continue;txt(g,P.X(a),P.Y(ay0)+18,fmt(a),{size:12.5,anchor:'middle',italic:false,fill:C.muted});}
+  for(var b=Math.ceil(o.y0/ls)*ls;b<=o.y1+1e-9;b+=ls){if(Math.abs(b-ay0)<1e-9)continue;txt(g,P.X(ax0)-8,P.Y(b)+4,fmt(b),{size:12.5,anchor:'end',italic:false,fill:C.muted});}
+  if(o.x0<=0&&o.y0<=0)txt(g,P.X(0)-14,P.Y(0)+18,'0',{size:12.5,italic:false,fill:C.muted});}
+  return P;}
+/* 끌기 */
+function drag(s,node,onMove){var on=false;var host=s.parentNode;var idx=s.querySelectorAll('g.drag').length;
+  node.setAttribute('tabindex','0');node.setAttribute('role','slider');node.setAttribute('aria-label','끌어서 옮기는 점 (화살표 키로도 움직입니다)');
+  node.addEventListener('keydown',function(e){var k={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(!k)return;e.preventDefault();
+    var c=node.querySelector('circle');var st=(s._sx||24)*(+(host.dataset.ksnap||1));host.dataset.kf=idx;onMove(+c.getAttribute('cx')+k[0]*st,+c.getAttribute('cy')+k[1]*st);});
+  function pt(e){var m=s.getScreenCTM().inverse();var q=s.createSVGPoint();q.x=e.clientX;q.y=e.clientY;q=q.matrixTransform(m);return q;}
+  node.classList.add('drag');
+  node.addEventListener('pointerdown',function(e){on=true;node.setPointerCapture(e.pointerId);e.preventDefault();});
+  node.addEventListener('pointermove',function(e){if(!on)return;var q=pt(e);onMove(q.x,q.y);});
+  node.addEventListener('pointerup',function(){on=false;});node.addEventListener('pointercancel',function(){on=false;});
+  if(host.dataset.kf!=null&&+host.dataset.kf===idx)node.focus({preventScroll:true});}
+function handle(s,x,y,c,label){var g=el('g',{},s);el('circle',{cx:x,cy:y,r:16,fill:C[c],'fill-opacity':.14},g);el('circle',{cx:x,cy:y,r:8,fill:C[c],stroke:'#fff','stroke-width':2},g);return g;}
+function dot(s,x,y,c,r){return el('circle',{cx:x,cy:y,r:r||6,fill:C[c]||c,stroke:'#fff','stroke-width':1.5},s);}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function snap(v,st){return Math.round(v/st)*st;}
+function readout(host){var d=host.parentNode.querySelector('.readout');return d;}
+function rightMark(s,x,y,ux,uy,vx,vy,k){k=k||10;el('path',{d:'M'+(x+ux*k)+','+(y+uy*k)+' L'+(x+ux*k+vx*k)+','+(y+uy*k+vy*k)+' L'+(x+vx*k)+','+(y+vy*k),fill:'none',stroke:C.orange,'stroke-width':1.5},s);}
+var P={};
+var DATA={"perch": [[15.2, 4.2, 33.0], [16.3, 4.3, 48.0], [19.6, 4.4, 77.0], [21.2, 5.5, 87.0], [21.5, 5.8, 98.0], [22.4, 6.1, 114.0], [23.1, 5.7, 119.0], [23.7, 6.2, 136.0], [23.8, 6.1, 132.0], [27.9, 7.2, 221.0], [28.6, 8.1, 249.0], [29.6, 7.7, 244.0], [31.1, 8.4, 298.0], [32.8, 9.2, 336.0], [33.0, 8.7, 355.0], [33.1, 8.9, 330.0], [37.5, 10.2, 499.0], [38.0, 10.3, 531.0], [38.1, 9.9, 571.0], [38.8, 10.5, 612.0], [40.3, 11.4, 590.0], [41.0, 10.5, 643.0], [43.7, 12.1, 850.0], [43.9, 11.9, 730.0]], "bream": [[35.9, 367.0], [28.0, 223.0], [38.7, 412.0], [40.2, 415.0], [39.6, 471.0], [34.5, 382.0], [28.2, 270.0], [28.9, 307.0], [39.9, 415.0], [34.3, 395.0], [28.7, 277.0], [39.3, 444.0]], "smelt": [[11.5, 10.1], [9.7, 8.4], [10.2, 8.0], [14.8, 13.5], [13.1, 12.8], [11.9, 11.1], [12.4, 9.3], [14.3, 13.0], [11.4, 9.7], [12.7, 9.7]], "cust": [2, 0, 2, 3, 3, 6, 4, 3, 1, 3, 2, 0, 2, 3, 4, 0, 3, 1, 0, 2, 2, 2, 2, 0, 4, 4, 3, 1, 5, 4, 4, 3, 2, 3, 1, 1, 2, 3, 3, 1, 3, 3, 0, 6, 2, 3, 3, 5, 2, 1, 5, 3, 3, 5, 6, 2, 4, 4, 3, 1], "gaps": [34.0, 1.3, 27.7, 31.6, 4.7, 29.6, 15.5, 24.9, 45.5, 3.4, 2.5, 45.2, 5.5, 13.8, 56.3, 22.0, 100.6, 1.2, 1.9, 8.5, 21.4, 1.7, 0.6, 7.2, 8.9, 40.1, 7.4, 0.2, 2.8, 6.7, 19.8, 22.3, 33.3, 15.7, 67.8, 6.1, 3.2, 14.2, 7.6, 33.3, 1.9, 16.5, 54.8, 12.8, 9.6, 4.7, 64.4, 16.7, 51.2, 44.9, 41.5, 2.3, 3.6, 27.1, 7.0, 5.6, 24.0, 13.6, 7.7, 8.0], "bday": [7, 14, 8, 5, 7, 27, 20, 14, 16, 10, 16, 5, 2, 17, 16, 12, 13, 4, 24, 1, 14, 11, 22, 17]};
+function mean(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return s/a.length;}
+function sd(a){var m=mean(a),s=0;for(var i=0;i<a.length;i++)s+=(a[i]-m)*(a[i]-m);return Math.sqrt(s/a.length);}
+function median(a){var b=a.slice().sort(function(x,y){return x-y;}),n=b.length;return n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2;}
+function quart(a,q){var b=a.slice().sort(function(x,y){return x-y;}),n=b.length,pos=(n-1)*q,lo=Math.floor(pos),hi=Math.ceil(pos);return b[lo]+(b[hi]-b[lo])*(pos-lo);}
+function corr(x,y){var mx=mean(x),my=mean(y),a=0,b=0,c=0;for(var i=0;i<x.length;i++){a+=(x[i]-mx)*(y[i]-my);b+=(x[i]-mx)*(x[i]-mx);c+=(y[i]-my)*(y[i]-my);}return a/Math.sqrt(b*c);}
+function cov(x,y){var mx=mean(x),my=mean(y),a=0;for(var i=0;i<x.length;i++)a+=(x[i]-mx)*(y[i]-my);return a/x.length;}
+function rng(seed){var s=seed>>>0;return function(){s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
+function ctrlOf(host){return host.parentNode.querySelector('.ctrl');}
+function q$(host,sel){return host.parentNode.querySelector(sel);}
+function live(host,html){var r=readout(host);if(r)r.innerHTML=html;}
+/* ===== 미션과 별 ===== */
+var SKEY='mfa_lab_stars_v1';
+function loadStars(){try{return JSON.parse(localStorage.getItem(SKEY)||'{}');}catch(e){return {};}}
+function saveStars(o){try{localStorage.setItem(SKEY,JSON.stringify(o));}catch(e){}}
+function mission(host,i){var pn=host.closest('.panel');if(!pn)return;var li=pn.querySelector('.missions li[data-m="'+i+'"]');if(!li||li.classList.contains('done'))return;
+  li.classList.add('done');var key=pn.getAttribute('data-dash');var all=loadStars();var a=all[key]||[0,0,0];a[i]=1;all[key]=a;saveStars(all);judge(pn);}
+function judge(pn){var n=pn.querySelectorAll('.missions li.done').length;var j=pn.querySelector('.judge');if(!j)return;
+  j.querySelector('.st').textContent='★★★'.slice(0,n)+'☆☆☆'.slice(0,3-n);
+  var msg=j.getAttribute('data-m'+n);if(msg)j.querySelector('.msg').textContent=msg;
+  if(n>=2){var ms=pn.querySelector('.missions');if(ms)ms.classList.add('showhard');}
+  if(n>=1){var sec=pn.closest('section');var nx=sec&&sec.querySelector('.next a.go');if(nx)nx.classList.add('lit');}}
+function restoreStars(){var all=loadStars();document.querySelectorAll('.panel[data-dash]').forEach(function(pn){var a=all[pn.getAttribute('data-dash')];if(!a)return;
+  a.forEach(function(v,i){if(v){var li=pn.querySelector('.missions li[data-m="'+i+'"]');if(li){li.classList.add('done');li.title='이전에 완료한 미션';}}});judge(pn);});}
+
+/* ===== 3부 실습 대시보드 ===== */
+var PL3=DATA.perch.map(function(p){return p[0];}),PH3=DATA.perch.map(function(p){return p[1];}),PW3=DATA.perch.map(function(p){return p[2];});
+
+/* --- 13장: 기울기 돋보기 --- */
+P.deriv=function(host){var ct=ctrlOf(host);var iw=ct.querySelector('[name=w]'),ih=ct.querySelector('[name=h]'),ib=ct.querySelector('[name=b]');var area=false;var HS=[1,0.5,0.1,0.01,0.001];
+  ct.querySelector('[data-act=area]').addEventListener('click',function(e){area=!area;e.target.classList.toggle('on',area);draw();});
+  [iw,ih,ib].forEach(function(i){i.addEventListener('input',draw);});
+  function f(w){return (w-3)*(w-3)+1;}
+  function draw(){var s=svgOf(host,640,380);
+    if(!area){var w=+iw.value,h=HS[+ih.value];var Pp=plane(s,{W:640,H:380,x0:0,x1:6,y0:0,y1:10,step:1,xl:'가중치 w',yl:'손실'});
+      var d='';for(var i=0;i<=120;i++){var x=6*i/120;d+=(i?'L':'M')+Pp.X(x)+','+Pp.Y(f(x));}el('path',{d:d,fill:'none',stroke:C.navy,'stroke-width':3},s);
+      var sec=(f(w+h)-f(w))/h,tan=2*(w-3);
+      function line(m,c){var xa=Math.max(0,w-1.6),xb=Math.min(6,w+1.6);el('line',{x1:Pp.X(xa),y1:Pp.Y(f(w)+m*(xa-w)),x2:Pp.X(xb),y2:Pp.Y(f(w)+m*(xb-w)),stroke:c,'stroke-width':2.5},s);}
+      line(sec,C.orange);line(tan,C.green);dot(s,Pp.X(w),Pp.Y(f(w)),'teal',7);if(w+h<=6)dot(s,Pp.X(w+h),Pp.Y(f(w+h)),'orange',5);
+      live(host,'손실 f(w) = (w − 3)² + 1 · 지금 w = '+fmt(w,1)+
+        '<div class="formula-live">할선 기울기 [f(w + h) − f(w)] / h = [f('+fmt(w+h,3)+') − f('+fmt(w,1)+')] / '+h+' = <b>'+fmt(sec,3)+'</b> · 접선 기울기 f′(w) = 2(w − 3) = <b>'+fmt(tan,3)+'</b></div>'+
+        (tan>0?'기울기 + → w를 <b>줄이면</b> 손실이 줄어듭니다.':tan<0?'기울기 − → w를 <b>늘리면</b> 손실이 줄어듭니다.':'<span class="alert">기울기 0 → 손실이 가장 작은 바닥입니다!</span>')+
+        '<br><span class="hint">주황: 할선(두 점을 이은 선) · 초록: 접선(미분). h를 줄이면 주황이 초록에 붙습니다.</span>');
+      if(h<=0.01&&Math.abs(sec-tan)<0.02)mission(host,0);if(Math.abs(tan)<0.1)mission(host,1);}
+    else{var b=+ib.value;var Pp2=plane(s,{W:640,H:380,x0:0,x1:2.2,y0:0,y1:2.2,step:0.5,equal:true,xl:'x',yl:'y'});
+      el('path',{d:'M'+Pp2.X(0)+','+Pp2.Y(0)+' L'+Pp2.X(b)+','+Pp2.Y(b)+' L'+Pp2.X(b)+','+Pp2.Y(0)+' Z',fill:'#cfe9e5',stroke:C.teal},s);
+      el('line',{x1:Pp2.X(0),y1:Pp2.Y(0),x2:Pp2.X(2.2),y2:Pp2.Y(2.2),stroke:C.navy,'stroke-width':3},s);
+      live(host,'넓이 칠하기 — y = x 아래, 0부터 '+fmt(b,1)+'까지<div class="formula-live">∫₀^'+fmt(b,1)+' x dx = [x²/2]₀^'+fmt(b,1)+' = '+fmt(b,1)+'² / 2 = <b>'+fmt(b*b/2,3)+'</b></div><span class="hint">확률밀도 곡선 아래 넓이가 1이 되는 것도 이 계산입니다(L12).</span>');
+      if(Math.abs(b*b/2-0.5)<1e-9)mission(host,2);}
+    ct.querySelector('.hnow').textContent='h = '+HS[+ih.value];}
+  draw();};
+
+/* --- 14장: 등고선 내려가기 --- */
+P.gd=function(host){var ct=ctrlOf(host);var ia=ct.querySelector('[name=alpha]');var std=false,start=[-0.5,3.5],path=null,runs=[];var M=[2,1];
+  function Amat(){if(std)return [[1,0],[0,1.5]];var t=Math.PI/6,c=Math.cos(t),sn=Math.sin(t),l1=1,l2=25;return [[l1*c*c+l2*sn*sn,(l1-l2)*c*sn],[(l1-l2)*c*sn,l1*sn*sn+l2*c*c]];}
+  function loss(w){var A=Amat(),d=[w[0]-M[0],w[1]-M[1]];return 0.5*(d[0]*(A[0][0]*d[0]+A[0][1]*d[1])+d[1]*(A[1][0]*d[0]+A[1][1]*d[1]));}
+  function grad(w){var A=Amat(),d=[w[0]-M[0],w[1]-M[1]];return [A[0][0]*d[0]+A[0][1]*d[1],A[1][0]*d[0]+A[1][1]*d[1]];}
+  ct.querySelector('[data-act=std]').addEventListener('click',function(e){std=!std;e.target.classList.toggle('on',std);path=null;draw();});
+  ct.querySelector('[data-act=run]').addEventListener('click',function(){var w=start.slice(),pts=[w.slice()],a=+ia.value;for(var i=0;i<30;i++){var g=grad(w);w=[w[0]-a*g[0],w[1]-a*g[1]];pts.push(w.slice());if(!isFinite(w[0])||Math.abs(w[0])>1e6)break;}path=pts;
+    var dist=Math.hypot(w[0]-M[0],w[1]-M[1]);runs.push({std:std,a:a,ok:dist<0.05,div:loss(w)>loss(start)||!isFinite(dist)});draw();});
+  ia.addEventListener('input',function(){path=null;draw();});
+  function draw(){var s=svgOf(host,560,440);var Pp=plane(s,{W:560,H:440,x0:-1,x1:5,y0:-2,y1:4,step:1,equal:true,xl:'w₁',yl:'w₂'});
+    var A=Amat();var tr=A[0][0]+A[1][1],dt=A[0][0]*A[1][1]-A[0][1]*A[0][1],disc=Math.sqrt(tr*tr/4-dt),l1=tr/2+disc,l2=tr/2-disc;
+    var v1=Math.abs(A[0][1])<1e-12?(A[0][0]>=A[1][1]?[1,0]:[0,1]):[l1-A[1][1],A[0][1]];var nv=Math.hypot(v1[0],v1[1]);v1=[v1[0]/nv,v1[1]/nv];var v2=[-v1[1],v1[0]];
+    [0.05,0.3,1,2.5,5,9,15].forEach(function(k){var d='';for(var i=0;i<=72;i++){var t=2*Math.PI*i/72,r1=Math.sqrt(2*k/l1)*Math.cos(t),r2=Math.sqrt(2*k/l2)*Math.sin(t);var x=M[0]+r1*v1[0]+r2*v2[0],y=M[1]+r1*v1[1]+r2*v2[1];d+=(i?'L':'M')+Pp.X(x)+','+Pp.Y(y);}el('path',{d:d,fill:'none',stroke:'#9fb3c8','stroke-width':1.2},s);});
+    ktxt(s,Pp.X(M[0])+10,Pp.Y(M[1])-10,'★ 정규방정식의 답',{size:12.5,fill:C.orange});txt(s,Pp.X(M[0]),Pp.Y(M[1])+6,'★',{size:20,anchor:'middle',fill:C.orange,italic:false});
+    var bg=el('rect',{x:0,y:0,width:560,height:440,fill:'transparent'},s);s.insertBefore(bg,s.childNodes[1]);
+    bg.addEventListener('click',function(e){var m=s.getScreenCTM().inverse(),q=s.createSVGPoint();q.x=e.clientX;q.y=e.clientY;q=q.matrixTransform(m);start=Pp.inv(q.x,q.y).map(function(v){return Math.round(v*10)/10;});path=null;draw();});
+    var msg='';if(path){var d='';path.forEach(function(p,i){var x=clamp(p[0],-3,7),y=clamp(p[1],-4,6);d+=(i?'L':'M')+Pp.X(x)+','+Pp.Y(y);});el('path',{d:d,fill:'none',stroke:C.red,'stroke-width':2.5},s);
+      path.forEach(function(p){if(Math.abs(p[0])<8&&Math.abs(p[1])<8)dot(s,Pp.X(p[0]),Pp.Y(p[1]),'red',3);});var w=path[path.length-1];var dist=Math.hypot(w[0]-M[0],w[1]-M[1]);
+      msg=(path.length-1)+'걸음 뒤 손실 '+(isFinite(loss(w))&&loss(w)<1e6?fmt(loss(w),4):'<span class="bad">폭발</span>')+' · 답(★)까지 거리 '+(isFinite(dist)&&dist<1e6?fmt(dist,3):'—')+(dist<0.05?' <span class="alert">도착!</span>':loss(w)>loss(start)?' <span class="bad">← 걸음이 너무 커서 튕겨 나갔습니다</span>':' (아직 가는 중)');}
+    dot(s,Pp.X(start[0]),Pp.Y(start[1]),'teal',8);
+    live(host,'출발 ('+fmt(start[0],1)+', '+fmt(start[1],1)+') · 학습률 α = '+ia.value+' · 그릇 모양: '+(std?'표준화 켬 → 둥근 그릇':'표준화 끔 → 길쭉한 그릇')+' (곡률 큰 쪽 '+fmt(l1,1)+', 작은 쪽 '+fmt(l2,1)+')'+
+      '<div class="formula-live">θ_new = θ_old − α∇f(θ) · 안정 조건: α < 2 / '+fmt(l1,1)+' = '+fmt(2/l1,3)+'</div>'+(msg||'<span class="hint">그림을 눌러 출발점을 정하고 "30걸음"을 누르세요.</span>'));
+    runs.forEach(function(r){if(r.ok)mission(host,0);if(r.div)mission(host,1);});
+    runs.forEach(function(r){runs.forEach(function(q){if(r.std&&!q.std&&r.a===q.a&&r.ok&&!q.ok)mission(host,2);});});}
+  draw();};
+
+/* --- 15장: 옵티마이저 경주 --- */
+P.race=function(host){var ct=ctrlOf(host);var ia=ct.querySelector('[name=alpha]');var shape='long',res=null;
+  var SH={round:{n:'둥근 그릇',f:function(x,y){return 0.5*(x*x+y*y);},g:function(x,y){return[x,y];},s:[-2.5,2],min:0},
+    long:{n:'길쭉한 그릇',f:function(x,y){var u=0.866*x+0.5*y,v=-0.5*x+0.866*y;return 0.5*(u*u+20*v*v);},g:function(x,y){var u=0.866*x+0.5*y,v=-0.5*x+0.866*y;return[0.866*u-0.5*20*v,0.5*u+0.866*20*v];},s:[-2.5,2],min:0},
+    bumpy:{n:'울퉁불퉁한 그릇',f:function(x,y){return 0.5*(x*x+y*y)+0.8*(2-Math.cos(3*x)-Math.cos(3*y));},g:function(x,y){return[x+2.4*Math.sin(3*x),y+2.4*Math.sin(3*y)];},s:[-2.6,2.4],min:0},
+    saddle:{n:'안장점',f:function(x,y){return 0.5*x*x+0.25*y*y*y*y-0.5*y*y;},g:function(x,y){return[x,y*y*y-y];},s:[2.5,0.001],min:-0.25}};
+  ct.querySelectorAll('[data-shape]').forEach(function(b){b.addEventListener('click',function(){shape=b.getAttribute('data-shape');ct.querySelectorAll('[data-shape]').forEach(function(x){x.classList.toggle('on',x===b);});res=null;draw();});});
+  ia.addEventListener('input',function(){res=null;draw();});
+  ct.querySelector('[data-act=go]').addEventListener('click',function(){var S=SH[shape],a=+ia.value,N=60;var out={};
+    ['gd','mom','adam'].forEach(function(k){var w=S.s.slice(),v=[0,0],m=[0,0],q=[0,0],pts=[w.slice()];
+      for(var t=1;t<=N;t++){var g=S.g(w[0],w[1]);
+        if(k==='gd'){w=[w[0]-a*g[0],w[1]-a*g[1]];}
+        else if(k==='mom'){v=[0.9*v[0]+g[0],0.9*v[1]+g[1]];w=[w[0]-a*v[0],w[1]-a*v[1]];}
+        else{m=[0.9*m[0]+0.1*g[0],0.9*m[1]+0.1*g[1]];q=[0.999*q[0]+0.001*g[0]*g[0],0.999*q[1]+0.001*g[1]*g[1]];var mh=[m[0]/(1-Math.pow(0.9,t)),m[1]/(1-Math.pow(0.9,t))],qh=[q[0]/(1-Math.pow(0.999,t)),q[1]/(1-Math.pow(0.999,t))];w=[w[0]-a*mh[0]/(Math.sqrt(qh[0])+1e-8),w[1]-a*mh[1]/(Math.sqrt(qh[1])+1e-8)];}
+        if(!isFinite(w[0])||Math.abs(w[0])>1e4||Math.abs(w[1])>1e4){pts.push([NaN,NaN]);break;}pts.push(w.slice());}
+      var last=pts[pts.length-1];out[k]={pts:pts,loss:isFinite(last[0])?S.f(last[0],last[1]):Infinity};});
+    res={shape:shape,a:a,out:out};draw();
+    mission(host,0);if(shape==='saddle')mission(host,1);if(shape==='long'&&out.gd.loss-SH.long.min<0.01)mission(host,2);});
+  function draw(){var S=SH[shape];var s=svgOf(host,560,420);var Pp=plane(s,{W:560,H:420,x0:-3,x1:3,y0:-2.6,y1:2.6,step:1,equal:true,xl:'w₁',yl:'w₂'});
+    var g=el('g',{},s),R=24;for(var i=0;i<R;i++)for(var j=0;j<R;j++){var x=-3+6*(i+.5)/R,y=-2.6+5.2*(j+.5)/R;var v=S.f(x,y)-S.min;var t=clamp(Math.log(1+v)/Math.log(1+(shape==='long'?60:8)),0,1);
+      el('rect',{x:Pp.X(-3+6*i/R),y:Pp.Y(-2.6+5.2*(j+1)/R),width:Pp.sx*6/R+0.5,height:Pp.sy*5.2/R+0.5,fill:'rgb('+Math.round(232-60*t)+','+Math.round(244-80*t)+','+Math.round(248-40*t)+')'},g);}
+    s.insertBefore(g,s.childNodes[1]);dot(s,Pp.X(S.s[0]),Pp.Y(S.s[1]),'navy',7);
+    var COL={gd:C.red,mom:C.blue,adam:C.green},NM={gd:'경사하강',mom:'모멘텀',adam:'Adam'};var msg='';
+    if(res){['gd','mom','adam'].forEach(function(k){var d='';res.out[k].pts.forEach(function(p,i){if(!isFinite(p[0]))return;d+=(i?'L':'M')+Pp.X(clamp(p[0],-3.5,3.5))+','+Pp.Y(clamp(p[1],-3,3));});el('path',{d:d,fill:'none',stroke:COL[k],'stroke-width':2.5,opacity:.9},s);});
+      var rank=['gd','mom','adam'].slice().sort(function(a,b){return res.out[a].loss-res.out[b].loss;});
+      msg='60걸음 뒤 손실(바닥 '+S.min+'): '+['gd','mom','adam'].map(function(k){return '<span style="color:'+COL[k]+'">■</span> '+NM[k]+' '+(isFinite(res.out[k].loss)?fmt(res.out[k].loss,4):'<span class="bad">폭발</span>');}).join(' · ')+'<br>순위: <b>'+rank.map(function(k){return NM[k];}).join(' → ')+'</b>';}
+    live(host,'그릇: <b>'+S.n+'</b> · 학습률 α = '+ia.value+' (세 방법 모두 같은 α)<br>'+(msg||'<span class="hint">"출발!"을 누르면 세 방법이 같은 점(남색)에서 동시에 출발합니다.</span>'));}
+  draw();};
+
+/* --- 16장: 생선 가게 종합 시뮬레이터 --- */
+var CLS=DATA.bream.map(function(b){return [b[0],1];}).concat(DATA.smelt.map(function(s){return [s[0],0];})).concat([[18.5,1],[19.5,0]]);
+P.shop=function(host){var ct=ctrlOf(host);var sel={L:1,H:0,L3:0},std=false,meth='ne',lam=ct.querySelector('[name=lam]'),thr=ct.querySelector('[name=thr]');var duel=false;
+  ct.querySelectorAll('[data-f]').forEach(function(b){b.classList.toggle('on',!!sel[b.getAttribute('data-f')]);b.addEventListener('click',function(){var k=b.getAttribute('data-f');sel[k]=sel[k]?0:1;b.classList.toggle('on',!!sel[k]);draw();});});
+  ct.querySelector('[data-act=std]').addEventListener('click',function(e){std=!std;e.target.classList.toggle('on',std);draw();});
+  ct.querySelectorAll('[data-meth]').forEach(function(b){b.addEventListener('click',function(){meth=b.getAttribute('data-meth');ct.querySelectorAll('[data-meth]').forEach(function(x){x.classList.toggle('on',x===b);});draw();});});
+  ct.querySelector('[data-act=duel]').addEventListener('click',function(){duel=true;draw();});
+  [lam,thr].forEach(function(i){i.addEventListener('input',draw);});
+  function design(fs,z){var cols=[];if(fs.L)cols.push(PL3);if(fs.H)cols.push(PH3);if(fs.L3)cols.push(PL3.map(function(v){return v*v*v;}));
+    if(z)cols=cols.map(function(c){var m=mean(c),s_=sd(c);return c.map(function(v){return (v-m)/s_;});});return PL3.map(function(_,i){return [1].concat(cols.map(function(c){return c[i];}));});}
+  function solveLin(A,b){var n=b.length,M=A.map(function(r,i){return r.concat([b[i]]);});for(var c=0;c<n;c++){var p=c;for(var r=c+1;r<n;r++)if(Math.abs(M[r][c])>Math.abs(M[p][c]))p=r;var t=M[c];M[c]=M[p];M[p]=t;if(Math.abs(M[c][c])<1e-12)return null;
+      for(r=0;r<n;r++){if(r===c)continue;var f=M[r][c]/M[c][c];for(var k=c;k<=n;k++)M[r][k]-=f*M[c][k];}}return M.map(function(r,i){return r[n]/r[i];});}
+  function fit(fs,z,mt,L){var X=design(fs,z),p=X[0].length,y=PW3,n=y.length,b;
+    if(mt==='ne'){var A=[],v=[];for(var i=0;i<p;i++){A.push([]);var s1=0;for(var r=0;r<n;r++)s1+=X[r][i]*y[r];v.push(s1);for(var j=0;j<p;j++){var s2=0;for(r=0;r<n;r++)s2+=X[r][i]*X[r][j];A[i].push(s2+(i===j&&i>0?L:0));}}b=solveLin(A,v);if(!b)return {mae:NaN,bad:'행렬식 0'};}
+    else{b=new Array(p).fill(0);for(var t=0;t<100;t++){var g=new Array(p).fill(0);for(r=0;r<n;r++){var e=-y[r];for(i=0;i<p;i++)e+=X[r][i]*b[i];for(i=0;i<p;i++)g[i]+=e*X[r][i]/n;}for(i=0;i<p;i++)b[i]-=0.3*(g[i]+(i>0?L*b[i]/n:0));if(!isFinite(b[0])||Math.abs(b[0])>1e9)return {mae:Infinity,bad:'발산'};}}
+    var mae=0;for(r=0;r<n;r++){var pr=0;for(i=0;i<p;i++)pr+=X[r][i]*b[i];mae+=Math.abs(pr-y[r]);}return {mae:mae/n};}
+  function draw(){var L=+lam.value;var any=sel.L||sel.H||sel.L3;var R=any?fit(sel,std,meth,L):{mae:NaN,bad:'특성 없음'};var NE=any?fit(sel,std,'ne',L):{mae:NaN};
+    var th=+thr.value;var TP=0,FP=0,FN=0,TN=0,ce=0;CLS.forEach(function(c){var p=1/(1+Math.exp(-1.2*(c[0]-19)));p=clamp(p,1e-6,1-1e-6);ce+=c[1]?-Math.log(p):-Math.log(1-p);var pr=p>=th;if(pr&&c[1])TP++;else if(pr)FP++;else if(c[1])FN++;else TN++;});ce/=CLS.length;
+    var mae=R.mae;var good=isFinite(mae);
+    var h='<div class="tbl"><table><tbody><tr><th>① 회귀: 무게 예측</th><td>특성 '+[sel.L?'길이':'',sel.H?'높이':'',sel.L3?'길이³':''].filter(Boolean).join('·')+' · '+(std?'표준화 켬':'표준화 끔')+' · '+(meth==='ne'?'정규방정식':'경사하강 100걸음(α = 0.3)')+' · λ = '+L+'</td><td><b>'+(good?'평균 빗나감 '+fmt(mae,1)+'g':'<span class="bad">'+(R.bad||'실패')+'</span>')+'</b>'+(meth==='gd'&&isFinite(NE.mae)?'<br><span class="hint">같은 특성의 정규방정식: '+fmt(NE.mae,1)+'g</span>':'')+'</td></tr>'+
+      '<tr><th>② 분류: 도미 vs 빙어</th><td>확률 P(도미) = σ(1.2 × (길이 − 19)) · 임계값 '+th+' 이상이면 도미</td><td>맞힌 도미 '+TP+' · 빙어를 도미로(위양성) <b>'+FP+'</b> · 놓친 도미 <b>'+FN+'</b> · 맞힌 빙어 '+TN+'<br>평균 교차 엔트로피 '+fmt(ce,3)+'</td></tr></tbody></table></div>';
+    if(duel){var sia=fit({L:1},false,'gd',0),moa=fit({L3:1},true,'ne',0);
+      h+='<div class="solve"><h4>대결 결과 — 심판 하루</h4><p>시아: 길이만 · 표준화 끔 · 경사하강 → <span class="bad">'+(isFinite(sia.mae)?fmt(sia.mae,1)+'g':'발산(숫자가 폭발)')+'</span></p><p>모아: 길이³ · 표준화 켬 · 정규방정식 → <b>'+fmt(moa.mae,1)+'g</b></p><p>모아 승! 길이³은 \"무게는 부피에 비례\"라는 생각을 특성으로 넣은 것이고(1장 함수 모양), 표준화는 그릇을 둥글게 했습니다(6·15장).</p></div>';}
+    host.innerHTML=h;
+    live(host,'<span class="hint">회귀와 분류를 한 화면에서 조정합니다. 숫자는 설명용 예시값입니다.</span>');
+    if(good&&mae<=20)mission(host,0);if(meth==='gd'&&good&&isFinite(NE.mae)&&Math.abs(mae-NE.mae)<=1)mission(host,1);if(meth==='gd'&&good&&mae<=17)mission(host,2);}
+  draw();};
+
+/* --- 별 모음판 --- */
+P.board=function(host){var NM={map:'0 수학 지도',func:'1 함수 기계',table:'2 생선 표',vec:'3 닮은 생선',matmul:'4 행렬곱 공장',solve:'5 한 번에 풀기',stats:'6 통계판',corr:'7 겹치는 정보',pca:'8 방향 돌리기',prob:'9 확률 통',bayes:'10 베이즈 검사소',dist:'11 분포 맞추기',ent:'12 놀람 저울',deriv:'13 기울기 돋보기',gd:'14 등고선',race:'15 옵티마이저 경주',shop:'16 종합 시뮬레이터'};
+  function draw(){var all=loadStars(),tot=0;host.innerHTML='<div class="starboard">'+Object.keys(NM).map(function(k){var a=all[k]||[0,0,0],n=a.reduce(function(x,y){return x+y;},0);tot+=n;return '<div><b>'+'★★★'.slice(0,n)+'☆☆☆'.slice(0,3-n)+'</b>'+NM[k]+'</div>';}).join('')+'</div>';
+    live(host,'모은 별 <b>'+tot+'</b> / 51 '+(tot>=40?'<span class="alert">— 연구실 수학 인증!</span>':'<span class="hint">— 별이 비어 있는 장으로 돌아가 다시 해 보세요.</span>'));}
+  draw();host.parentNode.querySelector('[data-act=refresh]').addEventListener('click',draw);};
+
+/* ===== 퀴즈 ===== */
+function quiz(q){var ans=+q.getAttribute('data-ans');var fb=q.querySelector('.fb');var OK=q.querySelector('.qok'),NO=q.querySelector('.qno');q.querySelectorAll('.opts button').forEach(function(b,i){b.addEventListener('click',function(){q.querySelectorAll('.opts button').forEach(function(x){x.classList.remove('ok','no');});b.classList.add(i===ans?'ok':'no');fb.innerHTML=i===ans?'⭕ '+(OK?OK.innerHTML:q.getAttribute('data-ok')):'❌ '+(NO?NO.innerHTML:q.getAttribute('data-no'));});});}
+
+/* ===== 지식 색인·꾸러미 ===== */
+function kg(){var raw=document.getElementById('kg-raw');var mount=document.getElementById('kg-mount');if(!raw||!mount)return;var K=JSON.parse(raw.textContent);
+  mount.innerHTML='<input class="kg-search" type="search"><div class="kg-list"></div>';
+  var list=mount.querySelector('.kg-list'),inp=mount.querySelector('input');inp.placeholder='개념 찾기 (예: 행렬, 베이즈, 경사하강)';inp.setAttribute('aria-label','지식 색인 검색');
+  var TY={Concept:'개념',Method:'방법',Analogy:'비유',Application:'쓰임',OpenQuestion:'열린 질문'};
+  var LG=(document.documentElement.lang||'ko').slice(0,2);function L_(o){return o?(o[LG]||o.en||o.ko||''):'';}
+  K.nodes.forEach(function(n){if(n.desc&&!n.definition)n.definition={ko:n.desc};});
+  function render(){var q=inp.value.trim().toLowerCase();list.innerHTML=K.nodes.filter(function(n){return !q||(L_(n.label)+' '+n.label.en+' '+n.label.ko+' '+L_(n.definition)).toLowerCase().indexOf(q)>=0;}).map(function(n){
+    var nb=K.edges.filter(function(e){return e.s===n.id||e.o===n.id;}).map(function(e){var o=e.s===n.id?e.o:e.s;var m=K.nodes.filter(function(x){return x.id===o;})[0];return m?L_(m.label):'';}).filter(Boolean);
+    return '<div class="kg-item"><span class="t">'+(TY[n.type]||n.type)+'</span><b>'+L_(n.label)+'</b><span class="muted">'+(LG==='en'?'':n.label.en)+'</span><div>'+L_(n.definition)+'</div>'+(nb.length?'<div class="muted" style="font-size:12.5px">이웃: '+nb.join(', ')+'</div>':'')+'<a href="'+(n.page?n.page+'.html':'')+n.anchor+'">설명 보러 가기 →</a></div>';}).join('');}
+  inp.addEventListener('input',render);render();
+  var ex=document.getElementById('export-mount');if(!ex)return;
+  ex.innerHTML='<div class="exp-btns"><button class="btn" data-x="json">kg.json</button><button class="btn" data-x="ld">JSON-LD</button><button class="btn" data-x="ttl">Turtle (Protégé)</button><button class="btn" data-x="csv">CSV (Neo4j·Gephi)</button><button class="btn" data-x="bib">BibTeX</button><button class="btn" data-x="ris">RIS</button></div>';
+  function dl(name,text,type){var b=new Blob([text],{type:type||'text/plain'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);}
+  var base=K.page;var refs=JSON.parse((document.getElementById('refs-csl')||{textContent:'[]'}).textContent);
+  ex.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){var x=b.getAttribute('data-x');
+    if(x==='json')dl(base+'.kg.json',JSON.stringify(K,null,2),'application/json');
+    if(x==='ld')dl(base+'.jsonld',document.getElementById('kg-ld').textContent,'application/ld+json');
+    if(x==='ttl'){var t='@prefix lab: <urn:lab:> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n\n';
+      K.nodes.forEach(function(n){t+='<urn:'+n.id+'> a lab:'+n.type+' ;\n  skos:prefLabel "'+n.label.ko+'"@ko , "'+n.label.en+'"@en ;\n  rdfs:comment "'+L_(n.definition).replace(/"/g,'\\"')+'"@ko .\n\n';});
+      K.edges.forEach(function(e){t+='<urn:'+e.s+'> lab:'+e.p+' <urn:'+e.o+'> .\n';});dl(base+'.ttl',t,'text/turtle');}
+    if(x==='csv'){var c='id,type,label_ko,label_en,anchor\n'+K.nodes.map(function(n){return [n.id,n.type,n.label.ko,n.label.en,(n.page||base)+'.html'+n.anchor].map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+      c+='\n\nsource,relation,target\n'+K.edges.map(function(e){return [e.s,e.p,e.o].join(',');}).join('\n');dl(base+'.csv',c,'text/csv');}
+    if(x==='bib')dl(base+'.bib',refs.map(function(r){return '@misc{'+r.id+',\n  title = {'+r.title+'},\n  author = {'+r.author[0].literal+'},\n  howpublished = {'+(r.note||'')+'},\n  note = {accessed '+r.accessed['date-parts'][0].join('-')+'}\n}';}).join('\n\n'));
+    if(x==='ris')dl(base+'.ris',refs.map(function(r){return 'TY  - GEN\nTI  - '+r.title+'\nAU  - '+r.author[0].literal+'\nN1  - '+(r.note||'')+'\nER  - ';}).join('\n'));});});}
+
+function boot(){document.querySelectorAll('[data-panel]').forEach(function(h){var k=h.getAttribute('data-panel');if(P[k]){try{P[k](h);}catch(e){if(window.console)console.error(k,e);}}});
+  document.querySelectorAll('.quiz').forEach(quiz);kg();restoreStars();
+  var pr=document.getElementById('prog');if(pr)window.addEventListener('scroll',function(){var d=document.documentElement;pr.style.width=(100*d.scrollTop/Math.max(1,d.scrollHeight-d.clientHeight))+'%';},{passive:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+
+})();
+</script>
+</body></html>
