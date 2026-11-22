@@ -9,9 +9,10 @@ KICKER = "인공지능을 위한 수학 · 2부 (6~12장)"
 H1 = '데이터를 읽고,<br>불확실성을 말하기<br><span style="font-size:.5em;color:var(--muted)">인공지능을 위한 수학 2부</span>'
 LEAD = "1부에서 숫자를 담고 계산했습니다. 2부에서는 그 숫자를 <b>읽습니다</b>. 얼마나 흩어졌는지, 무엇이 겹치는지, 얼마나 확실한지, 그리고 모델이 얼마나 틀렸는지까지."
 COVER_CAP = "생선 저울과 확률 막대 · 2부"
-COVER_CAST = [("moa", "e09"), ("jupanbot", "e16"), ("fruitfly", "e09"), ("sia", "e01")]
+COVER_CAST = [("moa", "e09"), ("doctor", "e07"), ("jupanbot", "e16"), ("fruitfly", "e09"), ("haru", "e08"), ("sia", "e01")]
+COVER_PROPS = [("fish", 120, 110, 14), ("fish", 420, 170, 12), ("card", 760, 100, 14), ("fish", 1080, 150, 14), ("card", 1300, 90, 12)]
 COVER_IMG = "assets/cover/cover_part2.webp"
-NAV = [("index.html", "← 1부"), ("#c06", "6 통계"), ("#c07", "7 상관"), ("#c08", "8 PCA"), ("#c09", "9 확률"), ("#c10", "10 베이즈"), ("#c11", "11 분포"), ("#c12", "12 정보이론"), ("#sum2", "정리"), ("part3.html", "3부 →")]
+NAV = [("index.html", "← 1부"), ("#c06", "6 통계"), ("#c07", "7 상관"), ("#c08", "8 PCA"), ("#c09", "9 확률"), ("#c10", "10 베이즈"), ("#c11", "11 분포"), ("#c12", "12 정보이론"), ("#duel2", "대결"), ("#sum2", "정리"), ("part3.html", "3부 →")]
 THREE = ("평균·흩어짐·상관·주성분·확률·베이즈·분포·엔트로피 — 데이터를 <b>읽고</b>, 모델의 \"아마도\"를 숫자로 말하는 법을 봅니다.",
          "모델은 늘 조금씩 틀립니다. 얼마나 흩어졌고 얼마나 확실한지 모르면, \"정확도 99%\" 같은 말에 쉽게 속습니다.",
          "이상한 값 골라내기, 겹치는 항목 줄이기, 검사·불량 판정의 위양성 읽기, 분류 모델 손실 읽기에 바로 쓰입니다.")
@@ -30,7 +31,7 @@ def intro(G):
 
 def outro(G):
     talk, crowd = G["talk"], G["crowd"]
-    return f"""<section id="sum2"><div class="wrap"><h2>2부 정리 — 데이터를 읽고, 불확실성을 말하기</h2>
+    return G["duel_section"](2) + f"""<section id="sum2"><div class="wrap"><h2>2부 정리 — 데이터를 읽고, 불확실성을 말하기</h2>
 <div class="tbl"><table><thead><tr><th>장</th><th>원자료</th><th>한 줄</th><th>AI에서는</th></tr></thead><tbody>
 <tr><td>6</td><td>MATH-08</td><td>평균은 이상치에 끌리고, 중앙값은 버틴다. 표준화로 크기를 맞춘다</td><td>전처리, 배치 정규화, 평가 지표</td></tr>
 <tr><td>7</td><td>MATH-10</td><td>상관은 평균 뺀 코사인. 겹치는 특성은 하나 뺀다</td><td>특성 선택, 다중공선성, 추천</td></tr>

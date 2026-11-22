@@ -9,7 +9,7 @@ function r2(v){return Math.round(v*100)/100;}
 function r1(v){return Math.round(v*10)/10;}
 function fmt(v,d){d=d==null?2:d;var s=(Math.round(v*Math.pow(10,d))/Math.pow(10,d)).toFixed(d);if(s.indexOf('.')>=0)s=s.replace(/\.?0+$/,'');if(s==='-0')s='0';return s;}
 function num(v){return v<0?'−'+fmt(-v):fmt(v);}
-function svgOf(host,W,H){host.innerHTML='';var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'실험 패널 그림: '+(function(){var n=host.parentNode&&host.parentNode.querySelector('.ph small');return n?n.textContent:'';})()},host);var d=el('defs',{},s);
+function svgOf(host,W,H){host.innerHTML='';var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'실험 패널 그림: '+(function(){var n=host.closest&&host.closest('.panel')&&host.closest('.panel').querySelector('.ph small');return n?n.textContent:'';})()},host);var d=el('defs',{},s);
   ['teal','orange','navy','blue','green','red'].forEach(function(c){var m=el('marker',{id:'ah-'+c+'-'+host.id,viewBox:'0 0 10 10',refX:8.5,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'},d);el('path',{d:'M0,0 L10,5 L0,10 z',fill:C[c]},m);});
   s._id=host.id;return s;}
 function arrow(s,x1,y1,x2,y2,c,w){return el('line',{x1:x1,y1:y1,x2:x2,y2:y2,stroke:C[c],'stroke-width':w||3,'marker-end':'url(#ah-'+c+'-'+s._id+')'},s);}
@@ -47,9 +47,11 @@ function handle(s,x,y,c,label){var g=el('g',{},s);el('circle',{cx:x,cy:y,r:16,fi
 function dot(s,x,y,c,r){return el('circle',{cx:x,cy:y,r:r||6,fill:C[c]||c,stroke:'#fff','stroke-width':1.5},s);}
 function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
 function snap(v,st){return Math.round(v/st)*st;}
-function readout(host){var d=host.parentNode.querySelector('.readout');return d;}
+function panelOf(host){return host.closest('.panel')||host.parentNode;}
+function readout(host){return panelOf(host).querySelector('.readout');}
 function rightMark(s,x,y,ux,uy,vx,vy,k){k=k||10;el('path',{d:'M'+(x+ux*k)+','+(y+uy*k)+' L'+(x+ux*k+vx*k)+','+(y+uy*k+vy*k)+' L'+(x+vx*k)+','+(y+vy*k),fill:'none',stroke:C.orange,'stroke-width':1.5},s);}
 var P={};
+var DUELCALC={};
 var DATA=__DATA__;
 function mean(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return s/a.length;}
 function sd(a){var m=mean(a),s=0;for(var i=0;i<a.length;i++)s+=(a[i]-m)*(a[i]-m);return Math.sqrt(s/a.length);}
@@ -58,8 +60,8 @@ function quart(a,q){var b=a.slice().sort(function(x,y){return x-y;}),n=b.length,
 function corr(x,y){var mx=mean(x),my=mean(y),a=0,b=0,c=0;for(var i=0;i<x.length;i++){a+=(x[i]-mx)*(y[i]-my);b+=(x[i]-mx)*(x[i]-mx);c+=(y[i]-my)*(y[i]-my);}return a/Math.sqrt(b*c);}
 function cov(x,y){var mx=mean(x),my=mean(y),a=0;for(var i=0;i<x.length;i++)a+=(x[i]-mx)*(y[i]-my);return a/x.length;}
 function rng(seed){var s=seed>>>0;return function(){s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
-function ctrlOf(host){return host.parentNode.querySelector('.ctrl');}
-function q$(host,sel){return host.parentNode.querySelector(sel);}
+function ctrlOf(host){return panelOf(host).querySelector('.ctrl');}
+function q$(host,sel){return panelOf(host).querySelector(sel);}
 function live(host,html){var r=readout(host);if(r)r.innerHTML=html;}
 /* ===== 미션과 별 ===== */
 var SKEY='mfa_lab_stars_v1';

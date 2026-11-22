@@ -102,3 +102,9 @@ P.solve=function(host){var ct=ctrlOf(host);var lam=ct.querySelector('[name=lam]'
       '<br><span class="hint">β = (XᵀX'+(L?' + λI':'')+')⁻¹ Xᵀy · λ = '+L+(L?' (여기서는 단순하게 절편에도 λ를 더했어요)':'')+'</span>');
     if(moved)mission(host,0);if(det0<1&&L===0)mission(host,1);if(det0<1&&L>0&&ok&&Math.abs(b1)<3)mission(host,2);}
   draw();};
+
+/* --- 1부 대결: 릿지 vs 보통 회귀 (처음 보는 생선으로 채점) --- */
+DUELCALC.duel1=function(){var tx=[4.8,4.9,5.0,5.1,5.2],nz=[0.6,-0.5,0.3,-0.6,0.4],ty=tx.map(function(x,i){return 0.9*x+0.5+nz[i];});var sx=[1,3,5,7,9];
+  function fit(L){var n=5,s1=0,s2=0,sy=0,sxy=0;tx.forEach(function(x,i){s1+=x;s2+=x*x;sy+=ty[i];sxy+=x*ty[i];});var a=n+L,b=s1,c=s2+L,det=a*c-b*b;return[(c*sy-b*sxy)/det,(a*sxy-b*sy)/det];}
+  function mae(L){var b=fit(L),e=0;sx.forEach(function(x){e+=Math.abs(b[0]+b[1]*x-(0.9*x+0.5));});return e/5;}
+  return {l:mae(0.5),r:mae(0),unit:'',d:2,what:'처음 보는 생선 5마리 평균 빗나감(100g 단위)'};};

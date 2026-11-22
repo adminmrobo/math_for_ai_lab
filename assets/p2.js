@@ -137,3 +137,7 @@ P.ent=function(host){var ct=ctrlOf(host);var S=[ct.querySelector('[name=s0]'),ct
       '퍼플렉시티 = e^손실 = <b>'+fmt(Math.exp(ce),2)+'</b> → 정답 맞히기가 '+fmt(Math.exp(ce),2)+'개 중 하나를 찍는 만큼 어려웠다는 뜻 · 모델 예측의 엔트로피(얼마나 망설이나) = '+fmt(H,3)+'비트 (최대 log₂3 = 1.585)');
     if(ce<0.1)mission(host,0);if(p[ans]<=0.01)mission(host,1);if(H>=0.99*Math.log2(3))mission(host,2);}
   draw();};
+
+/* --- 2부 대결: 30번 vs 1만 번 --- */
+DUELCALC.duel2=function(){var p=12/22;function err(n,seed){var R=rng(seed),tot=0;for(var k=0;k<200;k++){var h=0;for(var i=0;i<n;i++)if(R()<p)h++;tot+=Math.abs(h/n-p);}return tot/200;}
+  return {l:err(30,3),r:err(10000,103),unit:'',d:3,what:'200번 되풀이한 평균 오차(이론 0.545와의 차이)'};};

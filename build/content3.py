@@ -9,9 +9,10 @@ KICKER = "인공지능을 위한 수학 · 3부 (13~16장)"
 H1 = '조금씩 고치며<br>배우기<br><span style="font-size:.5em;color:var(--muted)">인공지능을 위한 수학 3부</span>'
 LEAD = "2부에서 \"얼마나 틀렸나\"를 손실 숫자 하나로 쟀습니다. 3부에서는 그 숫자를 <b>줄이는 방향</b>을 미분으로 찾고, 조금씩 내려가며 모델을 고칩니다. 마지막 장에서 1~15장을 한 화면에 모아 직접 운영해 봅니다."
 COVER_CAP = "등고선 지도 위의 결승선 · 3부"
-COVER_CAST = [("haru", "e19"), ("doctor", "e10"), ("sia", "e16"), ("moa", "e19")]
+COVER_CAST = [("sia", "e16"), ("haru", "e19"), ("doctor", "e10"), ("fruitfly", "e09"), ("jupanbot", "e16"), ("moa", "e19")]
+COVER_PROPS = [("bowl", 140, 120, 16), ("bowl", 560, 180, 14), ("bowl", 980, 110, 16), ("fish", 1300, 300, 12)]
 COVER_IMG = "assets/cover/cover_part3.webp"
-NAV = [("part2.html", "← 2부"), ("#c13", "13 미적분"), ("#c14", "14 그래디언트"), ("#c15", "15 최적화"), ("#c16", "16 실전 연습장"), ("#sum3", "정리")]
+NAV = [("part2.html", "← 2부"), ("#c13", "13 미적분"), ("#c14", "14 그래디언트"), ("#c15", "15 최적화"), ("#c16", "16 실전 연습장"), ("#duel3", "대결"), ("#sum3", "정리"), ("practice/index.html", "실전 연습장 →")]
 THREE = ("미분·편미분·그래디언트·최적화 — 손실을 <b>줄이는 방향</b>을 찾아 가중치를 조금씩 고치는 법, 그리고 1~15장 종합 실습입니다.",
          "딥러닝 학습은 전부 \"기울기를 구해 반대로 한 걸음\"의 반복입니다. 학습률·표준화·옵티마이저 선택이 학습 성패를 가릅니다.",
          "\"학습이 안 돼요\", \"손실이 튀어요\" 같은 현장 문제를 그릇 모양과 걸음 크기로 읽을 수 있게 됩니다.")
@@ -31,9 +32,9 @@ def intro(G):
 
 PRACTICE = dict(key="shop", name="생선 가게 종합 시뮬레이터", note="1~15장의 부품을 한 화면에 · 예시값",
    ask="특성·표준화·학습 방법·임계값을 골라 생선 가게 모델을 직접 운영해 주세요.",
-   missions=["무게 예측의 평균 빗나감을 20g 이하로 만들어 보세요. (힌트: 1장 함수 모양 — 무게는 부피를 닮았다)", "경사하강으로, 같은 특성의 정규방정식과 1g 안쪽으로 같은 답을 내 보세요.", "경사하강으로 모아의 기록 16.7g을 따라잡아 보세요(17g 이하)."],
-   ctrl='<div class="chips"><b style="font-size:14px">특성</b><button type="button" data-f="L">길이</button><button type="button" data-f="H">높이</button><button type="button" data-f="L3">길이³</button></div><button type="button" data-act="std">표준화</button><div class="chips"><button type="button" data-meth="ne" class="on">정규방정식</button><button type="button" data-meth="gd">경사하강</button></div><label>λ (릿지) <input type="range" name="lam" min="0" max="5" step="0.5" value="0"></label><label>분류 임계값 <input type="range" name="thr" min="0.05" max="0.95" step="0.05" value="0.5"></label><button type="button" data-act="duel">시아 vs 모아 대결 결과 공개</button>',
-   judge=["주판봇: 채점 대기 중!", "주판봇: 20g 안쪽! 길이³이 효과 만점. 별 하나.", "주판봇: 두 길이 같은 답에 도착! 별 둘.", "주판봇: 모아 기록 따라잡기 성공! 연구실 수학 졸업. 별 셋!"])
+   missions=["검증용 생선의 평균 빗나감을 28g 이하로 만들어 보세요. (힌트: 1장 함수 모양 — 무게는 부피를 닮았다)", "경사하강으로, 같은 특성의 정규방정식과 1g 안쪽으로 같은 답을 내 보세요.", "경사하강으로 검증 평균 빗나감 26g 이하를 만들어 보세요(모아 설정의 기록 25.4g)."],
+   ctrl='<div class="chips"><b style="font-size:14px">특성</b><button type="button" data-f="L">길이</button><button type="button" data-f="H">높이</button><button type="button" data-f="L3">길이³</button></div><button type="button" data-act="std">표준화</button><div class="chips"><button type="button" data-meth="ne" class="on">정규방정식</button><button type="button" data-meth="gd">경사하강</button></div><label>λ (릿지) <input type="range" name="lam" min="0" max="5" step="0.5" value="0"></label><label>분류 임계값 <input type="range" name="thr" min="0.05" max="0.95" step="0.05" value="0.5"></label>',
+   judge=["주판봇: 채점 대기 중!", "주판봇: 28g 안쪽! 길이³이 효과 만점. 별 하나.", "주판봇: 두 길이 같은 답에 도착! 별 둘.", "주판봇: 26g 안쪽! 연구실 수학 졸업. 별 셋!"])
 
 def outro(G):
     talk, crowd, dash, face = G["talk"], G["crowd"], G["dash"], G["face"]
@@ -53,11 +54,18 @@ def outro(G):
 <tr><td>λ (릿지)</td><td><a href="index.html#c05">5장</a> · <a href="#c15">15장</a></td><td>겹치는 특성에서 안정</td></tr>
 <tr><td>분류 임계값</td><td><a href="part2.html#c10">10장 베이즈</a> · <a href="part2.html#c12">12장 교차 엔트로피</a></td><td>위양성과 놓침의 맞바꾸기</td></tr></tbody></table></div>
 {dash(c16)}
-<div class="solve"><h4>여러 장이 함께 묻는 질문</h4><p>길이만으로는 평균 44g쯤 빗나가지만, 길이³ 하나로 바꾸면 17g 아래로 줄어듭니다. 모델의 실력은 학습 방법보다 <b>어떤 함수 모양을 고르느냐</b>(1장)에서 먼저 갈립니다. 표준화를 끄고 경사하강을 돌리면 숫자가 폭발합니다. 그릇이 너무 길쭉해서입니다(15장). 표준화를 켜면 경사하강이 정규방정식과 같은 답에 도착합니다(L7). 분류 임계값을 내리면 놓치는 도미는 줄지만 빙어를 도미로 잘못 고르는 일이 늘어납니다. 어느 쪽 실수가 더 비싼지는 가게가 정합니다(10장).</p>
-<p class="hint">모형의 한계: 생선 숫자는 설명용 예시값이고, 데이터가 24마리뿐이라 시험 데이터로 따로 검증하지 않았습니다. 실제로는 학습·검증 데이터를 나눠 확인해야 합니다. 경영·투자 권고가 아닙니다.</p></div>
-{talk([("haru","e10","판정! 이번 대결은 모아의 승리입니다."),("moa","e16","함수 모양을 먼저 고르고, 표준화했을 뿐인데요."),("sia","e14","빠른 것보다 순서가 중요했네요… 다음엔 표준화부터 켤게요."),("jupanbot","e14","결과가 비슷할 거라던 제 말은… 못 들은 걸로 해 주세요.")])}
-{crowd("X1~X3: 👏👏👏 모아! 시아도 잘했어! 하루 심판 멋졌어!", (("x1","e16"),("x2","e01"),("x3","e16")))}
+{G["quiz"]("16장 시뮬레이터에서 학습 데이터 오차(14.4g)보다 검증 데이터 오차(25.4g)가 큰 이유로 가장 알맞은 것은?", ["계산 실수", "모델이 처음 보는 생선이라서", "검증 데이터가 더 많아서"], 1, "학습에 쓴 생선에 맞춰졌기 때문에, 처음 보는 생선에서는 더 빗나갑니다. 그래서 채점은 검증 데이터로 합니다.", "학습과 검증 데이터가 무엇이 다른지 떠올려 보세요.")}
+{G["quiz"]("분류 임계값을 0.5에서 0.2로 내리면 일반적으로 어떻게 될까?", ["놓치는 도미는 줄고, 빙어를 도미로 잘못 고르는 일은 는다", "둘 다 준다", "둘 다 는다"], 0, "기준을 낮추면 도미라고 더 쉽게 판정해, 놓침은 줄고 위양성은 늡니다(10장).", "대시보드에서 임계값을 내려 보세요.")}
+<div class="solve"><h4>여러 장이 함께 묻는 질문</h4><p>검증용 생선 기준으로 길이만으로는 평균 32.9g 빗나가지만, 길이³ 하나로 바꾸면 25.4g으로 줄어듭니다. 학습 데이터에서 잰 오차(14.4g)보다 검증 오차가 큰 것도 보세요. 처음 보는 생선은 늘 더 어렵습니다. 모델의 실력은 학습 방법보다 <b>어떤 함수 모양을 고르느냐</b>(1장)에서 먼저 갈립니다. 표준화를 끄고 경사하강을 돌리면 숫자가 폭발합니다. 그릇이 너무 길쭉해서입니다(15장). 표준화를 켜면 경사하강이 정규방정식과 같은 답에 도착합니다(L7). 분류 임계값을 내리면 놓치는 도미는 줄지만 빙어를 도미로 잘못 고르는 일이 늘어납니다. 어느 쪽 실수가 더 비싼지는 가게가 정합니다(10장).</p>
+<p class="hint">모형의 한계: 생선 숫자는 설명용 예시값이고, 24마리를 학습 16·검증 8로 한 번만 나눴습니다. 실제로는 더 많은 데이터로 여러 번 나눠(교차 검증) 확인합니다. 경영·투자 권고가 아닙니다.</p></div>
+</div></section>
+{G["duel_section"](3)}
+<section><div class="wrap">
+{talk([("moa","e16","함수 모양을 먼저 고르고, 표준화했을 뿐인데요."),("sia","e14","빠른 것보다 순서가 중요했네요… 다음엔 표준화부터 켤게요."),("jupanbot","e14","결과가 비슷할 거라던 제 말은… 못 들은 걸로 해 주세요.")])}
+{crowd("X1~X3: 👏👏👏 모아! 시아도 잘했어! 하루 발표 멋졌어!", (("x1","e16"),("x2","e01"),("x3","e16")))}
+<div class="solve"><h4>실전 연습장 — 생선 가게 밖으로</h4><p>같은 수학이 다른 현장에서도 통하는지 확인하는 단독 페이지가 있습니다. 불량 검사 공장, 콜센터, 추천 서비스, 생선 가게 네 곳을 직접 운영해 보세요. <a href="practice/index.html">실전 연습장 열기 →</a></p></div>
 <h3>별 모음판 — 17개 대시보드에서 모은 별</h3>
+<p class="hint">별은 이 기기의 이 브라우저에만 저장됩니다. 다른 기기나 브라우저에서는 보이지 않으니, 기록을 남기려면 화면을 캡처해 두세요.</p>
 <div class="panel"><div class="ph"><b>별 모음판</b><small>이 브라우저에 저장된 별</small></div><div id="pp-board" data-panel="board"></div><div class="ctrl"><button type="button" data-act="refresh">새로 고침</button></div><div class="readout" aria-live="polite"></div></div>
 <h3>관계 지도 다시 보기 — 이제 선이 모두 보입니다</h3>
 <div class="tbl"><table><thead><tr><th>연결</th><th>무엇이 무엇으로</th><th>이 해설에서 본 곳</th></tr></thead><tbody>

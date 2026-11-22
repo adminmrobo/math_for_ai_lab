@@ -54,11 +54,15 @@ chk("13장 적분", 0.5, 1 / 2); chk("14장 그래디언트 x", 2 * 1 * 2 + 3 * 
 chk("14장 접평면", 5 + 2 * (0 - 1) + 4 * (0 - 2), 2 * 0 + 4 * 0 - 5); chk("14장 안정 조건", 2 / 25, 0.08)
 # 15장
 chk("15장 수렴", 0.91 ** 60, 0.0035, 1e-4)
-# 16장
-def mae(cols, std=False):
-    Xc = np.c_[cols].T if np.ndim(cols[0]) else np.c_[cols]
-    Xc = np.array(cols).T
-    if std: Xc = (Xc - Xc.mean(0)) / Xc.std(0)
-    A = np.c_[np.ones(len(W)), Xc]; bb = np.linalg.lstsq(A, W, rcond=None)[0]; return np.abs(A @ bb - W).mean()
-chk("16장 길이만", mae([L]), 43.6, 0.05); chk("16장 길이³", mae([L ** 3]), 16.7, 0.05)
+# 16장 (학습 16 / 검증 8 — 셋째 마리마다 검증)
+te = np.arange(24) % 3 == 2; tr = ~te
+def mae_te(col):
+    X = np.array(col); mu, s_ = X[tr].mean(), X[tr].std(); Z = (X - mu) / s_
+    A = np.c_[np.ones(24), Z]; bb = np.linalg.lstsq(A[tr], W[tr], rcond=None)[0]; return np.abs(A[te] @ bb - W[te]).mean(), np.abs(A[tr] @ bb - W[tr]).mean()
+chk("16장 길이만(검증)", mae_te(L)[0], 32.9, 0.05); chk("16장 길이³(검증)", mae_te(L ** 3)[0], 25.4, 0.05); chk("16장 길이³(학습)", mae_te(L ** 3)[1], 14.4, 0.05)
+# 대결
+tx = np.array([4.8, 4.9, 5.0, 5.1, 5.2]); ty = 0.9 * tx + 0.5 + np.array([0.6, -0.5, 0.3, -0.6, 0.4]); sxx = np.array([1, 3, 5, 7, 9.])
+def ridge(Lm):
+    A = np.array([[5 + Lm, tx.sum()], [tx.sum(), (tx * tx).sum() + Lm]]); b0, b1 = np.linalg.solve(A, [ty.sum(), (tx * ty).sum()]); return np.abs(b0 + b1 * sxx - (0.9 * sxx + 0.5)).mean()
+chk("1부 대결 릿지", ridge(0.5), 0.15, 0.005); chk("1부 대결 보통", ridge(0), 1.21, 0.005)
 print(f"검산 {ok}개 모두 통과")

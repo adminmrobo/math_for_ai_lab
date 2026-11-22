@@ -232,3 +232,45 @@ nav.top .i18n-pick select{max-width:34vw}
 .tabs{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0}
 .mapsvg text{pointer-events:none}
 .duo>*,.pair>*{min-width:0}.mathbox table{display:block;overflow-x:auto}
+/* 기본 스킬 대조 보완 (v1.1) */
+img[data-who]{image-rendering:pixelated}
+.cover .frame svg.grid{shape-rendering:crispEdges}
+.cover-chip{position:absolute;left:3%;top:13%;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid var(--rule);font-size:13px}
+.stampwrap{position:relative}
+.stamp{position:absolute;right:6px;top:6px;font-size:11.5px;font-weight:700;color:#7a5a00;background:#fff3b0;border:1px solid #e9cf5a;border-radius:6px;padding:1px 7px;pointer-events:none;opacity:.95}
+.fieldbox{border:1px solid #f1c2bf;background:#fff4f3;border-radius:12px;padding:14px 18px;margin:16px 0}
+.fieldbox h4{margin:0 0 6px;color:var(--red)}.fieldbox ul{margin:0;padding-left:20px}
+.duel{border:2px solid var(--orange);border-radius:14px;padding:16px;background:#fff}
+.duel-head{display:flex;justify-content:center;align-items:center;gap:24px}
+.duel-head img{width:96px;height:96px;border-radius:12px;background:var(--panel2)}
+.duel-head img.dr{transform:none}
+.vs{font-size:28px;color:var(--orange)}
+.duel-cards{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+@media (max-width:640px){.duel-cards{grid-template-columns:1fr}}
+.bars{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}
+.bars .bar{border:1px solid var(--rule);border-radius:10px;padding:10px;text-align:center;background:var(--panel)}
+.bars .bar i{display:block;height:14px;border-radius:7px;background:var(--teal);margin:8px auto 4px}
+.bars .bar b{font-size:20px}
+.term{border-bottom:2px dotted #d1a400;cursor:help}
+#termtip{position:fixed;z-index:70;max-width:280px;background:#16212b;color:#fff;font-size:13.5px;line-height:1.5;padding:7px 10px;border-radius:8px;pointer-events:none}
+#helper{position:fixed;right:12px;bottom:12px;z-index:65;background:#fff;border:1px solid var(--rule);border-radius:999px;padding:6px 12px;font-size:13px;box-shadow:0 4px 14px rgba(0,0,0,.12)}
+#helper button{font:inherit;font-size:12.5px;border:1px solid var(--teal);background:#fff;color:var(--teal);border-radius:999px;padding:1px 8px;margin-left:6px;cursor:pointer}
+@media print{#helper{display:none}}
+.terms-off .term{border-bottom:0;cursor:auto}
+.ptabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+.ptabs button{font:inherit;border:1px solid var(--navy);background:#fff;color:var(--navy);border-radius:10px;padding:7px 14px;cursor:pointer}
+.ptabs button.on{background:var(--navy);color:#fff}
+.situ{border-left:5px solid var(--navy);background:var(--panel);border-radius:0 12px 12px 0;padding:12px 16px;margin:12px 0}
+.ctrlset{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+@media (max-width:640px){.ctrlset{grid-template-columns:1fr}}
+.ctrlset .env,.ctrlset .dec{border-radius:10px;padding:10px 12px}
+.ctrlset .env{background:#e9f7ee;border:1px solid #b9e2c6}.ctrlset .dec{background:var(--blue-soft);border:1px solid #c9d6f3}
+.ctrlset b{display:block;font-size:13px;margin-bottom:4px}
+.score{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:10px 0}
+@media (max-width:640px){.score{grid-template-columns:repeat(2,1fr)}}
+.sc{border-radius:10px;padding:8px 10px;border:1px solid var(--rule)}
+.sc span{display:block;font-size:12.5px;color:var(--muted)}.sc b{font-size:18px}
+.sc.good{background:#ecf7ef;border-color:#b9e2c6}.sc.bad{background:#fff4f3;border-color:#f1c2bf}
+.graphs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:860px){.graphs{grid-template-columns:1fr}}
+.graphs>div{border:1px solid var(--rule);border-radius:10px;padding:6px}

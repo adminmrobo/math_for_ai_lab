@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>인공지능을 위한 수학 — 실전 연습장</title>
+<meta name="description" content="불량 검사 공장·콜센터·광고 예산 분석 세 현장에서 배운 수학으로 직접 결정해 보는 시뮬레이터.">
+<meta property="og:type" content="article"><meta property="og:title" content="인공지능을 위한 수학 — 실전 연습장"><meta property="og:description" content="불량 검사 공장·콜센터·광고 예산 분석 세 현장에서 배운 수학으로 직접 결정해 보는 시뮬레이터.">
+<meta property="og:image" content="https://adminmrobo.github.io/math_for_ai_lab/assets/og/og_part3.jpg"><meta property="og:url" content="https://adminmrobo.github.io/math_for_ai_lab/practice/index.html"><meta name="twitter:card" content="summary_large_image">
+<meta name="author" content="안상선">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/lab.css">
+</head>
+<body>
+<div id="prog"></div>
+<nav class="top"><div class="row"><a class="logo" href="../index.html">인공지능을 위한 <i>수학</i></a><div class="links"><a href="../index.html">1부</a><a href="../part2.html">2부</a><a href="../part3.html">3부</a><a href="#factory">공장</a><a href="#callcenter">콜센터</a><a href="#ads">광고</a></div></div></nav>
+<header class="hero"><div class="wrap"><span class="kicker">마지막 장 · 실전 연습장</span><h1>실전 연습장 — 생선 가게 밖으로</h1>
+<p class="lead">1~15장의 수학이 다른 현장에서도 통하는지 직접 운영해 봅니다. 초록은 <b>현장 조건</b>, 파랑은 <b>내 결정</b>입니다.</p>
+<p class="byline">글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-22 · v1.0</p>
+<div class="ptabs"><button type="button" data-tab="factory">🏭 불량 검사 공장</button><button type="button" data-tab="callcenter">☎️ 콜센터</button><button type="button" data-tab="ads">📺 광고 예산 분석</button></div></div></header>
+<section class="scene" id="factory"><div class="wrap"><h2>불량 검사 공장 — 임계값은 어디에?</h2>
+<div class="situ">부품 공장의 검사기가 부품마다 점수를 냅니다. 점수가 임계값 이상이면 경보를 울리고 사람이 다시 봅니다. 하루 10,000개를 검사합니다. 불량을 놓치면 1개에 5만 원(반품·배상), 정상품에 경보가 울리면 1개에 5천 원(재검사 인건비)이 듭니다.</div>
+<div class="panel dash" data-dash="pr_factory"><div class="ph"><b>장면 · 🏭 불량 검사 공장</b><small>설명용 모형 · 예시값</small></div>
+<ol class="missions"><li data-m="0"><span class="lv">미션 1</span>하루 손실이 가장 적은 임계값을 찾아보세요(최소의 2% 안).</li><li data-m="1"><span class="lv">미션 2 · 함정 관찰</span>정확도가 가장 높은 임계값으로 옮겨, 손실은 오히려 큰 것을 확인해 보세요.</li><li data-m="2"><span class="lv">미션 3 · 조건 바꾸기</span>불량률을 1%p 이상 바꾼 뒤, 다시 손실이 가장 적은 임계값을 찾아보세요.</li></ol>
+<div class="ctrl ctrlset"><div class="env"><b>현장 조건</b><label>불량률 % <input type="range" name="prev" min="0.5" max="10" step="0.5" value="2"></label></div><div class="dec"><b>내 결정</b><label>임계값 <input type="range" name="thr" min="-1" max="5" step="0.05" value="1"></label></div></div>
+<div class="score"></div>
+<div class="graphs"><div><p class="hint" style="margin:2px 6px">검사 점수 분포 — 정상품과 불량품</p><div class="stampwrap"><div class="g1"></div><span class="stamp">설명용 모형</span></div></div><div><p class="hint" style="margin:2px 6px">임계값별 하루 손실</p><div class="stampwrap"><div class="g2"></div><span class="stamp">예시값</span></div></div></div>
+<div id="pp-factory" data-panel="factory"></div>
+<div class="talk ptalk"></div>
+<div class="readout" aria-live="polite" hidden></div>
+<div class="judge" data-m0="주판봇: 채점 대기 중!" data-m1="주판봇: 손실 최소 자리 발견! 별 하나." data-m2="주판봇: 정확도 최고가 정답이 아니었어요… 별 둘." data-m3="주판봇: 조건이 바뀌어도 다시 찾았어요! 별 셋!"><img src="../assets/chars/jupanbot_e09.webp" alt="주판봇" data-who="jupanbot" width="40" height="40"><span class="st">☆☆☆</span><span class="msg">주판봇: 채점 대기 중!</span></div>
+</div>
+<p class="muted">배운 곳 다시 보기: <a href="../part2.html#c10">10장 베이즈</a> · <a href="../part2.html#c12">12장 정보이론</a> · <a href="../part2.html#c11">11장 확률분포</a></p></div></section>
+<section class="scene" id="callcenter"><div class="wrap"><h2>콜센터 — 상담원을 몇 명 둘까?</h2>
+<div class="situ">한 시간에 걸려 오는 전화 수는 평균 λ통의 포아송 분포를 따른다고 봅니다. 상담원 한 명은 한 시간에 3통을 처리합니다. 상담원 1명은 시간당 2만 원, 받지 못한 전화 1통은 1.5만 원(떠난 손님)의 손실입니다.</div>
+<div class="panel dash" data-dash="pr_callcenter"><div class="ph"><b>장면 · ☎️ 콜센터</b><small>설명용 모형 · 예시값</small></div>
+<ol class="missions"><li data-m="0"><span class="lv">미션 1</span>시간당 비용이 가장 적은 상담원 수를 찾아보세요.</li><li data-m="1"><span class="lv">미션 2 · 함정 관찰</span>평균 ÷ 3만큼만 상담원을 두고, 전화를 다 받을 확률이 85%도 안 되는 것을 확인해 보세요.</li><li data-m="2"><span class="lv">미션 3 · 조건 바꾸기</span>평균 전화 λ를 3 이상 바꾼 뒤, 다시 비용이 가장 적은 상담원 수를 찾아보세요.</li></ol>
+<div class="ctrl ctrlset"><div class="env"><b>현장 조건</b><label>평균 전화 λ <input type="range" name="lam" min="2" max="30" step="1" value="12"></label></div><div class="dec"><b>내 결정</b><label>상담원 수 <input type="range" name="agents" min="1" max="15" step="1" value="2"></label></div></div>
+<div class="score"></div>
+<div class="graphs"><div><p class="hint" style="margin:2px 6px">한 시간 전화 수 분포와 처리 한도</p><div class="stampwrap"><div class="g1"></div><span class="stamp">설명용 모형</span></div></div><div><p class="hint" style="margin:2px 6px">상담원 수별 시간당 비용</p><div class="stampwrap"><div class="g2"></div><span class="stamp">예시값</span></div></div></div>
+<div id="pp-callcenter" data-panel="callcenter"></div>
+<div class="talk ptalk"></div>
+<div class="readout" aria-live="polite" hidden></div>
+<div class="judge" data-m0="주판봇: 채점 대기 중!" data-m1="주판봇: 최소 비용 인원 발견! 별 하나." data-m2="주판봇: 평균만 보면 넘치는군요… 별 둘." data-m3="주판봇: 수요가 바뀌어도 OK! 별 셋!"><img src="../assets/chars/jupanbot_e09.webp" alt="주판봇" data-who="jupanbot" width="40" height="40"><span class="st">☆☆☆</span><span class="msg">주판봇: 채점 대기 중!</span></div>
+</div>
+<p class="muted">배운 곳 다시 보기: <a href="../part2.html#c11">11장 확률분포(포아송)</a> · <a href="../part2.html#c09">9장 확률</a> · <a href="../part2.html#c06">6장 통계</a></p></div></section>
+<section class="scene" id="ads"><div class="wrap"><h2>광고 예산 분석 — 겹치는 채널과 릿지</h2>
+<div class="situ">회사가 40주 동안 TV 광고비와 온라인 광고비, 매출을 기록했습니다(예시값, 앞 25주는 학습용, 뒤 15주는 검증용). 진짜 효과는 TV 3, 온라인 2로 정해 두었습니다. 두 채널 광고비가 얼마나 같이 움직이는지(겹침)에 따라 회귀가 어떻게 흔들리는지 봅니다.</div>
+<div class="panel dash" data-dash="pr_ads"><div class="ph"><b>장면 · 📺 광고 예산 분석</b><small>설명용 모형 · 예시값</small></div>
+<ol class="missions"><li data-m="0"><span class="lv">미션 1</span>검증 오차가 가장 작은 λ(0보다 큰)를 찾아보세요(최소의 1% 안).</li><li data-m="1"><span class="lv">미션 2 · 함정 관찰</span>겹침 0.95 이상, λ = 0에서 계수가 진짜 값에서 1 넘게 벗어나는 것을 확인해 보세요.</li><li data-m="2"><span class="lv">미션 3 · 조건 바꾸기</span>겹침을 0.5 이하로 낮춘 뒤, 다시 검증 오차가 가장 작은 λ를 찾아보세요.</li></ol>
+<div class="ctrl ctrlset"><div class="env"><b>현장 조건</b><label>두 채널의 겹침(상관) <input type="range" name="rho" min="0" max="0.99" step="0.01" value="0.97"></label></div><div class="dec"><b>내 결정</b><label>λ (릿지) <input type="range" name="lam" min="0" max="40" step="0.5" value="0"></label></div></div>
+<div class="score"></div>
+<div class="graphs"><div><p class="hint" style="margin:2px 6px">λ에 따른 계수 (점선 = 진짜 값)</p><div class="stampwrap"><div class="g1"></div><span class="stamp">설명용 모형</span></div></div><div><p class="hint" style="margin:2px 6px">λ에 따른 검증 오차</p><div class="stampwrap"><div class="g2"></div><span class="stamp">예시값</span></div></div></div>
+<div id="pp-ads" data-panel="ads"></div>
+<div class="talk ptalk"></div>
+<div class="readout" aria-live="polite" hidden></div>
+<div class="judge" data-m0="주판봇: 채점 대기 중!" data-m1="주판봇: 검증 오차 최소! 별 하나." data-m2="주판봇: 학습 오차만 보면 안 되는군요… 별 둘." data-m3="주판봇: 겹침이 줄면 λ도 달라지네요! 별 셋!"><img src="../assets/chars/jupanbot_e09.webp" alt="주판봇" data-who="jupanbot" width="40" height="40"><span class="st">☆☆☆</span><span class="msg">주판봇: 채점 대기 중!</span></div>
+</div>
+<p class="muted">배운 곳 다시 보기: <a href="../index.html#c05">5장 연립방정식·릿지</a> · <a href="../part2.html#c07">7장 상관</a> · <a href="../part3.html#c15">15장 규제</a></p></div></section>
+<section><div class="wrap"><div class="solve"><h4>세 현장이 함께 묻는 질문</h4>
+<p>세 곳 모두 "가장 그럴듯한 숫자 하나"가 아니라 <b>흩어짐과 실수의 값</b>까지 넣어 결정했습니다. 공장은 정확도 대신 비용으로 임계값을 정했고(10장), 콜센터는 평균 대신 분포의 꼬리로 인원을 정했고(11장), 광고 분석은 학습 오차 대신 검증 오차로 λ를 정했습니다(5·7·15장). 생선 가게(<a href="../part3.html#c16">16장</a>)에서 본 "검증 데이터로 채점한다"는 원칙이 세 현장에 모두 들어 있습니다.</p>
+<p class="hint">모형의 한계: 세 현장 모두 설명을 위해 단순하게 만든 모형이고 숫자는 예시값입니다. 실제 비용·분포·효과는 현장 데이터로 다시 정해야 합니다. 경영·투자 권고가 아닙니다.</p></div>
+<div class="next"><a href="../part3.html#c16">← 16장 생선 가게</a><a href="../index.html">1부 처음으로</a></div></div></section>
+<footer><div class="wrap"><p>숫자는 모두 설명용 예시값입니다. 캐릭터 이름·설정·그림은 저작권자 안상선의 허락 없이 사용할 수 없습니다. 캐릭터 그림: fruitfly-lab-expressions.</p>
+<p>글 · 안상선 ((주)M-Robo 대표) · <a href="https://adminmrobo.github.io/who_am_i/who_am_i.html">저자 소개</a> · 2026-11-22 · v1.0 · <a href="https://github.com/adminmrobo/math_for_ai_lab">저장소</a></p></div></footer>
+<script>
+(function(){
+/* 인공지능을 위한 수학 — 공통 도구(그림·끌기·미션·별). 유클리드 공간 해설의 도구를 이어 씀 */
+'use strict';
+var NS='http://www.w3.org/2000/svg';
+var C={teal:'#0f8f84',orange:'#e8731a',navy:'#1e2f6e',blue:'#2458d6',green:'#13733a',red:'#c9302c',grid:'#e3e8ee',axis:'#1e2f6e',muted:'#5b6874'};
+function el(tag,a,parent){var e=document.createElementNS(NS,tag);for(var k in a){if(a[k]!=null)e.setAttribute(k,a[k]);}if(parent)parent.appendChild(e);return e;}
+function txt(parent,x,y,s,a){a=a||{};var t=el('text',Object.assign({x:x,y:y,'font-size':a.size||14,fill:a.fill||C.navy,'font-family':a.font||'"Cambria Math","Times New Roman",serif','font-style':a.italic===false?'normal':'italic','text-anchor':a.anchor||'start','font-weight':a.weight||'normal'},{}),parent);t.textContent=s;return t;}
+function ktxt(parent,x,y,s,a){a=a||{};a.font='"IBM Plex Sans KR","Malgun Gothic","Noto Sans KR",sans-serif';a.italic=false;return txt(parent,x,y,s,a);}
+function r2(v){return Math.round(v*100)/100;}
+function r1(v){return Math.round(v*10)/10;}
+function fmt(v,d){d=d==null?2:d;var s=(Math.round(v*Math.pow(10,d))/Math.pow(10,d)).toFixed(d);if(s.indexOf('.')>=0)s=s.replace(/\.?0+$/,'');if(s==='-0')s='0';return s;}
+function num(v){return v<0?'−'+fmt(-v):fmt(v);}
+function svgOf(host,W,H){host.innerHTML='';var s=el('svg',{viewBox:'0 0 '+W+' '+H,role:'img','aria-label':'실험 패널 그림: '+(function(){var n=host.closest&&host.closest('.panel')&&host.closest('.panel').querySelector('.ph small');return n?n.textContent:'';})()},host);var d=el('defs',{},s);
+  ['teal','orange','navy','blue','green','red'].forEach(function(c){var m=el('marker',{id:'ah-'+c+'-'+host.id,viewBox:'0 0 10 10',refX:8.5,refY:5,markerWidth:7,markerHeight:7,orient:'auto-start-reverse'},d);el('path',{d:'M0,0 L10,5 L0,10 z',fill:C[c]},m);});
+  s._id=host.id;return s;}
+function arrow(s,x1,y1,x2,y2,c,w){return el('line',{x1:x1,y1:y1,x2:x2,y2:y2,stroke:C[c],'stroke-width':w||3,'marker-end':'url(#ah-'+c+'-'+s._id+')'},s);}
+function dash(s,x1,y1,x2,y2,c){return el('line',{x1:x1,y1:y1,x2:x2,y2:y2,stroke:C[c]||c,'stroke-width':1.6,'stroke-dasharray':'5 4'},s);}
+/* 좌표평면 */
+function plane(s,o){var W=o.W,H=o.H,p=o.pad||36;var sx=(W-2*p)/(o.x1-o.x0),sy=(H-2*p)/(o.y1-o.y0);
+  if(o.equal){var k=Math.min(sx,sy);sx=sy=k;}
+  var ox=p-o.x0*sx,oy=H-p+o.y0*sy;s._sx=sx;
+  var P={X:function(x){return ox+x*sx;},Y:function(y){return oy-y*sy;},inv:function(px,py){return[(px-ox)/sx,(oy-py)/sy];},sx:sx,sy:sy};
+  var g=el('g',{},s);var st=o.step||1;
+  if(o.grid!==false){for(var x=Math.ceil(o.x0/st)*st;x<=o.x1+1e-9;x+=st)el('line',{x1:P.X(x),y1:P.Y(o.y0),x2:P.X(x),y2:P.Y(o.y1),stroke:C.grid},g);
+  for(var y=Math.ceil(o.y0/st)*st;y<=o.y1+1e-9;y+=st)el('line',{x1:P.X(o.x0),y1:P.Y(y),x2:P.X(o.x1),y2:P.Y(y),stroke:C.grid},g);}
+  var ax0=Math.max(o.x0,Math.min(0,o.x1)),ay0=Math.max(o.y0,Math.min(0,o.y1));
+  if(o.ax!==undefined)ax0=o.ax;if(o.ay!==undefined)ay0=o.ay;
+  el('line',{x1:P.X(o.x0),y1:P.Y(ay0),x2:P.X(o.x1)+14,y2:P.Y(ay0),stroke:C.axis,'stroke-width':2,'marker-end':'url(#ah-navy-'+s._id+')'},g);
+  el('line',{x1:P.X(ax0),y1:P.Y(o.y0),x2:P.X(ax0),y2:P.Y(o.y1)-14,stroke:C.axis,'stroke-width':2,'marker-end':'url(#ah-navy-'+s._id+')'},g);
+  if(/[^\x00-\x7f]/.test((o.xl||'')+(o.yl||''))){ktxt(g,P.X(o.x1)+14,P.Y(ay0)-12,o.xl,{size:13,anchor:'end'});ktxt(g,P.X(ax0)+12,P.Y(o.y1)-2,o.yl,{size:13});}else{txt(g,P.X(o.x1)+10,P.Y(ay0)+20,o.xl||'x',{size:16});txt(g,P.X(ax0)-22,P.Y(o.y1)-8,o.yl||'y',{size:16});}
+  var ls=o.label||st;
+  if(o.ticks!==false){for(var a=Math.ceil(o.x0/ls)*ls;a<=o.x1+1e-9;a+=ls){if(Math.abs(a-ax0)<1e-9&&!o.zeroX)continue;txt(g,P.X(a),P.Y(ay0)+18,fmt(a),{size:12.5,anchor:'middle',italic:false,fill:C.muted});}
+  for(var b=Math.ceil(o.y0/ls)*ls;b<=o.y1+1e-9;b+=ls){if(Math.abs(b-ay0)<1e-9)continue;txt(g,P.X(ax0)-8,P.Y(b)+4,fmt(b),{size:12.5,anchor:'end',italic:false,fill:C.muted});}
+  if(o.x0<=0&&o.y0<=0)txt(g,P.X(0)-14,P.Y(0)+18,'0',{size:12.5,italic:false,fill:C.muted});}
+  return P;}
+/* 끌기 */
+function drag(s,node,onMove){var on=false;var host=s.parentNode;var idx=s.querySelectorAll('g.drag').length;
+  node.setAttribute('tabindex','0');node.setAttribute('role','slider');node.setAttribute('aria-label','끌어서 옮기는 점 (화살표 키로도 움직입니다)');
+  node.addEventListener('keydown',function(e){var k={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}[e.key];if(!k)return;e.preventDefault();
+    var c=node.querySelector('circle');var st=(s._sx||24)*(+(host.dataset.ksnap||1));host.dataset.kf=idx;onMove(+c.getAttribute('cx')+k[0]*st,+c.getAttribute('cy')+k[1]*st);});
+  function pt(e){var m=s.getScreenCTM().inverse();var q=s.createSVGPoint();q.x=e.clientX;q.y=e.clientY;q=q.matrixTransform(m);return q;}
+  node.classList.add('drag');
+  node.addEventListener('pointerdown',function(e){on=true;node.setPointerCapture(e.pointerId);e.preventDefault();});
+  node.addEventListener('pointermove',function(e){if(!on)return;var q=pt(e);onMove(q.x,q.y);});
+  node.addEventListener('pointerup',function(){on=false;});node.addEventListener('pointercancel',function(){on=false;});
+  if(host.dataset.kf!=null&&+host.dataset.kf===idx)node.focus({preventScroll:true});}
+function handle(s,x,y,c,label){var g=el('g',{},s);el('circle',{cx:x,cy:y,r:16,fill:C[c],'fill-opacity':.14},g);el('circle',{cx:x,cy:y,r:8,fill:C[c],stroke:'#fff','stroke-width':2},g);return g;}
+function dot(s,x,y,c,r){return el('circle',{cx:x,cy:y,r:r||6,fill:C[c]||c,stroke:'#fff','stroke-width':1.5},s);}
+function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function snap(v,st){return Math.round(v/st)*st;}
+function panelOf(host){return host.closest('.panel')||host.parentNode;}
+function readout(host){return panelOf(host).querySelector('.readout');}
+function rightMark(s,x,y,ux,uy,vx,vy,k){k=k||10;el('path',{d:'M'+(x+ux*k)+','+(y+uy*k)+' L'+(x+ux*k+vx*k)+','+(y+uy*k+vy*k)+' L'+(x+vx*k)+','+(y+vy*k),fill:'none',stroke:C.orange,'stroke-width':1.5},s);}
+var P={};
+var DUELCALC={};
+var DATA={"perch": [[15.2, 4.2, 33.0], [16.3, 4.3, 48.0], [19.6, 4.4, 77.0], [21.2, 5.5, 87.0], [21.5, 5.8, 98.0], [22.4, 6.1, 114.0], [23.1, 5.7, 119.0], [23.7, 6.2, 136.0], [23.8, 6.1, 132.0], [27.9, 7.2, 221.0], [28.6, 8.1, 249.0], [29.6, 7.7, 244.0], [31.1, 8.4, 298.0], [32.8, 9.2, 336.0], [33.0, 8.7, 355.0], [33.1, 8.9, 330.0], [37.5, 10.2, 499.0], [38.0, 10.3, 531.0], [38.1, 9.9, 571.0], [38.8, 10.5, 612.0], [40.3, 11.4, 590.0], [41.0, 10.5, 643.0], [43.7, 12.1, 850.0], [43.9, 11.9, 730.0]], "bream": [[35.9, 367.0], [28.0, 223.0], [38.7, 412.0], [40.2, 415.0], [39.6, 471.0], [34.5, 382.0], [28.2, 270.0], [28.9, 307.0], [39.9, 415.0], [34.3, 395.0], [28.7, 277.0], [39.3, 444.0]], "smelt": [[11.5, 10.1], [9.7, 8.4], [10.2, 8.0], [14.8, 13.5], [13.1, 12.8], [11.9, 11.1], [12.4, 9.3], [14.3, 13.0], [11.4, 9.7], [12.7, 9.7]], "cust": [2, 0, 2, 3, 3, 6, 4, 3, 1, 3, 2, 0, 2, 3, 4, 0, 3, 1, 0, 2, 2, 2, 2, 0, 4, 4, 3, 1, 5, 4, 4, 3, 2, 3, 1, 1, 2, 3, 3, 1, 3, 3, 0, 6, 2, 3, 3, 5, 2, 1, 5, 3, 3, 5, 6, 2, 4, 4, 3, 1], "gaps": [34.0, 1.3, 27.7, 31.6, 4.7, 29.6, 15.5, 24.9, 45.5, 3.4, 2.5, 45.2, 5.5, 13.8, 56.3, 22.0, 100.6, 1.2, 1.9, 8.5, 21.4, 1.7, 0.6, 7.2, 8.9, 40.1, 7.4, 0.2, 2.8, 6.7, 19.8, 22.3, 33.3, 15.7, 67.8, 6.1, 3.2, 14.2, 7.6, 33.3, 1.9, 16.5, 54.8, 12.8, 9.6, 4.7, 64.4, 16.7, 51.2, 44.9, 41.5, 2.3, 3.6, 27.1, 7.0, 5.6, 24.0, 13.6, 7.7, 8.0], "bday": [7, 14, 8, 5, 7, 27, 20, 14, 16, 10, 16, 5, 2, 17, 16, 12, 13, 4, 24, 1, 14, 11, 22, 17]};
+function mean(a){var s=0;for(var i=0;i<a.length;i++)s+=a[i];return s/a.length;}
+function sd(a){var m=mean(a),s=0;for(var i=0;i<a.length;i++)s+=(a[i]-m)*(a[i]-m);return Math.sqrt(s/a.length);}
+function median(a){var b=a.slice().sort(function(x,y){return x-y;}),n=b.length;return n%2?b[(n-1)/2]:(b[n/2-1]+b[n/2])/2;}
+function quart(a,q){var b=a.slice().sort(function(x,y){return x-y;}),n=b.length,pos=(n-1)*q,lo=Math.floor(pos),hi=Math.ceil(pos);return b[lo]+(b[hi]-b[lo])*(pos-lo);}
+function corr(x,y){var mx=mean(x),my=mean(y),a=0,b=0,c=0;for(var i=0;i<x.length;i++){a+=(x[i]-mx)*(y[i]-my);b+=(x[i]-mx)*(x[i]-mx);c+=(y[i]-my)*(y[i]-my);}return a/Math.sqrt(b*c);}
+function cov(x,y){var mx=mean(x),my=mean(y),a=0;for(var i=0;i<x.length;i++)a+=(x[i]-mx)*(y[i]-my);return a/x.length;}
+function rng(seed){var s=seed>>>0;return function(){s=(s*1664525+1013904223)>>>0;return s/4294967296;};}
+function ctrlOf(host){return panelOf(host).querySelector('.ctrl');}
+function q$(host,sel){return panelOf(host).querySelector(sel);}
+function live(host,html){var r=readout(host);if(r)r.innerHTML=html;}
+/* ===== 미션과 별 ===== */
+var SKEY='mfa_lab_stars_v1';
+function loadStars(){try{return JSON.parse(localStorage.getItem(SKEY)||'{}');}catch(e){return {};}}
+function saveStars(o){try{localStorage.setItem(SKEY,JSON.stringify(o));}catch(e){}}
+function mission(host,i){var pn=host.closest('.panel');if(!pn)return;var li=pn.querySelector('.missions li[data-m="'+i+'"]');if(!li||li.classList.contains('done'))return;
+  li.classList.add('done');var key=pn.getAttribute('data-dash');var all=loadStars();var a=all[key]||[0,0,0];a[i]=1;all[key]=a;saveStars(all);judge(pn);}
+function judge(pn){var n=pn.querySelectorAll('.missions li.done').length;var j=pn.querySelector('.judge');if(!j)return;
+  j.querySelector('.st').textContent='★★★'.slice(0,n)+'☆☆☆'.slice(0,3-n);
+  var msg=j.getAttribute('data-m'+n);if(msg)j.querySelector('.msg').textContent=msg;
+  if(n>=2){var ms=pn.querySelector('.missions');if(ms)ms.classList.add('showhard');}
+  if(n>=1){var sec=pn.closest('section');var nx=sec&&sec.querySelector('.next a.go');if(nx)nx.classList.add('lit');}}
+function restoreStars(){var all=loadStars();document.querySelectorAll('.panel[data-dash]').forEach(function(pn){var a=all[pn.getAttribute('data-dash')];if(!a)return;
+  a.forEach(function(v,i){if(v){var li=pn.querySelector('.missions li[data-m="'+i+'"]');if(li){li.classList.add('done');li.title='이전에 완료한 미션';}}});judge(pn);});}
+
+/* ===== 실전 연습장 — 사업장 3곳 ===== */
+function ncdf(x){var t=1/(1+0.2316419*Math.abs(x)),d=0.3989423*Math.exp(-x*x/2),p=d*t*(0.3193815+t*(-0.3565638+t*(1.781478+t*(-1.821256+t*1.330274))));return x>0?1-p:p;}
+function lfact(k){var s=0;for(var i=2;i<=k;i++)s+=Math.log(i);return s;}
+function nPdf(x){return Math.exp(-x*x/2)/Math.sqrt(2*Math.PI);}
+function gauss(R){var u=Math.max(R(),1e-12),v=R();return Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*v);}
+function lineChart(host,o){var W=560,H=260,pad=44;var s=svgOf(host,W,H);var x0=o.x0,x1=o.x1,y0=o.y0,y1=o.y1;
+  function X(v){return pad+(v-x0)/(x1-x0)*(W-pad-14);}function Y(v){return H-30-(v-y0)/(y1-y0||1)*(H-50);}
+  el('line',{x1:pad,y1:H-30,x2:W-10,y2:H-30,stroke:C.navy,'stroke-width':1.5},s);el('line',{x1:pad,y1:H-30,x2:pad,y2:14,stroke:C.navy,'stroke-width':1.5},s);
+  ktxt(s,W-10,H-8,o.xl,{size:12,anchor:'end',fill:C.muted});ktxt(s,pad+4,14,o.yl,{size:12,fill:C.muted});
+  (o.ticks||[]).forEach(function(t){txt(s,X(t),H-16,fmt(t,2),{size:11,anchor:'middle',italic:false,fill:C.muted});});
+  (o.series||[]).forEach(function(se){var d='';se.xs.forEach(function(x,i){var y=clamp(se.ys[i],y0,y1);d+=(i?'L':'M')+X(x)+','+Y(y);});el('path',{d:d,fill:'none',stroke:se.c,'stroke-width':2.5,'stroke-dasharray':se.dash||''},s);if(se.label)ktxt(s,X(se.xs[se.xs.length-1])-4,Y(clamp(se.ys[se.ys.length-1],y0,y1))-6,se.label,{size:12,anchor:'end',fill:se.c});});
+  (o.bars||[]).forEach(function(b){var bw=(W-pad-14)/(x1-x0)*0.8;el('rect',{x:X(b[0])-bw/2,y:Y(b[1]),width:bw,height:Y(y0)-Y(b[1]),fill:b[2]||'#cfe9e5',stroke:C.teal},s);});
+  (o.vlines||[]).forEach(function(v){el('line',{x1:X(v[0]),y1:14,x2:X(v[0]),y2:H-30,stroke:v[1],'stroke-width':2,'stroke-dasharray':v[2]||''},s);ktxt(s,X(v[0])+4,26+(v[4]||0),v[3],{size:12,fill:v[1]});});
+  (o.dots||[]).forEach(function(d){dot(s,X(d[0]),Y(clamp(d[1],y0,y1)),d[2],6);});return s;}
+function board(host,items){var b=panelOf(host).querySelector('.score');b.innerHTML=items.map(function(it){return '<div class="sc '+(it[2]?'good':'bad')+'"><span>'+it[0]+'</span><b>'+it[1]+'</b></div>';}).join('');}
+function says(host,lines){var t=panelOf(host).querySelector('.ptalk');t.innerHTML=lines.map(function(l){return '<div class="line"><img src="../assets/chars/'+l[0]+'_'+l[1]+'.webp" alt="" aria-hidden="true" data-who="'+l[0]+'" width="44" height="44"><div class="bub"><b style="color:var(--c-'+({doctor:'doc',haru:'asst',fruitfly:'fly',jupanbot:'robo'})[l[0]]+')">'+({doctor:'박사',haru:'조수 하루',fruitfly:'초파리 연구원',jupanbot:'주판봇'})[l[0]]+'</b>'+l[2]+'</div></div>';}).join('');}
+function won(v){return fmt(Math.round(v/1000)*1000/10000,1)+'만 원';}
+
+/* --- 장면 1: 불량 검사 공장 --- */
+P.factory=function(host){var ct=ctrlOf(host);var ip=ct.querySelector('[name=prev]'),it=ct.querySelector('[name=thr]');var touched=false,p0=+ip.value,trapSeen=false;
+  var N=10000,MISS=50000,FALSE=5000,SH=2.2;
+  function stat(t,p){var rec=1-ncdf(t-SH),fpr=1-ncdf(t);var tp=p*rec,fp=(1-p)*fpr;return {rec:rec,fpr:fpr,prec:tp+fp>0?tp/(tp+fp):0,acc:p*rec+(1-p)*(1-fpr),cost:N*(p*(1-rec)*MISS+(1-p)*fpr*FALSE),flag:N*(tp+fp)};}
+  [ip,it].forEach(function(i){i.addEventListener('input',function(){touched=true;draw();});});
+  function draw(){var p=+ip.value/100,t=+it.value;var S=stat(t,p);var ts=[],cs=[],best={c:Infinity},bestAcc=0;for(var x=-1;x<=5.0001;x+=0.05){var q=stat(x,p);ts.push(x);cs.push(q.cost/10000);if(q.cost<best.c)best={c:q.cost,t:x};if(q.acc>bestAcc)bestAcc=q.acc;}
+    var g1=panelOf(host).querySelector('.g1'),g2=panelOf(host).querySelector('.g2');var xs=[],ya=[],yb=[];for(x=-3;x<=6;x+=0.1){xs.push(x);ya.push(nPdf(x));yb.push(nPdf(x-SH));}
+    lineChart(g1,{x0:-3,x1:6,y0:0,y1:0.45,xl:'검사 점수',yl:'분포 모양',ticks:[-2,0,2,4],series:[{xs:xs,ys:ya,c:C.teal,label:'정상품'},{xs:xs,ys:yb,c:C.red,label:'불량품'}],vlines:[[t,C.navy,'','임계값']]});
+    lineChart(g2,{x0:-1,x1:5,y0:0,y1:Math.max.apply(0,cs.slice(10)),xl:'임계값',yl:'하루 손실(만 원)',ticks:[0,1,2,3,4],series:[{xs:ts,ys:cs,c:C.orange}],vlines:[[best.t,C.green,'4 4','최소',0],[t,C.navy,'','내 선택',14]]});
+    board(host,[['정밀도(경보 중 진짜 불량)',fmt(100*S.prec,1)+'%',S.prec>=0.5],['재현율(불량 중 잡은 것)',fmt(100*S.rec,1)+'%',S.rec>=0.8],['정확도',fmt(100*S.acc,2)+'%',true],['하루 손실',won(S.cost),S.cost<=best.c*1.02]]);
+    var near=S.cost<=best.c*1.02;
+    says(host,[['haru','e07','하루 '+N.toLocaleString()+'개 검사 중 경보 '+Math.round(S.flag)+'개, 놓친 불량 약 '+Math.round(N*p*(1-S.rec))+'개입니다. 손실은 '+won(S.cost)+', 가장 적을 때는 '+won(best.c)+'입니다.'],
+      ['fruitfly','e09',S.acc>=bestAcc-0.0005&&!near?'정확도가 최고인데 손실이 왜 이렇게 커? 놓친 불량 한 개가 5만 원이잖아.':'불량률을 바꿔 봐. 같은 임계값이 계속 좋을까?'],
+      ['jupanbot','e16','정확도가 제일 높은 임계값이 무조건 정답이죠!'],
+      ['doctor',near?'e10':'e08',near?'좋아요. 이 공장 조건에서는 손실이 가장 적은 자리입니다.':'임계값은 정확도가 아니라 "어느 실수가 더 비싼가"로 정합니다.']]);
+    if(!touched)return;if(S.acc>=bestAcc-0.0005&&S.cost>best.c*1.1)trapSeen=true;if(near)mission(host,0);if(trapSeen)mission(host,1);if(Math.abs(+ip.value-p0)>=1&&near)mission(host,2);}
+  draw();};
+
+/* --- 장면 2: 콜센터 --- */
+P.callcenter=function(host){var ct=ctrlOf(host);var il=ct.querySelector('[name=lam]'),ic=ct.querySelector('[name=agents]');var touched=false,l0=+il.value,trapSeen=false;var PER=3,WAGE=20000,LOST=15000;
+  function pmf(k,l){return Math.exp(-l+k*Math.log(l)-lfact(k));}
+  function stat(c,l){var cap=PER*c,miss=0,serv=0;for(var k=0;k<=80;k++){var q=pmf(k,l);if(k<=cap)serv+=q;else miss+=(k-cap)*q;}return {miss:miss,serv:serv,cost:WAGE*c+LOST*miss};}
+  [il,ic].forEach(function(i){i.addEventListener('input',function(){touched=true;draw();});});
+  function draw(){var l=+il.value,c=+ic.value;var S=stat(c,l);var cs=[],xs=[],best={c:Infinity};for(var a=1;a<=15;a++){var q=stat(a,l);xs.push(a);cs.push(q.cost/10000);if(q.cost<best.c)best={c:q.cost,a:a};}
+    var bars=[];for(var k=0;k<=40;k++)bars.push([k,pmf(k,l),k<=PER*c?'#cfe9e5':'#f6c9c6']);
+    lineChart(panelOf(host).querySelector('.g1'),{x0:-1,x1:41,y0:0,y1:Math.max.apply(0,bars.map(function(b){return b[1];}))*1.15,xl:'한 시간 전화 수',yl:'확률',ticks:[0,10,20,30,40],bars:bars,vlines:[[PER*c+0.5,C.navy,'','처리 한도']]});
+    lineChart(panelOf(host).querySelector('.g2'),{x0:1,x1:15,y0:0,y1:Math.max.apply(0,cs),xl:'상담원 수',yl:'시간당 비용(만 원)',ticks:[2,4,6,8,10,12,14],series:[{xs:xs,ys:cs,c:C.orange}],dots:[[c,S.cost/10000,'navy']],vlines:[[best.a,C.green,'4 4','최소']]});
+    var near=S.cost<=best.c*1.001;var naive=Math.ceil(l/PER);
+    board(host,[['놓친 전화(시간당)',fmt(S.miss,1)+'통',S.miss<1],['서비스 수준(다 받을 확률)',fmt(100*S.serv,1)+'%',S.serv>=0.8],['상담원',c+'명',true],['시간당 비용',won(S.cost),near]]);
+    says(host,[['haru','e07','평균 '+l+'통일 때 상담원 '+c+'명이면 놓친 전화가 시간당 '+fmt(S.miss,1)+'통, 비용 '+won(S.cost)+'입니다. 가장 쌀 때는 '+best.a+'명, '+won(best.c)+'입니다.'],
+      ['fruitfly','e09',c===naive&&S.serv<0.85?'평균만큼만 뽑았네. 전화는 평균보다 많이 오는 시간이 절반 가까이 되는걸?':'막대 그래프의 빨간 부분이 넘친 전화야. 꼬리를 봐.'],
+      ['jupanbot','e16','평균 '+l+'통 ÷ 3통 = '+naive+'명! 계산 끝이죠!'],
+      ['doctor',near?'e10':'e08',near?'좋아요. 평균이 아니라 분포의 꼬리까지 본 선택입니다.':'포아송 분포는 평균 둘레로 흩어집니다. 흩어짐까지 비용에 넣으세요.']]);
+    if(!touched)return;if(c===naive&&S.serv<0.85)trapSeen=true;if(near)mission(host,0);if(trapSeen)mission(host,1);if(Math.abs(l-l0)>=3&&near)mission(host,2);}
+  draw();};
+
+/* --- 장면 3: 광고 예산 분석 (겹치는 특성과 릿지) --- */
+P.ads=function(host){var ct=ctrlOf(host);var ir=ct.querySelector('[name=rho]'),ik=ct.querySelector('[name=lam]');var touched=false,r0=+ir.value,trapSeen=false;var NT=25,NV=15,B1=3,B2=2;
+  function data(rho){var R=rng(2026),X=[],y=[];for(var i=0;i<NT+NV;i++){var a=gauss(R),z=gauss(R),b=rho*a+Math.sqrt(1-rho*rho)*z;X.push([a,b]);y.push(B1*a+B2*b+2.5*gauss(R));}return {X:X,y:y};}
+  function fit(D,lam){var s11=0,s12=0,s22=0,s1y=0,s2y=0,my=0,m1=0,m2=0;for(var i=0;i<NT;i++){m1+=D.X[i][0];m2+=D.X[i][1];my+=D.y[i];}m1/=NT;m2/=NT;my/=NT;
+    for(i=0;i<NT;i++){var a=D.X[i][0]-m1,b=D.X[i][1]-m2,c=D.y[i]-my;s11+=a*a;s12+=a*b;s22+=b*b;s1y+=a*c;s2y+=b*c;}var A=s11+lam,Bm=s12,Cm=s22+lam,det=A*Cm-Bm*Bm;var w1=(Cm*s1y-Bm*s2y)/det,w2=(A*s2y-Bm*s1y)/det;
+    function rm(lo,hi){var e=0;for(var j=lo;j<hi;j++){var pr=my+w1*(D.X[j][0]-m1)+w2*(D.X[j][1]-m2);e+=(pr-D.y[j])*(pr-D.y[j]);}return Math.sqrt(e/(hi-lo));}return {w1:w1,w2:w2,tr:rm(0,NT),va:rm(NT,NT+NV)};}
+  [ir,ik].forEach(function(i){i.addEventListener('input',function(){touched=true;draw();});});
+  function draw(){var rho=+ir.value,lam=+ik.value;var D=data(rho);var S=fit(D,lam);var ls=[],w1s=[],w2s=[],vs=[],best={v:Infinity};for(var k=0;k<=40.0001;k+=0.5){var q=fit(D,k);ls.push(k);w1s.push(q.w1);w2s.push(q.w2);vs.push(q.va);if(q.va<best.v)best={v:q.va,k:k};}
+    var lo=Math.min(-1,Math.min.apply(0,w1s.concat(w2s))),hi=Math.max(5,Math.max.apply(0,w1s.concat(w2s)));
+    lineChart(panelOf(host).querySelector('.g1'),{x0:0,x1:40,y0:lo,y1:hi,xl:'λ (릿지)',yl:'계수',ticks:[0,10,20,30,40],series:[{xs:ls,ys:w1s,c:C.blue,label:'TV'},{xs:ls,ys:w2s,c:C.green,label:'온라인'},{xs:[0,40],ys:[B1,B1],c:C.blue,dash:'3 4'},{xs:[0,40],ys:[B2,B2],c:C.green,dash:'3 4'}],vlines:[[lam,C.navy,'','내 λ']]});
+    lineChart(panelOf(host).querySelector('.g2'),{x0:0,x1:40,y0:Math.min.apply(0,vs)*0.95,y1:Math.max.apply(0,vs)*1.03,xl:'λ (릿지)',yl:'검증 오차',ticks:[0,10,20,30,40],series:[{xs:ls,ys:vs,c:C.orange}],dots:[[lam,S.va,'navy']],vlines:[[best.k,C.green,'4 4','최소']]});
+    var near=S.va<=best.v*1.01,off=Math.max(Math.abs(S.w1-B1),Math.abs(S.w2-B2));
+    board(host,[['TV 계수 (진짜 3)',fmt(S.w1,2),Math.abs(S.w1-B1)<1],['온라인 계수 (진짜 2)',fmt(S.w2,2),Math.abs(S.w2-B2)<1],['학습 오차',fmt(S.tr,2),true],['검증 오차',fmt(S.va,2),near]]);
+    says(host,[['haru','e07','두 채널의 겹침(상관) '+rho+', λ = '+lam+'에서 검증 오차 '+fmt(S.va,2)+'입니다. 가장 작을 때는 λ = '+best.k+', '+fmt(best.v,2)+'입니다.'],
+      ['fruitfly','e09',off>1?'계수가 진짜 값(3과 2)에서 많이 벗어났어. 두 채널이 같이 움직이면 누가 매출을 올렸는지 가리기 어려워.':'겹침을 0.99까지 올리고 λ를 0으로 해 봐.'],
+      ['jupanbot','e16','학습 오차가 제일 작은 λ = 0이 최고 아닌가요?'],
+      ['doctor',near?'e10':'e08',near?'좋아요. λ는 학습 오차가 아니라 검증 오차로 고릅니다.':'학습 데이터에서만 잘 맞는 계수는 다음 분기에 틀립니다. 검증 오차를 보세요.']]);
+    if(!touched)return;if(lam===0&&rho>=0.95&&off>1)trapSeen=true;if(near&&lam>0)mission(host,0);if(trapSeen)mission(host,1);if(rho<=0.5&&Math.abs(rho-r0)>=0.3&&near)mission(host,2);}
+  draw();};
+
+/* --- 탭 --- */
+function tabs(){document.querySelectorAll('.ctrlset input[type=range]').forEach(function(i){var o=document.createElement('b');o.className='tn';o.style.cssText='display:inline;min-width:3em';o.textContent=i.value;i.after(o);i.addEventListener('input',function(){o.textContent=i.value;});});var bs=document.querySelectorAll('.ptabs button'),ps=document.querySelectorAll('.scene');function go(id){ps.forEach(function(p){p.hidden=p.id!==id;});bs.forEach(function(b){b.classList.toggle('on',b.getAttribute('data-tab')===id);});}
+  bs.forEach(function(b){b.addEventListener('click',function(){var id=b.getAttribute('data-tab');go(id);try{history.replaceState(null,'','#'+id);}catch(e){}});});
+  var h=(location.hash||'').slice(1);go(document.getElementById(h)&&document.getElementById(h).classList.contains('scene')?h:ps[0].id);}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',tabs);else tabs();
+
+/* ===== 퀴즈 ===== */
+function quiz(q){var ans=+q.getAttribute('data-ans');var fb=q.querySelector('.fb');var OK=q.querySelector('.qok'),NO=q.querySelector('.qno');q.querySelectorAll('.opts button').forEach(function(b,i){b.addEventListener('click',function(){q.querySelectorAll('.opts button').forEach(function(x){x.classList.remove('ok','no');});b.classList.add(i===ans?'ok':'no');fb.innerHTML=i===ans?'⭕ '+(OK?OK.innerHTML:q.getAttribute('data-ok')):'❌ '+(NO?NO.innerHTML:q.getAttribute('data-no'));});});}
+
+/* ===== 지식 색인·꾸러미 ===== */
+function kg(){var raw=document.getElementById('kg-raw');var mount=document.getElementById('kg-mount');if(!raw||!mount)return;var K=JSON.parse(raw.textContent);
+  mount.innerHTML='<input class="kg-search" type="search"><div class="kg-list"></div>';
+  var list=mount.querySelector('.kg-list'),inp=mount.querySelector('input');inp.placeholder='개념 찾기 (예: 행렬, 베이즈, 경사하강)';inp.setAttribute('aria-label','지식 색인 검색');
+  var TY={Concept:'개념',Method:'방법',Analogy:'비유',Application:'쓰임',OpenQuestion:'열린 질문'};
+  var LG=(document.documentElement.lang||'ko').slice(0,2);function L_(o){return o?(o[LG]||o.en||o.ko||''):'';}
+  K.nodes.forEach(function(n){if(n.desc&&!n.definition)n.definition={ko:n.desc};});
+  function render(){var q=inp.value.trim().toLowerCase();list.innerHTML=K.nodes.filter(function(n){return !q||(L_(n.label)+' '+n.label.en+' '+n.label.ko+' '+L_(n.definition)).toLowerCase().indexOf(q)>=0;}).map(function(n){
+    var nb=K.edges.filter(function(e){return e.s===n.id||e.o===n.id;}).map(function(e){var o=e.s===n.id?e.o:e.s;var m=K.nodes.filter(function(x){return x.id===o;})[0];return m?L_(m.label):'';}).filter(Boolean);
+    return '<div class="kg-item"><span class="t">'+(TY[n.type]||n.type)+'</span><b>'+L_(n.label)+'</b><span class="muted">'+(LG==='en'?'':n.label.en)+'</span><div>'+L_(n.definition)+'</div>'+(nb.length?'<div class="muted" style="font-size:12.5px">이웃: '+nb.join(', ')+'</div>':'')+'<a href="'+(n.page?n.page+'.html':'')+n.anchor+'">설명 보러 가기 →</a></div>';}).join('');}
+  inp.addEventListener('input',render);render();
+  var ex=document.getElementById('export-mount');if(!ex)return;
+  ex.innerHTML='<div class="exp-btns"><button class="btn" data-x="json">kg.json</button><button class="btn" data-x="ld">JSON-LD</button><button class="btn" data-x="ttl">Turtle (Protégé)</button><button class="btn" data-x="csv">CSV (Neo4j·Gephi)</button><button class="btn" data-x="bib">BibTeX</button><button class="btn" data-x="ris">RIS</button></div>';
+  function dl(name,text,type){var b=new Blob([text],{type:type||'text/plain'});var a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);}
+  var base=K.page;var refs=JSON.parse((document.getElementById('refs-csl')||{textContent:'[]'}).textContent);
+  ex.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){var x=b.getAttribute('data-x');
+    if(x==='json')dl(base+'.kg.json',JSON.stringify(K,null,2),'application/json');
+    if(x==='ld')dl(base+'.jsonld',document.getElementById('kg-ld').textContent,'application/ld+json');
+    if(x==='ttl'){var t='@prefix lab: <urn:lab:> .\n@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .\n@prefix skos: <http://www.w3.org/2004/02/skos/core#> .\n\n';
+      K.nodes.forEach(function(n){t+='<urn:'+n.id+'> a lab:'+n.type+' ;\n  skos:prefLabel "'+n.label.ko+'"@ko , "'+n.label.en+'"@en ;\n  rdfs:comment "'+L_(n.definition).replace(/"/g,'\\"')+'"@ko .\n\n';});
+      K.edges.forEach(function(e){t+='<urn:'+e.s+'> lab:'+e.p+' <urn:'+e.o+'> .\n';});dl(base+'.ttl',t,'text/turtle');}
+    if(x==='csv'){var c='id,type,label_ko,label_en,anchor\n'+K.nodes.map(function(n){return [n.id,n.type,n.label.ko,n.label.en,(n.page||base)+'.html'+n.anchor].map(function(v){return '"'+String(v).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+      c+='\n\nsource,relation,target\n'+K.edges.map(function(e){return [e.s,e.p,e.o].join(',');}).join('\n');dl(base+'.csv',c,'text/csv');}
+    if(x==='bib')dl(base+'.bib',refs.map(function(r){return '@misc{'+r.id+',\n  title = {'+r.title+'},\n  author = {'+r.author[0].literal+'},\n  howpublished = {'+(r.note||'')+'},\n  note = {accessed '+r.accessed['date-parts'][0].join('-')+'}\n}';}).join('\n\n'));
+    if(x==='ris')dl(base+'.ris',refs.map(function(r){return 'TY  - GEN\nTI  - '+r.title+'\nAU  - '+r.author[0].literal+'\nN1  - '+(r.note||'')+'\nER  - ';}).join('\n'));});});}
+
+
+/* ===== 대결 (6장) ===== */
+function duels(){document.querySelectorAll('.duel').forEach(function(d){var cfg=JSON.parse(d.querySelector('.duel-cfg').textContent);var key=d.getAttribute('data-duel');var guess=null;
+  var res=d.querySelector('.duel-res'),imgs=d.querySelectorAll('.duel-head img');var base=[].map.call(imgs,function(i){return i.getAttribute('src');});
+  d.querySelectorAll('[data-guess]').forEach(function(b){b.addEventListener('click',function(){guess=b.getAttribute('data-guess');d.querySelectorAll('[data-guess]').forEach(function(x){x.classList.toggle('on',x===b);});});});
+  d.querySelector('[data-act=show]').addEventListener('click',function(){var r=DUELCALC[key]();var lv=r.l,rv=r.r;var lw=isFinite(lv)?lv:Infinity,rw=isFinite(rv)?rv:Infinity;var leftWins=lw<rw;
+    var mx=Math.max(isFinite(lv)?lv:0,isFinite(rv)?rv:0)||1;function bar(name,v){return '<div class="bar"><div>'+name+'</div><i style="width:'+(isFinite(v)?Math.max(6,100*v/mx):100)+'%;'+(isFinite(v)?'':'background:var(--red)')+'"></i><b>'+(isFinite(v)?fmt(v,r.d)+r.unit:'발산')+'</b><div class="hint">'+r.what+'</div></div>';}
+    d.querySelector('.bars').innerHTML=bar(cfg.lname,lv)+bar(cfg.rname,rv);
+    var g=guess?(((guess==='L')===leftWins)?' 먼저 맞혀 보기는 정답이었어요!':' 먼저 맞혀 보기와는 다른 결과네요.'):'';
+    d.querySelector('.say-haru').textContent=cfg.lname+' '+(isFinite(lv)?fmt(lv,r.d)+r.unit:'발산(숫자가 폭발)')+', '+cfg.rname+' '+(isFinite(rv)?fmt(rv,r.d)+r.unit:'발산(숫자가 폭발)')+'입니다.'+g;
+    var who={F:'초파리 승.',R:'주판봇 승.',M:'이번 판은 모아 승.'}[cfg.win];d.querySelector('.say-doc').textContent=cfg.lesson+'. '+who;
+    imgs[0].setAttribute('src',base[0].replace(/_e\d+\./,leftWins?'_e16.':'_e14.'));imgs[1].setAttribute('src',base[1].replace(/_e\d+\./,leftWins?'_e14.':'_e16.'));res.hidden=false;});
+  d.querySelector('[data-act=close]').addEventListener('click',function(){res.hidden=true;guess=null;d.querySelectorAll('[data-guess]').forEach(function(x){x.classList.remove('on');});imgs.forEach(function(im,i){im.setAttribute('src',base[i]);});});});}
+
+/* ===== 용어 말풍선(11-2)과 도우미(11-4) ===== */
+function terms(){var el=document.getElementById('terms');if(!el)return;var T=JSON.parse(el.textContent),keys=Object.keys(T).sort(function(a,b){return b.length-a.length;});
+  var tip=document.createElement('div');tip.id='termtip';tip.hidden=true;document.body.appendChild(tip);
+  document.querySelectorAll('section').forEach(function(sec){if(sec.id==='kg'||sec.id==='export')return;var done={};
+    var w=document.createTreeWalker(sec,NodeFilter.SHOW_TEXT,{acceptNode:function(n){var p=n.parentNode;if(!p||p.closest('button,h1,h2,h3,h4,nav,svg,.panel,.quiz,summary,script,.term,.fx,.formula-live,.mat,a'))return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT;}});
+    var nodes=[];while(w.nextNode())nodes.push(w.currentNode);
+    nodes.forEach(function(n){keys.forEach(function(k){if(done[k]||!n.parentNode)return;var i=n.nodeValue.indexOf(k);if(i<0)return;done[k]=1;
+      var after=n.splitText(i);after.splitText(k.length);var sp=document.createElement('span');sp.className='term';sp.setAttribute('tabindex','0');sp.setAttribute('data-t',T[k]);sp.setAttribute('data-auto','1');sp.textContent=k;after.parentNode.replaceChild(sp,after);n=sp.nextSibling||n;});});});
+  function show(e){var t=e.target.closest('.term');if(!t||document.body.classList.contains('terms-off'))return;tip.textContent=t.textContent+' — '+t.getAttribute('data-t');tip.hidden=false;var r=t.getBoundingClientRect();tip.style.left=Math.max(8,Math.min(window.innerWidth-290,r.left))+'px';tip.style.top=(r.bottom+6)+'px';}
+  function hide(){tip.hidden=true;}
+  document.addEventListener('mouseover',show);document.addEventListener('focusin',show);document.addEventListener('click',function(e){if(e.target.closest('.term'))show(e);else hide();});
+  document.addEventListener('mouseout',function(e){if(e.target.closest('.term'))hide();});window.addEventListener('scroll',hide,{passive:true});document.addEventListener('keydown',function(e){if(e.key==='Escape')hide();});
+  var h=document.createElement('div');h.id='helper';h.setAttribute('aria-live','polite');document.body.appendChild(h);var off=false;
+  function upd(){var d=document.documentElement,pc=Math.round(100*d.scrollTop/Math.max(1,d.scrollHeight-d.clientHeight));var N=document.querySelectorAll('.quiz').length,ok=document.querySelectorAll('.quiz button.ok').length;
+    h.innerHTML='읽은 곳 '+pc+'% · 퀴즈 '+ok+'/'+N+'<button type="button">밑줄: '+(off?'끔':'핵심')+'</button>';h.querySelector('button').onclick=function(){off=!off;document.body.classList.toggle('terms-off',off);upd();};}
+  window.addEventListener('scroll',upd,{passive:true});document.addEventListener('click',function(){setTimeout(upd,0);});upd();}
+
+function boot(){document.querySelectorAll('[data-panel]').forEach(function(h){var k=h.getAttribute('data-panel');if(P[k]){try{P[k](h);}catch(e){if(window.console)console.error(k,e);}}});
+  document.querySelectorAll('.quiz').forEach(quiz);kg();restoreStars();duels();terms();
+  var pr=document.getElementById('prog');if(pr)window.addEventListener('scroll',function(){var d=document.documentElement;pr.style.width=(100*d.scrollTop/Math.max(1,d.scrollHeight-d.clientHeight))+'%';},{passive:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
+
+})();
+</script>
+</body></html>

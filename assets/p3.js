@@ -80,36 +80,34 @@ P.race=function(host){var ct=ctrlOf(host);var ia=ct.querySelector('[name=alpha]'
     live(host,'그릇: <b>'+S.n+'</b> · 학습률 α = '+ia.value+' (세 방법 모두 같은 α)<br>'+(msg||'<span class="hint">"출발!"을 누르면 세 방법이 같은 점(남색)에서 동시에 출발합니다.</span>'));}
   draw();};
 
-/* --- 16장: 생선 가게 종합 시뮬레이터 --- */
+/* --- 16장: 생선 가게 종합 시뮬레이터 (학습 16마리 / 검증 8마리) --- */
 var CLS=DATA.bream.map(function(b){return [b[0],1];}).concat(DATA.smelt.map(function(s){return [s[0],0];})).concat([[18.5,1],[19.5,0]]);
-P.shop=function(host){var ct=ctrlOf(host);var sel={L:1,H:0,L3:0},std=false,meth='ne',lam=ct.querySelector('[name=lam]'),thr=ct.querySelector('[name=thr]');var duel=false;
-  ct.querySelectorAll('[data-f]').forEach(function(b){b.classList.toggle('on',!!sel[b.getAttribute('data-f')]);b.addEventListener('click',function(){var k=b.getAttribute('data-f');sel[k]=sel[k]?0:1;b.classList.toggle('on',!!sel[k]);draw();});});
-  ct.querySelector('[data-act=std]').addEventListener('click',function(e){std=!std;e.target.classList.toggle('on',std);draw();});
-  ct.querySelectorAll('[data-meth]').forEach(function(b){b.addEventListener('click',function(){meth=b.getAttribute('data-meth');ct.querySelectorAll('[data-meth]').forEach(function(x){x.classList.toggle('on',x===b);});draw();});});
-  ct.querySelector('[data-act=duel]').addEventListener('click',function(){duel=true;draw();});
-  [lam,thr].forEach(function(i){i.addEventListener('input',draw);});
-  function design(fs,z){var cols=[];if(fs.L)cols.push(PL3);if(fs.H)cols.push(PH3);if(fs.L3)cols.push(PL3.map(function(v){return v*v*v;}));
-    if(z)cols=cols.map(function(c){var m=mean(c),s_=sd(c);return c.map(function(v){return (v-m)/s_;});});return PL3.map(function(_,i){return [1].concat(cols.map(function(c){return c[i];}));});}
-  function solveLin(A,b){var n=b.length,M=A.map(function(r,i){return r.concat([b[i]]);});for(var c=0;c<n;c++){var p=c;for(var r=c+1;r<n;r++)if(Math.abs(M[r][c])>Math.abs(M[p][c]))p=r;var t=M[c];M[c]=M[p];M[p]=t;if(Math.abs(M[c][c])<1e-12)return null;
-      for(r=0;r<n;r++){if(r===c)continue;var f=M[r][c]/M[c][c];for(var k=c;k<=n;k++)M[r][k]-=f*M[c][k];}}return M.map(function(r,i){return r[n]/r[i];});}
-  function fit(fs,z,mt,L){var X=design(fs,z),p=X[0].length,y=PW3,n=y.length,b;
-    if(mt==='ne'){var A=[],v=[];for(var i=0;i<p;i++){A.push([]);var s1=0;for(var r=0;r<n;r++)s1+=X[r][i]*y[r];v.push(s1);for(var j=0;j<p;j++){var s2=0;for(r=0;r<n;r++)s2+=X[r][i]*X[r][j];A[i].push(s2+(i===j&&i>0?L:0));}}b=solveLin(A,v);if(!b)return {mae:NaN,bad:'행렬식 0'};}
-    else{b=new Array(p).fill(0);for(var t=0;t<100;t++){var g=new Array(p).fill(0);for(r=0;r<n;r++){var e=-y[r];for(i=0;i<p;i++)e+=X[r][i]*b[i];for(i=0;i<p;i++)g[i]+=e*X[r][i]/n;}for(i=0;i<p;i++)b[i]-=0.3*(g[i]+(i>0?L*b[i]/n:0));if(!isFinite(b[0])||Math.abs(b[0])>1e9)return {mae:Infinity,bad:'발산'};}}
-    var mae=0;for(r=0;r<n;r++){var pr=0;for(i=0;i<p;i++)pr+=X[r][i]*b[i];mae+=Math.abs(pr-y[r]);}return {mae:mae/n};}
-  function draw(){var L=+lam.value;var any=sel.L||sel.H||sel.L3;var R=any?fit(sel,std,meth,L):{mae:NaN,bad:'특성 없음'};var NE=any?fit(sel,std,'ne',L):{mae:NaN};
+var TEST=PL3.map(function(_,i){return i%3===2;});
+function design3(fs,z){var cols=[];if(fs.L)cols.push(PL3);if(fs.H)cols.push(PH3);if(fs.L3)cols.push(PL3.map(function(v){return v*v*v;}));
+  if(z)cols=cols.map(function(c){var tr=c.filter(function(_,i){return !TEST[i];});var m=mean(tr),s_=sd(tr);return c.map(function(v){return (v-m)/s_;});});return PL3.map(function(_,i){return [1].concat(cols.map(function(c){return c[i];}));});}
+function solveLin(A,b){var n=b.length,M=A.map(function(r,i){return r.concat([b[i]]);});for(var c=0;c<n;c++){var p=c;for(var r=c+1;r<n;r++)if(Math.abs(M[r][c])>Math.abs(M[p][c]))p=r;var t=M[c];M[c]=M[p];M[p]=t;if(Math.abs(M[c][c])<1e-12)return null;
+    for(r=0;r<n;r++){if(r===c)continue;var f=M[r][c]/M[c][c];for(var k=c;k<=n;k++)M[r][k]-=f*M[c][k];}}return M.map(function(r,i){return r[n]/r[i];});}
+function fit3(fs,z,mt,L){var X=design3(fs,z),p=X[0].length,y=PW3,rows=[],i,j,r;for(r=0;r<y.length;r++)if(!TEST[r])rows.push(r);var n=rows.length,b;
+  if(mt==='ne'){var A=[],v=[];for(i=0;i<p;i++){A.push([]);var s1=0;rows.forEach(function(q){s1+=X[q][i]*y[q];});v.push(s1);for(j=0;j<p;j++){var s2=0;rows.forEach(function(q){s2+=X[q][i]*X[q][j];});A[i].push(s2+(i===j&&i>0?L:0));}}b=solveLin(A,v);if(!b)return {mae:NaN,bad:'행렬식 0'};}
+  else{b=new Array(p).fill(0);for(var t=0;t<100;t++){var g=new Array(p).fill(0);rows.forEach(function(q){var e=-y[q];for(i=0;i<p;i++)e+=X[q][i]*b[i];for(i=0;i<p;i++)g[i]+=e*X[q][i]/n;});for(i=0;i<p;i++)b[i]-=0.3*(g[i]+(i>0?L*b[i]/n:0));if(!isFinite(b[0])||Math.abs(b[0])>1e9)return {mae:Infinity,bad:'발산'};}}
+  var te=0,tn=0,trm=0;for(r=0;r<y.length;r++){var pr=0;for(i=0;i<p;i++)pr+=X[r][i]*b[i];if(TEST[r]){te+=Math.abs(pr-y[r]);tn++;}else trm+=Math.abs(pr-y[r]);}return {mae:te/tn,train:trm/n};}
+DUELCALC.duel3=function(){var a=fit3({L:1},false,'gd',0),b=fit3({L3:1},true,'ne',0);return {l:a.mae,r:b.mae,unit:'g',d:1,what:'검증용 농어 8마리 평균 빗나감'};};
+P.shop=function(host){var ct=ctrlOf(host);var sel={L:1,H:0,L3:0},std=false,meth='ne',lam=ct.querySelector('[name=lam]'),thr=ct.querySelector('[name=thr]');var touched=false;
+  ct.querySelectorAll('[data-f]').forEach(function(b){b.classList.toggle('on',!!sel[b.getAttribute('data-f')]);b.addEventListener('click',function(){var k=b.getAttribute('data-f');sel[k]=sel[k]?0:1;b.classList.toggle('on',!!sel[k]);touched=true;draw();});});
+  ct.querySelector('[data-act=std]').addEventListener('click',function(e){std=!std;e.target.classList.toggle('on',std);touched=true;draw();});
+  ct.querySelectorAll('[data-meth]').forEach(function(b){b.addEventListener('click',function(){meth=b.getAttribute('data-meth');ct.querySelectorAll('[data-meth]').forEach(function(x){x.classList.toggle('on',x===b);});touched=true;draw();});});
+  [lam,thr].forEach(function(i){i.addEventListener('input',function(){touched=true;draw();});});
+  function draw(){var L=+lam.value;var any=sel.L||sel.H||sel.L3;var R=any?fit3(sel,std,meth,L):{mae:NaN,bad:'특성 없음'};var NE=any?fit3(sel,std,'ne',L):{mae:NaN};
     var th=+thr.value;var TP=0,FP=0,FN=0,TN=0,ce=0;CLS.forEach(function(c){var p=1/(1+Math.exp(-1.2*(c[0]-19)));p=clamp(p,1e-6,1-1e-6);ce+=c[1]?-Math.log(p):-Math.log(1-p);var pr=p>=th;if(pr&&c[1])TP++;else if(pr)FP++;else if(c[1])FN++;else TN++;});ce/=CLS.length;
     var mae=R.mae;var good=isFinite(mae);
-    var h='<div class="tbl"><table><tbody><tr><th>① 회귀: 무게 예측</th><td>특성 '+[sel.L?'길이':'',sel.H?'높이':'',sel.L3?'길이³':''].filter(Boolean).join('·')+' · '+(std?'표준화 켬':'표준화 끔')+' · '+(meth==='ne'?'정규방정식':'경사하강 100걸음(α = 0.3)')+' · λ = '+L+'</td><td><b>'+(good?'평균 빗나감 '+fmt(mae,1)+'g':'<span class="bad">'+(R.bad||'실패')+'</span>')+'</b>'+(meth==='gd'&&isFinite(NE.mae)?'<br><span class="hint">같은 특성의 정규방정식: '+fmt(NE.mae,1)+'g</span>':'')+'</td></tr>'+
+    host.innerHTML='<div class="tbl"><table><tbody><tr><th>① 회귀: 무게 예측</th><td>특성 '+[sel.L?'길이':'',sel.H?'높이':'',sel.L3?'길이³':''].filter(Boolean).join('·')+' · '+(std?'표준화 켬':'표준화 끔')+' · '+(meth==='ne'?'정규방정식':'경사하강 100걸음(α = 0.3)')+' · λ = '+L+'<br><span class="hint">학습용 농어 16마리로 만들고, 따로 떼어 둔 검증용 8마리로 채점</span></td><td><b>'+(good?'검증 평균 빗나감 '+fmt(mae,1)+'g':'<span class="bad">'+(R.bad||'실패')+'</span>')+'</b>'+(good?'<br><span class="hint">학습 데이터에서는 '+fmt(R.train,1)+'g</span>':'')+(meth==='gd'&&isFinite(NE.mae)?'<br><span class="hint">같은 특성의 정규방정식: '+fmt(NE.mae,1)+'g</span>':'')+'</td></tr>'+
       '<tr><th>② 분류: 도미 vs 빙어</th><td>확률 P(도미) = σ(1.2 × (길이 − 19)) · 임계값 '+th+' 이상이면 도미</td><td>맞힌 도미 '+TP+' · 빙어를 도미로(위양성) <b>'+FP+'</b> · 놓친 도미 <b>'+FN+'</b> · 맞힌 빙어 '+TN+'<br>평균 교차 엔트로피 '+fmt(ce,3)+'</td></tr></tbody></table></div>';
-    if(duel){var sia=fit({L:1},false,'gd',0),moa=fit({L3:1},true,'ne',0);
-      h+='<div class="solve"><h4>대결 결과 — 심판 하루</h4><p>시아: 길이만 · 표준화 끔 · 경사하강 → <span class="bad">'+(isFinite(sia.mae)?fmt(sia.mae,1)+'g':'발산(숫자가 폭발)')+'</span></p><p>모아: 길이³ · 표준화 켬 · 정규방정식 → <b>'+fmt(moa.mae,1)+'g</b></p><p>모아 승! 길이³은 \"무게는 부피에 비례\"라는 생각을 특성으로 넣은 것이고(1장 함수 모양), 표준화는 그릇을 둥글게 했습니다(6·15장).</p></div>';}
-    host.innerHTML=h;
     live(host,'<span class="hint">회귀와 분류를 한 화면에서 조정합니다. 숫자는 설명용 예시값입니다.</span>');
-    if(good&&mae<=20)mission(host,0);if(meth==='gd'&&good&&isFinite(NE.mae)&&Math.abs(mae-NE.mae)<=1)mission(host,1);if(meth==='gd'&&good&&mae<=17)mission(host,2);}
+    if(!touched)return;if(good&&mae<=28)mission(host,0);if(meth==='gd'&&good&&isFinite(NE.mae)&&Math.abs(mae-NE.mae)<=1)mission(host,1);if(meth==='gd'&&good&&mae<=26)mission(host,2);}
   draw();};
 
 /* --- 별 모음판 --- */
 P.board=function(host){var NM={map:'0 수학 지도',func:'1 함수 기계',table:'2 생선 표',vec:'3 닮은 생선',matmul:'4 행렬곱 공장',solve:'5 한 번에 풀기',stats:'6 통계판',corr:'7 겹치는 정보',pca:'8 방향 돌리기',prob:'9 확률 통',bayes:'10 베이즈 검사소',dist:'11 분포 맞추기',ent:'12 놀람 저울',deriv:'13 기울기 돋보기',gd:'14 등고선',race:'15 옵티마이저 경주',shop:'16 종합 시뮬레이터'};
   function draw(){var all=loadStars(),tot=0;host.innerHTML='<div class="starboard">'+Object.keys(NM).map(function(k){var a=all[k]||[0,0,0],n=a.reduce(function(x,y){return x+y;},0);tot+=n;return '<div><b>'+'★★★'.slice(0,n)+'☆☆☆'.slice(0,3-n)+'</b>'+NM[k]+'</div>';}).join('')+'</div>';
     live(host,'모은 별 <b>'+tot+'</b> / 51 '+(tot>=40?'<span class="alert">— 연구실 수학 인증!</span>':'<span class="hint">— 별이 비어 있는 장으로 돌아가 다시 해 보세요.</span>'));}
-  draw();host.parentNode.querySelector('[data-act=refresh]').addEventListener('click',draw);};
+  draw();panelOf(host).querySelector('[data-act=refresh]').addEventListener('click',draw);};
