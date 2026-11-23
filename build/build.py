@@ -35,6 +35,8 @@ PARTS = [("index.html", "1부", "숫자로 담고, 한 번에 풀기", "0~5장")
          ("part2.html", "2부", "데이터를 읽고, 불확실성을 말하기", "6~12장"),
          ("part3.html", "3부", "조금씩 고치며 배우기", "13~16장")]
 
+PXFIX = open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "pxfix_snippet.html"), encoding="utf-8").read()
+
 def head(title, desc, og, path):
     return f"""<!DOCTYPE html>
 <html lang="ko">
@@ -49,6 +51,7 @@ def head(title, desc, og, path):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/lab.css">
+{PXFIX}
 </head>
 <body>
 <div id="prog"></div>
@@ -130,7 +133,7 @@ def quiz(q, opts, ans, ok, no):
 
 def fig(key, alt, pre=""):
     f = f"assets/scenes/{key}.webp"
-    return f'<figure style="margin:12px 0" data-img="{key}"><img src="{pre}{f}" alt="{E(alt)}" width="1200" height="800" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:12px;border:1px solid var(--rule);image-rendering:pixelated"></figure>' if os.path.exists(os.path.join(ROOT, f)) else ""
+    return f'<figure style="margin:12px auto;max-width:760px" data-img="{key}"><img src="{pre}{f}" alt="{E(alt)}" width="1200" height="800" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:12px;border:1px solid var(--rule)"></figure>' if os.path.exists(os.path.join(ROOT, f)) else ""
 
 def scene(no, day=""):
     return fig(f"scene_{no:02d}", f"{no}장 설명 그림" + (f" — {day.replace('일상: ', '')} 비유로 본 핵심" if day else ""))

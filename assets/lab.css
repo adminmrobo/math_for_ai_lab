@@ -233,7 +233,7 @@ nav.top .i18n-pick select{max-width:34vw}
 .mapsvg text{pointer-events:none}
 .duo>*,.pair>*{min-width:0}.mathbox table{display:block;overflow-x:auto}
 /* 기본 스킬 대조 보완 (v1.1) */
-img[data-who]{image-rendering:pixelated}
+img[data-who]{image-rendering:auto}
 .cover .frame svg.grid{shape-rendering:crispEdges}
 .cover-chip{position:absolute;left:3%;top:13%;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.88);border:1px solid var(--rule);font-size:13px}
 .stampwrap{position:relative}
