@@ -92,6 +92,8 @@ def outro(G):
 <tr><td>15</td><td>보강 C</td><td>그릇 모양에 맞게 걷는 법을 고른다</td><td>모멘텀, Adam, 규제, 미니배치</td></tr>
 <tr><td>16</td><td>전체</td><td>함수 모양 → 표준화 → 학습 → 임계값</td><td>모델 운영</td></tr></tbody></table></div>
 {talk([("doctor","e10","공식 12장에 보강 3장, 모두 15장이 생선 가게 모델 하나가 됐습니다. 외운 게 아니라 끼워 맞춘 거예요."),("haru","e16","처음엔 떨렸는데, 이제 어느 공식이 어디 들어가는지 말할 수 있어요!"),("moa","e09","더 깊게 보고 싶으면 어디로 가요?"),("doctor","e08","아래 해설들이 각 장의 다음 이야기입니다.")])}
+{talk([("haru","e19","다 봤다면 이제 3D 지도로 가 봐요! 처음에 어지러웠던 그릇 지도가 지금은 다르게 보일 거예요.")])}
+<div class="next" id="back-to-bowl"><span></span><a class="go" href="{BOWL}">이제 3D 지도로 — 좌표축 위의 그릇 →</a></div>
 <div class="cards">
 <a class="card" href="{BOWL}">{face("doctor","e08")}<span class="n">13~15장 더 깊게</span><h3>좌표축 위의 그릇</h3><p>최적화 첫걸음부터 3D 손실 지도, ∇까지.</p></a>
 <a class="card" href="https://adminmrobo.github.io/euclidean_space_lab/">{face("sia","e01")}<span class="n">3장 더 깊게</span><h3>유클리드 공간 해설</h3><p>거리·각도·그림자를 방 탐험으로.</p></a>
