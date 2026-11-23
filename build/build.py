@@ -128,9 +128,12 @@ def quiz(q, opts, ans, ok, no):
     b = "".join(f'<button type="button">{E(o)}</button>' for o in opts)
     return f'<div class="quiz" data-ans="{ans}"><div class="qq">확인 퀴즈 — {E(q)}</div><div class="opts">{b}</div><div class="fb" aria-live="polite"></div><span class="qok" hidden>{E(ok)}</span><span class="qno" hidden>{E(no)}</span></div>'
 
-def scene(no):
-    f = f"assets/scenes/scene_{no:02d}.webp"
-    return f'<figure style="margin:12px 0" data-img="scene_{no:02d}"><img src="{f}" alt="{no}장 장면 그림" width="1200" height="800" loading="lazy" style="width:100%;height:auto;border-radius:12px;border:1px solid var(--rule)"></figure>' if os.path.exists(os.path.join(ROOT, f)) else ""
+def fig(key, alt, pre=""):
+    f = f"assets/scenes/{key}.webp"
+    return f'<figure style="margin:12px 0" data-img="{key}"><img src="{pre}{f}" alt="{E(alt)}" width="1200" height="800" loading="lazy" decoding="async" style="width:100%;height:auto;border-radius:12px;border:1px solid var(--rule);image-rendering:pixelated"></figure>' if os.path.exists(os.path.join(ROOT, f)) else ""
+
+def scene(no, day=""):
+    return fig(f"scene_{no:02d}", f"{no}장 설명 그림" + (f" — {day.replace('일상: ', '')} 비유로 본 핵심" if day else ""))
 
 def field(cid):
     f = extra.FIELD.get(cid)
@@ -140,7 +143,7 @@ def field(cid):
 def duel_section(part):
     d = extra.DUELS[part]; L, R = d["left"], d["right"]
     lf = "e13"; rf = "e13"
-    return f"""<section class="room" id="duel{part}"><div class="wrap"><div class="roomno">대결</div><h2>{E(d['title'])}</h2>
+    return f"""<section class="room" id="duel{part}"><div class="wrap"><div class="roomno">대결</div><h2>{E(d['title'])}</h2>{fig(f"duel_{part}", f"대결 시작 직전 — {d['title']}")}
 <div class="duel" data-duel="{d['key']}" data-win="{d['win']}">
 <div class="duel-head">{face(L[0], lf, "dl")}<b class="vs">VS</b>{face(R[0], rf, "dr")}</div>
 <div class="duel-cards"><div class="box"><b>{E(L[1])}</b><p>{E(L[2])}</p><p class="tag how">{E(L[3])}</p></div><div class="box"><b>{E(R[1])}</b><p>{E(R[2])}</p><p class="tag how">{E(R[3])}</p></div></div>
@@ -170,7 +173,7 @@ def chapter(c, nxt):
     src = f'원자료 카드 {c["card"]}' if c["card"] else "원자료에 없던 장 — 이 해설에서 새로 만든 보강 카드"
     return f"""<section class="room" id="{c['id']}"><div class="wrap">
 <div class="roomno">{c['no']}장 · {E(c['partlabel'])}</div>
-<h2>{E(c['title'])}</h2><p class="muted">{E(c['sub'])}</p>{scene(c['no'])}
+<h2>{E(c['title'])}</h2><p class="muted">{E(c['sub'])}</p>{scene(c['no'], c.get('day',''))}
 <div class="tags"><span class="tag src">{E(src)}</span><span class="tag how">{E(c['how'])}</span><span class="tag day">{E(c['day'])}</span></div>
 {talk(c['open'])}
 <div class="duo">
@@ -310,7 +313,7 @@ def build_practice():
     for c in SCENES:
         ms = "".join(f'<li data-m="{i}"><span class="lv">{["미션 1","미션 2 · 함정 관찰","미션 3 · 조건 바꾸기"][i]}</span>{E(m)}</li>' for i, m in enumerate(c["missions"]))
         j = c["judge"]; lk = " · ".join(f'<a href="../{h}">{E(t)}</a>' for h, t in c["learn"])
-        s += f"""<section class="scene" id="{c['id']}"><div class="wrap"><h2>{E(c['title'])}</h2>
+        s += f"""<section class="scene" id="{c['id']}"><div class="wrap"><h2>{E(c['title'])}</h2>{fig("practice_" + c['id'], "실전 연습장 장면 — " + c['title'], "../")}
 <div class="situ">{E(c['situ'])}</div>
 <div class="panel dash" data-dash="pr_{c['id']}"><div class="ph"><b>장면 · {E(c['tab'])}</b><small>설명용 모형 · 예시값</small></div>
 <ol class="missions">{ms}</ol>

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""공유 미리보기(og:image) 1200×630 — 픽셀풍 표지 그림이 들어오기 전 임시판."""
+"""공유 미리보기(og:image) 1200×630 — 표지 그림(assets/cover/cover_partN.webp)이 있으면 그 가운데를 잘라 쓰고, 없으면 임시판을 그린다."""
 import os
 from PIL import Image, ImageDraw, ImageFont
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -8,7 +8,11 @@ def font(sz): return ImageFont.truetype(F, sz, index=1)
 ITEMS = [('og_part1.jpg', '인공지능을 위한 수학 · 1부', '숫자로 담고, 한 번에 풀기 (0~5장)', ['sia_e19', 'haru_e20']),
          ('og_part2.jpg', '인공지능을 위한 수학 · 2부', '데이터를 읽고, 불확실성을 말하기 (6~12장)', ['moa_e09', 'jupanbot_e16']),
          ('og_part3.jpg', '인공지능을 위한 수학 · 3부', '조금씩 고치며 배우기 (13~16장)', ['haru_e19', 'moa_e16'])]
-for fn, t, sub, ch in ITEMS:
+for k, (fn, t, sub, ch) in enumerate(ITEMS, 1):
+    cov = os.path.join(ROOT, f'assets/cover/cover_part{k}.webp')
+    if os.path.exists(cov):
+        c = Image.open(cov).convert('RGB').resize((1200, 675), Image.LANCZOS)
+        c.crop((0, 22, 1200, 652)).save(os.path.join(ROOT, 'assets/og', fn), quality=86); continue
     W, H = 1200, 630; im = Image.new('RGB', (W, H), 'white'); d = ImageDraw.Draw(im)
     for x in range(0, W, 60): d.line([(x, 0), (x, H)], fill='#e3eaf1')
     for y in range(0, H, 60): d.line([(0, y), (W, y)], fill='#e3eaf1')

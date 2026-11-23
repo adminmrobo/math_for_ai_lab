@@ -39,6 +39,25 @@
   ],
   "items": [
     {
+      "id": "cover_part1",
+      "role": "cover",
+      "path": "assets/cover/cover_part1.webp",
+      "size": [
+        1600,
+        900
+      ],
+      "characters": [
+        "doc",
+        "asst",
+        "fly",
+        "jupanbot"
+      ],
+      "robot": "jupanbot-v2",
+      "prompt_en": "Website top cover illustration, wide 16:9. Match the art style, proportions and colors of the attached reference images exactly (if there are no reference images: 16-bit RPG style pixel art, bold dark outline, 2-3 tone shading, small highlights). Bright daytime laboratory, clean white background and white walls, soft natural sunlight, teal, orange and navy accents. Scene: on the white floor of the lab, fifteen blank formula cards are spread out in three rows, connected to each other by thin teal threads like a map. Behind them stands a small friendly pixel machine with a fish-shaped intake on one side and a tag outlet on the other, its side panel open to show empty slots waiting for the cards. A small wooden fish-shop crate with a few silver fish sits at the edge. Characters: a calm girl intern with long straight jet-black hair, charcoal-black maid dress with large gray bow, sparkling eyes, tying a teal thread between two cards; a gentle girl intern with long ash-beige wavy hair, white frilled maid headband, camel cardigan, thinking with a finger on her chin, holding the other end of the thread; a girl researcher with long pink hair with two round buns and a navy streak, blue eyes, white lab coat over lavender hoodie, nervous with a drop of sweat, holding one silver fish in both hands; a chibi scientist with thin teal rectangular glasses, spiky black hair with one white streak, small ponytail at the back, white lab coat over black vest and tie, pointing at the card map; an anthropomorphic fruit fly researcher, black body, big red compound eyes, blue helmet with a gold stripe and pink and blue cables, white lab coat over a black vest, black gloves, transparent wings, holding up a pixel arrow sign as if saying \"try pressing this\"; a boxy beige retro CRT-monitor robot, dark green screen face with mint pixel eyes and mouth, short antenna topped with a red-brown abacus bead, gray segmented arms, two small tank treads, carrying a stack of blank cards proudly. Mood: the start of a study adventure, calm and bright. Composition: keep every face and hand inside the central safe area (12% margin left and right, 10% top, 18% bottom); keep the right third plain and bright for title text. No text, no letters, no numbers, no formulas, no speech bubbles, no logos, no school uniform, no weapons, no real brands.",
+      "source_of": null,
+      "status": "ok"
+    },
+    {
       "id": "og_part1",
       "role": "og",
       "path": "assets/og/og_part1.jpg",
@@ -48,9 +67,28 @@
       ],
       "characters": [],
       "robot": "none",
-      "prompt_en": "Website top cover illustration, wide 16:9. Match the art style, proportions and colors of the attached reference images exactly (if there are no reference images: 16-bit RPG style pixel art, bold dark outline, 2-3 tone shading, small highlights). Bright daytime laboratory mood, soft natural sunlight, clean white walls, teal, orange and navy accents. Scene: on the white floor of the lab, fifteen blank formula cards are spread out in three rows, connected to each other by thin teal threads like a map. A small wooden fish-shop crate with a few silver fish sits at the edge. A calm girl intern with long straight jet-black hair, charcoal-black maid dress with large gray bow, sparkling eyes, tying a teal thread between two cards; a gentle girl intern with long ash-beige wavy hair, white frilled maid headband, camel cardigan, thinking with a finger on her chin, holding the other end of the thread; a girl researcher with long pink hair with two round buns and a navy streak, blue eyes, white lab coat over lavender hoodie, nervous with a drop of sweat, holding one silver fish in both hands; a chibi scientist with thin teal rectangular glasses, spiky black hair with one white streak, small ponytail at the back, white lab coat over black vest and tie, pointing at the card map; an anthropomorphic fruit fly researcher, black body, big red compound eyes, blue helmet with a gold stripe and pink and blue cables, white lab coat over a black vest, black gloves, transparent wings, holding up a pixel arrow sign as if saying \"try pressing this\"; a boxy beige retro CRT-monitor robot, dark green screen face with mint pixel eyes and mouth, short antenna topped with a red-brown abacus bead, gray segmented arms, two small tank treads, carrying a stack of blank cards proudly. Mood: the start of a study adventure, calm and bright. Composition: keep every face and hand inside the central safe area (12% margin left and right, 10% top, 18% bottom); keep the right third plain and bright for title text. No text, no letters, no numbers, no logos, no school uniform, no weapons, no real brands.",
+      "prompt_en": "Website top cover illustration, wide 16:9. Match the art style, proportions and colors of the attached reference images exactly (if there are no reference images: 16-bit RPG style pixel art, bold dark outline, 2-3 tone shading, small highlights). Bright daytime laboratory, clean white background and white walls, soft natural sunlight, teal, orange and navy accents. Scene: on the white floor of the lab, fifteen blank formula cards are spread out in three rows, connected to each other by thin teal threads like a map. Behind them stands a small friendly pixel machine with a fish-shaped intake on one side and a tag outlet on the other, its side panel open to show empty slots waiting for the cards. A small wooden fish-shop crate with a few silver fish sits at the edge. Characters: a calm girl intern with long straight jet-black hair, charcoal-black maid dress with large gray bow, sparkling eyes, tying a teal thread between two cards; a gentle girl intern with long ash-beige wavy hair, white frilled maid headband, camel cardigan, thinking with a finger on her chin, holding the other end of the thread; a girl researcher with long pink hair with two round buns and a navy streak, blue eyes, white lab coat over lavender hoodie, nervous with a drop of sweat, holding one silver fish in both hands; a chibi scientist with thin teal rectangular glasses, spiky black hair with one white streak, small ponytail at the back, white lab coat over black vest and tie, pointing at the card map; an anthropomorphic fruit fly researcher, black body, big red compound eyes, blue helmet with a gold stripe and pink and blue cables, white lab coat over a black vest, black gloves, transparent wings, holding up a pixel arrow sign as if saying \"try pressing this\"; a boxy beige retro CRT-monitor robot, dark green screen face with mint pixel eyes and mouth, short antenna topped with a red-brown abacus bead, gray segmented arms, two small tank treads, carrying a stack of blank cards proudly. Mood: the start of a study adventure, calm and bright. Composition: keep every face and hand inside the central safe area (12% margin left and right, 10% top, 18% bottom); keep the right third plain and bright for title text. No text, no letters, no numbers, no formulas, no speech bubbles, no logos, no school uniform, no weapons, no real brands.",
+      "source_of": "cover_part1",
+      "status": "ok"
+    },
+    {
+      "id": "cover_part2",
+      "role": "cover",
+      "path": "assets/cover/cover_part2.webp",
+      "size": [
+        1600,
+        900
+      ],
+      "characters": [
+        "doc",
+        "asst",
+        "fly",
+        "jupanbot"
+      ],
+      "robot": "jupanbot-v2",
+      "prompt_en": "Website top cover illustration, wide 16:9. Match the art style, proportions and colors of the attached reference images exactly (if there are no reference images: 16-bit RPG style pixel art, bold dark outline, 2-3 tone shading, small highlights). Bright daytime laboratory, clean white background and white walls, soft natural sunlight, teal, orange and navy accents. Scene: a fish-shop counter inside the bright lab; a large pixel balance scale holds silver fish on one side; beside it, three tall glowing bars of different heights stand like a bar chart, and a cloud of small teal dots floats in the air forming a slanted oval, with a soft flashlight beam casting its long shadow on the wall. Characters: a boxy beige retro CRT-monitor robot, dark green screen face with mint pixel eyes and mouth, short antenna topped with a red-brown abacus bead, gray segmented arms, two small tank treads, proudly pushing up the tallest bar; an anthropomorphic fruit fly researcher, black body, big red compound eyes, blue helmet with a gold stripe and pink and blue cables, white lab coat over a black vest, black gloves, transparent wings, looking at the dot cloud through a magnifying glass; a gentle girl intern with long ash-beige wavy hair, white frilled maid headband, camel cardigan, thinking; a calm girl intern with long straight jet-black hair, charcoal-black maid dress with large gray bow, happy, weighing a fish; a girl researcher with long pink hair with two round buns and a navy streak, blue eyes, white lab coat over lavender hoodie, holding the flashlight with focused eyes; a chibi scientist with thin teal rectangular glasses, spiky black hair with one white streak, small ponytail at the back, white lab coat over black vest and tie, calmly holding a clipboard. Mood: curious and careful, like reading clues. Composition: keep every face and hand inside the central safe area (12% margin left and right, 10% top, 18% bottom); keep the right third plain and bright for title text. No text, no letters, no numbers, no formulas, no speech bubbles, no logos, no school uniform, no weapons, no real brands.",
       "source_of": null,
-      "status": "redraw"
+      "status": "ok"
     },
     {
       "id": "og_part2",
@@ -62,9 +100,28 @@
       ],
       "characters": [],
       "robot": "none",
-      "prompt_en": "Website top cover illustration, wide 16:9. Match the art style, proportions and colors of the attached reference images exactly (if there are no reference images: 16-bit RPG style pixel art, bold dark outline, 2-3 tone shading, small highlights). Bright daytime laboratory mood, soft natural sunlight, clean white walls, teal, orange and navy accents. Scene: a fish-shop counter inside the bright lab; a large pixel balance scale holds silver fish on one side; beside it, three tall glowing bars of different heights stand like a bar chart, and a cloud of small teal dots floats in the air forming a slanted oval. A boxy beige retro CRT-monitor robot, dark green screen face with mint pixel eyes and mouth, short antenna topped with a red-brown abacus bead, gray segmented arms, two small tank treads, proudly pushing up the tallest bar; an anthropomorphic fruit fly researcher, black body, big red compound eyes, blue helmet with a gold stripe and pink and blue cables, white lab coat over a black vest, black gloves, transparent wings, looking at the dot cloud through a magnifying glass; a gentle girl intern with long ash-beige wavy hair, white frilled maid headband, camel cardigan, thinking; a calm girl intern with long straight jet-black hair, charcoal-black maid dress with large gray bow, happy, weighing a fish; a girl researcher with long pink hair with two round buns and a navy streak, blue eyes, white lab coat over lavender hoodie, explaining with one hand raised; a chibi scientist with thin teal rectangular glasses, spiky black hair with one white streak, small ponytail at the back, white lab coat over black vest and tie, calmly holding a clipboard. Composition: keep every face and hand inside the central safe area (12% margin left and right, 10% top, 18% bottom); keep the right third plain and bright for title text. No text, no letters, no numbers, no logos, no school uniform, no weapons, no real brands.",
+      "prompt_en": "Website top cover illustration, wide 16:9. Match the art style, proportions and colors of the attached reference images exactly (if there are no reference images: 16-bit RPG style pixel art, bold dark outline, 2-3 tone shading, small highlights). Bright daytime laboratory, clean white background and white walls, soft natural sunlight, teal, orange and navy accents. Scene: a fish-shop counter inside the bright lab; a large pixel balance scale holds silver fish on one side; beside it, three tall glowing bars of different heights stand like a bar chart, and a cloud of small teal dots floats in the air forming a slanted oval, with a soft flashlight beam casting its long shadow on the wall. Characters: a boxy beige retro CRT-monitor robot, dark green screen face with mint pixel eyes and mouth, short antenna topped with a red-brown abacus bead, gray segmented arms, two small tank treads, proudly pushing up the tallest bar; an anthropomorphic fruit fly researcher, black body, big red compound eyes, blue helmet with a gold stripe and pink and blue cables, white lab coat over a black vest, black gloves, transparent wings, looking at the dot cloud through a magnifying glass; a gentle girl intern with long ash-beige wavy hair, white frilled maid headband, camel cardigan, thinking; a calm girl intern with long straight jet-black hair, charcoal-black maid dress with large gray bow, happy, weighing a fish; a girl researcher with long pink hair with two round buns and a navy streak, blue eyes, white lab coat over lavender hoodie, holding the flashlight with focused eyes; a chibi scientist with thin teal rectangular glasses, spiky black hair with one white streak, small ponytail at the back, white lab coat over black vest and tie, calmly holding a clipboard. Mood: curious and careful, like reading clues. Composition: keep every face and hand inside the central safe area (12% margin left and right, 10% top, 18% bottom); keep the right third plain and bright for title text. No text, no letters, no numbers, no formulas, no speech bubbles, no logos, no school uniform, no weapons, no real brands.",
+      "source_of": "cover_part2",
+      "status": "ok"
+    },
+    {
+      "id": "cover_part3",
+      "role": "cover",
+      "path": "assets/cover/cover_part3.webp",
+      "size": [
+        1600,
+        900
+      ],
+      "characters": [
+        "doc",
+        "asst",
+        "fly",
+        "jupanbot"
+      ],
+      "robot": "jupanbot-v2",
+      "prompt_en": "Website top cover illustration, wide 16:9. Match the art style, proportions and colors of the attached reference images exactly (if there are no reference images: 16-bit RPG style pixel art, bold dark outline, 2-3 tone shading, small highlights). Bright daytime laboratory, clean white background and white walls, soft natural sunlight, teal, orange and navy accents. Scene: a giant pixel contour map is painted on the lab floor like a shallow bowl, with nested teal oval rings; an orange ball rolls down along a dotted path toward the glowing center; a small checkered finish flag stands at the center. Characters: a girl researcher with long pink hair with two round buns and a navy streak, blue eyes, white lab coat over lavender hoodie, sparkling eyes, gently pushing the ball; a chibi scientist with thin teal rectangular glasses, spiky black hair with one white streak, small ponytail at the back, white lab coat over black vest and tie, waiting at the finish flag with a calm thumbs-up; a calm girl intern with long straight jet-black hair, charcoal-black maid dress with large gray bow, proud; a gentle girl intern with long ash-beige wavy hair, white frilled maid headband, camel cardigan, sparkling eyes, cheering; an anthropomorphic fruit fly researcher, black body, big red compound eyes, blue helmet with a gold stripe and pink and blue cables, white lab coat over a black vest, black gloves, transparent wings, watching the ball path through a magnifying glass; a boxy beige retro CRT-monitor robot, dark green screen face with mint pixel eyes and mouth, short antenna topped with a red-brown abacus bead, gray segmented arms, two small tank treads, holding a small blank scoreboard. Mood: a satisfying last stretch, bright and hopeful. Composition: keep every face and hand inside the central safe area (12% margin left and right, 10% top, 18% bottom); keep the right third plain and bright for title text. No text, no letters, no numbers, no formulas, no speech bubbles, no logos, no school uniform, no weapons, no real brands.",
       "source_of": null,
-      "status": "redraw"
+      "status": "ok"
     },
     {
       "id": "og_part3",
@@ -76,10 +133,318 @@
       ],
       "characters": [],
       "robot": "none",
-      "prompt_en": "Website top cover illustration, wide 16:9. Match the art style, proportions and colors of the attached reference images exactly (if there are no reference images: 16-bit RPG style pixel art, bold dark outline, 2-3 tone shading, small highlights). Bright daytime laboratory mood, soft natural sunlight, clean white walls, teal, orange and navy accents. Scene: a giant pixel contour map is painted on the lab floor like a shallow bowl, with nested teal oval rings; an orange ball rolls down along a dotted zigzag path toward the glowing center; a small checkered finish flag stands at the center. A girl researcher with long pink hair with two round buns and a navy streak, blue eyes, white lab coat over lavender hoodie, sparkling eyes, gently pushing the ball; a chibi scientist with thin teal rectangular glasses, spiky black hair with one white streak, small ponytail at the back, white lab coat over black vest and tie, waiting at the finish flag with a calm thumbs-up; a calm girl intern with long straight jet-black hair, charcoal-black maid dress with large gray bow, proud; a gentle girl intern with long ash-beige wavy hair, white frilled maid headband, camel cardigan, sparkling eyes, cheering; an anthropomorphic fruit fly researcher, black body, big red compound eyes, blue helmet with a gold stripe and pink and blue cables, white lab coat over a black vest, black gloves, transparent wings, watching the ball path through a magnifying glass; a boxy beige retro CRT-monitor robot, dark green screen face with mint pixel eyes and mouth, short antenna topped with a red-brown abacus bead, gray segmented arms, two small tank treads, holding a small blank scoreboard. Composition: keep every face and hand inside the central safe area (12% margin left and right, 10% top, 18% bottom); keep the right third plain and bright for title text. No text, no letters, no numbers, no logos, no school uniform, no weapons, no real brands.",
+      "prompt_en": "Website top cover illustration, wide 16:9. Match the art style, proportions and colors of the attached reference images exactly (if there are no reference images: 16-bit RPG style pixel art, bold dark outline, 2-3 tone shading, small highlights). Bright daytime laboratory, clean white background and white walls, soft natural sunlight, teal, orange and navy accents. Scene: a giant pixel contour map is painted on the lab floor like a shallow bowl, with nested teal oval rings; an orange ball rolls down along a dotted path toward the glowing center; a small checkered finish flag stands at the center. Characters: a girl researcher with long pink hair with two round buns and a navy streak, blue eyes, white lab coat over lavender hoodie, sparkling eyes, gently pushing the ball; a chibi scientist with thin teal rectangular glasses, spiky black hair with one white streak, small ponytail at the back, white lab coat over black vest and tie, waiting at the finish flag with a calm thumbs-up; a calm girl intern with long straight jet-black hair, charcoal-black maid dress with large gray bow, proud; a gentle girl intern with long ash-beige wavy hair, white frilled maid headband, camel cardigan, sparkling eyes, cheering; an anthropomorphic fruit fly researcher, black body, big red compound eyes, blue helmet with a gold stripe and pink and blue cables, white lab coat over a black vest, black gloves, transparent wings, watching the ball path through a magnifying glass; a boxy beige retro CRT-monitor robot, dark green screen face with mint pixel eyes and mouth, short antenna topped with a red-brown abacus bead, gray segmented arms, two small tank treads, holding a small blank scoreboard. Mood: a satisfying last stretch, bright and hopeful. Composition: keep every face and hand inside the central safe area (12% margin left and right, 10% top, 18% bottom); keep the right third plain and bright for title text. No text, no letters, no numbers, no formulas, no speech bubbles, no logos, no school uniform, no weapons, no real brands.",
+      "source_of": "cover_part3",
+      "status": "ok"
+    },
+    {
+      "id": "scene_00",
+      "role": "scene",
+      "path": "assets/scenes/scene_00.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
       "source_of": null,
-      "status": "redraw"
+      "status": "ok"
+    },
+    {
+      "id": "scene_01",
+      "role": "scene",
+      "path": "assets/scenes/scene_01.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_02",
+      "role": "scene",
+      "path": "assets/scenes/scene_02.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_03",
+      "role": "scene",
+      "path": "assets/scenes/scene_03.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_04",
+      "role": "scene",
+      "path": "assets/scenes/scene_04.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_05",
+      "role": "scene",
+      "path": "assets/scenes/scene_05.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_06",
+      "role": "scene",
+      "path": "assets/scenes/scene_06.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_07",
+      "role": "scene",
+      "path": "assets/scenes/scene_07.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_08",
+      "role": "scene",
+      "path": "assets/scenes/scene_08.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_09",
+      "role": "scene",
+      "path": "assets/scenes/scene_09.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_10",
+      "role": "scene",
+      "path": "assets/scenes/scene_10.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_11",
+      "role": "scene",
+      "path": "assets/scenes/scene_11.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_12",
+      "role": "scene",
+      "path": "assets/scenes/scene_12.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_13",
+      "role": "scene",
+      "path": "assets/scenes/scene_13.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_14",
+      "role": "scene",
+      "path": "assets/scenes/scene_14.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "scene_15",
+      "role": "scene",
+      "path": "assets/scenes/scene_15.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "duel_1",
+      "role": "scene",
+      "path": "assets/scenes/duel_1.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "duel_2",
+      "role": "scene",
+      "path": "assets/scenes/duel_2.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "duel_3",
+      "role": "scene",
+      "path": "assets/scenes/duel_3.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "practice_factory",
+      "role": "scene",
+      "path": "assets/scenes/practice_factory.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "practice_callcenter",
+      "role": "scene",
+      "path": "assets/scenes/practice_callcenter.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
+    },
+    {
+      "id": "practice_ads",
+      "role": "scene",
+      "path": "assets/scenes/practice_ads.webp",
+      "size": [
+        1200,
+        800
+      ],
+      "characters": [],
+      "robot": "jupanbot-v2",
+      "prompt_en": null,
+      "source_of": null,
+      "status": "ok"
     }
   ],
-  "updated": "2026-11-22"
+  "updated": "2026-11-23"
 }

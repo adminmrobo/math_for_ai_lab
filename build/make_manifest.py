@@ -15,9 +15,13 @@ for n in range(17):
     path = f"assets/scenes/scene_{n:02d}.webp"
     if os.path.exists(os.path.join(ROOT, path)):
         items.append(dict(id=f"scene_{n:02d}", role="scene", path=path, size=[1200, 800], characters=[], robot="jupanbot-v2", prompt_en=None, source_of=None, status="ok"))
+for key, role in [(f"duel_{n}", "scene") for n in (1, 2, 3)] + [(f"practice_{k}", "scene") for k in ("factory", "callcenter", "ads")]:
+    path = f"assets/scenes/{key}.webp"
+    if os.path.exists(os.path.join(ROOT, path)):
+        items.append(dict(id=key, role=role, path=path, size=[1200, 800], characters=[], robot="jupanbot-v2", prompt_en=None, source_of=None, status="ok"))
 m = dict(series_ko="인공지능을 위한 수학", title_ko="인공지능을 위한 수학 — 공식 12장이 모델 하나가 되기까지",
          site_url="https://adminmrobo.github.io/math_for_ai_lab/", site_title="인공지능을 위한 수학 1부 — 숫자로 담고, 한 번에 풀기",
          ontology=dict(pages=[dict(path=p, kg=True, export=True) for p in ("index.html", "part2.html", "part3.html")], files=[]),
-         i18n=dict(langs=["ko"], pages=dict(ko=4), readme_langs=["ko"]), languages=["ko"], items=items, updated="2026-11-22")
+         i18n=dict(langs=["ko"], pages=dict(ko=4), readme_langs=["ko"]), languages=["ko"], items=items, updated="2026-11-23")
 json.dump(m, open(os.path.join(ROOT, "cover_manifest.json"), "w"), ensure_ascii=False, indent=2)
 print("manifest", len(items), "items")

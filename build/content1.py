@@ -29,7 +29,7 @@ def intro(G):
     talk, crowd, dash, cast_section = G["talk"], G["crowd"], G["dash"], G["cast_section"]
     c0 = dict(no=0, dash=MAP_DASH)
     return f"""<section class="room" id="c00"><div class="wrap">
-<div class="roomno">0장 · 입구</div><h2>수학 지도 펼치기</h2>
+<div class="roomno">0장 · 입구</div><h2>수학 지도 펼치기</h2>{G['fig']('scene_00', '0장 설명 그림 — 공식 카드가 담기·계산·재기·고치기 네 단계 기계의 부품으로 끼워지는 장면')}
 <p class="card-src">원자료 표지 — "What You Will Learn? ① 선형대수 기초 ② 확률·통계 ③ 미적분 ④ 최적화 ⑤ PCA·고유값"</p>
 {talk([("doctor","e08","오늘부터 공식 카드 12장을 하나씩 열어 볼 거예요. 질문은 시아와 모아가, 대답은 하루가 맡습니다."),
        ("haru","e20","고, 공식이 열두 장이나… 제가 다 설명할 수 있을까요?"),
