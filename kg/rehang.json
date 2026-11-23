@@ -1,0 +1,426 @@
+{
+ "version": "1.0",
+ "made": "2026-11-24",
+ "via": "rehang-2026-11-24",
+ "domains": [
+  "math",
+  "ml"
+ ],
+ "note": "분야 뼈대 주제에 다시 걸기(ai-lab-retrofit 15장). links는 자동 후보이며 틀린 줄은 지우면 된다. 빌드 스크립트가 있는 저장소는 빌드 끝에 rehang.apply_overlay()가 이 파일을 적용한다.",
+ "topics": {
+  "lab:topic/activation-function": {
+   "ko": "활성화 함수",
+   "en": "Activation function",
+   "domain": [
+    "ai",
+    "dl"
+   ],
+   "level": 2
+  },
+  "lab:topic/bayes-theorem": {
+   "ko": "베이즈 정리",
+   "en": "Bayes' theorem",
+   "domain": [
+    "stats"
+   ],
+   "level": 1
+  },
+  "lab:topic/central-tendency": {
+   "ko": "대표값",
+   "en": "Measures of central tendency",
+   "domain": [
+    "stats"
+   ],
+   "level": 1
+  },
+  "lab:topic/chain-rule-multivar": {
+   "ko": "다변수 연쇄법칙",
+   "en": "Multivariable chain rule",
+   "domain": [
+    "math"
+   ],
+   "level": 2
+  },
+  "lab:topic/convexity": {
+   "ko": "볼록성",
+   "en": "Convexity",
+   "domain": [
+    "math"
+   ],
+   "level": 2
+  },
+  "lab:topic/correlation": {
+   "ko": "상관",
+   "en": "Correlation",
+   "domain": [
+    "stats"
+   ],
+   "level": 1
+  },
+  "lab:topic/differentiation": {
+   "ko": "미분",
+   "en": "Differentiation",
+   "domain": [
+    "math"
+   ],
+   "level": 2
+  },
+  "lab:topic/dispersion": {
+   "ko": "퍼짐",
+   "en": "Measures of dispersion",
+   "domain": [
+    "stats"
+   ],
+   "level": 1
+  },
+  "lab:topic/distribution-family-map": {
+   "ko": "분포 사이의 관계",
+   "en": "Relationships among distributions",
+   "domain": [
+    "stats"
+   ],
+   "level": 1
+  },
+  "lab:topic/eigenvalues": {
+   "ko": "고유값과 고유벡터",
+   "en": "Eigenvalues and eigenvectors",
+   "domain": [
+    "math"
+   ],
+   "level": 1
+  },
+  "lab:topic/functions-maps": {
+   "ko": "함수와 사상",
+   "en": "Functions and maps",
+   "domain": [
+    "math"
+   ],
+   "level": 1
+  },
+  "lab:topic/gradient": {
+   "ko": "그래디언트(∇)",
+   "en": "Gradient (nabla)",
+   "domain": [
+    "math"
+   ],
+   "level": 2
+  },
+  "lab:topic/gradient-descent": {
+   "ko": "경사하강법",
+   "en": "Gradient descent",
+   "domain": [
+    "ai",
+    "dl"
+   ],
+   "level": 2
+  },
+  "lab:topic/information-theory": {
+   "ko": "정보 이론",
+   "en": "Information theory",
+   "domain": [
+    "ai"
+   ],
+   "level": 1
+  },
+  "lab:topic/inner-product-orthogonality": {
+   "ko": "내적과 직교",
+   "en": "Inner products and orthogonality",
+   "domain": [
+    "math"
+   ],
+   "level": 1
+  },
+  "lab:topic/matrices-linear-maps": {
+   "ko": "행렬과 선형사상",
+   "en": "Matrices and linear maps",
+   "domain": [
+    "math"
+   ],
+   "level": 1
+  },
+  "lab:topic/momentum-adam": {
+   "ko": "모멘텀·Adam",
+   "en": "Momentum and Adam",
+   "domain": [
+    "ai",
+    "dl"
+   ],
+   "level": 2
+  },
+  "lab:topic/normed-spaces": {
+   "ko": "노름공간과 거리",
+   "en": "Normed spaces and metrics",
+   "domain": [
+    "math"
+   ],
+   "level": 3
+  },
+  "lab:topic/pca": {
+   "ko": "주성분 분석",
+   "en": "Principal component analysis",
+   "domain": [
+    "ai",
+    "ml"
+   ],
+   "level": 2
+  },
+  "lab:topic/precision-recall": {
+   "ko": "정밀도·재현율",
+   "en": "Precision and recall",
+   "domain": [
+    "ai",
+    "ml"
+   ],
+   "level": 2
+  },
+  "lab:topic/probability-rules": {
+   "ko": "확률 규칙",
+   "en": "Rules of probability",
+   "domain": [
+    "stats"
+   ],
+   "level": 1
+  },
+  "lab:topic/regression-analysis": {
+   "ko": "회귀분석(단순·다중)",
+   "en": "Regression analysis (simple and multiple)",
+   "domain": [
+    "stats"
+   ],
+   "level": 2
+  },
+  "lab:topic/riemann-integral": {
+   "ko": "적분",
+   "en": "Integration",
+   "domain": [
+    "math"
+   ],
+   "level": 2
+  },
+  "lab:topic/vector-spaces": {
+   "ko": "벡터공간",
+   "en": "Vector spaces",
+   "domain": [
+    "math"
+   ],
+   "level": 1
+  },
+  "lab:topic/weight-decay": {
+   "ko": "가중치 감쇠(L2)",
+   "en": "Weight decay (L2)",
+   "domain": [
+    "ai",
+    "dl"
+   ],
+   "level": 3
+  }
+ },
+ "links": {
+  "lab:concept/activation": {
+   "topic": "lab:topic/activation-function",
+   "score": 3,
+   "why": "이름 같음",
+   "ko": "활성화 함수(시그모이드·ReLU)"
+  },
+  "lab:concept/bayes": {
+   "topic": "lab:topic/bayes-theorem",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "조건부 확률·베이즈 정리"
+  },
+  "lab:concept/chain-rule": {
+   "topic": "lab:topic/chain-rule-multivar",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "연쇄 법칙"
+  },
+  "lab:concept/covariance": {
+   "topic": "lab:topic/correlation",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "공분산·상관계수"
+  },
+  "lab:concept/distributions": {
+   "topic": "lab:topic/distribution-family-map",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "확률분포(정규·포아송·지수·균등·이항)"
+  },
+  "lab:concept/domain-range": {
+   "topic": "lab:topic/functions-maps",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "정의역과 치역"
+  },
+  "lab:concept/dot-product": {
+   "topic": "lab:topic/inner-product-orthogonality",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "내적과 코사인 유사도"
+  },
+  "lab:concept/eigen": {
+   "topic": "lab:topic/eigenvalues",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "고유값·고유벡터"
+  },
+  "lab:concept/entropy": {
+   "topic": "lab:topic/information-theory",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "엔트로피·교차 엔트로피·KL"
+  },
+  "lab:concept/function": {
+   "topic": "lab:topic/functions-maps",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "함수 — 입력을 출력으로"
+  },
+  "lab:concept/hessian-convex": {
+   "topic": "lab:topic/convexity",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "헤시안·볼록·안장점"
+  },
+  "lab:concept/integral": {
+   "topic": "lab:topic/riemann-integral",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "적분 — 넓이"
+  },
+  "lab:concept/learning-rate": {
+   "topic": "lab:topic/gradient-descent",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "학습률과 안정 조건"
+  },
+  "lab:concept/limit-derivative": {
+   "topic": "lab:topic/differentiation",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "극한과 미분"
+  },
+  "lab:concept/linear-system": {
+   "topic": "lab:topic/matrices-linear-maps",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "연립방정식 Ax = b"
+  },
+  "lab:concept/matmul": {
+   "topic": "lab:topic/matrices-linear-maps",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "행렬곱"
+  },
+  "lab:concept/matrix": {
+   "topic": "lab:topic/matrices-linear-maps",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "행렬 — 데이터를 담는 표"
+  },
+  "lab:concept/mean-median": {
+   "topic": "lab:topic/central-tendency",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "평균·중앙값"
+  },
+  "lab:concept/norm": {
+   "topic": "lab:topic/normed-spaces",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "노름(길이)과 거리"
+  },
+  "lab:concept/partial-gradient": {
+   "topic": "lab:topic/gradient",
+   "score": 2,
+   "why": "주제 이름이 개념 이름에 들어 있음",
+   "ko": "편미분·그래디언트"
+  },
+  "lab:concept/precision": {
+   "topic": "lab:topic/precision-recall",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "정밀도와 위양성"
+  },
+  "lab:concept/probability": {
+   "topic": "lab:topic/probability-rules",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "확률·여사건·독립"
+  },
+  "lab:concept/transpose-inverse": {
+   "topic": "lab:topic/matrices-linear-maps",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "전치·역행렬·단위행렬"
+  },
+  "lab:concept/variance": {
+   "topic": "lab:topic/dispersion",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "분산·표준편차"
+  },
+  "lab:concept/vector": {
+   "topic": "lab:topic/vector-spaces",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "벡터"
+  },
+  "lab:method/gradient-descent": {
+   "topic": "lab:topic/gradient-descent",
+   "score": 3,
+   "why": "이름 같음",
+   "ko": "경사하강법"
+  },
+  "lab:method/iqr": {
+   "topic": "lab:topic/dispersion",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "사분위·IQR 울타리"
+  },
+  "lab:method/momentum-adam": {
+   "topic": "lab:topic/momentum-adam",
+   "score": 3,
+   "why": "이름 같음",
+   "ko": "모멘텀·Adam"
+  },
+  "lab:method/normal-equation": {
+   "topic": "lab:topic/regression-analysis",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "정규방정식"
+  },
+  "lab:method/pca": {
+   "topic": "lab:topic/pca",
+   "score": 3,
+   "why": "이름 같음",
+   "ko": "주성분 분석(PCA)"
+  },
+  "lab:method/regularization": {
+   "topic": "lab:topic/weight-decay",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "규제·미니배치"
+  },
+  "lab:method/ridge": {
+   "topic": "lab:topic/weight-decay",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "릿지 회귀"
+  },
+  "lab:method/standardize": {
+   "topic": "lab:topic/dispersion",
+   "score": 3,
+   "why": "사람이 고름",
+   "ko": "표준화(z점수)"
+  }
+ },
+ "retag": {
+  "from": [
+   "ai"
+  ],
+  "to": [
+   "math"
+  ]
+ }
+}
